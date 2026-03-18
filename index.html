@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#2C1810">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="description" content="Logo's Living — The Christian Party Game">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Logo's Living</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Almendra:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Almendra:wght@400;700&display=swap">
+<style>
+:root{
+--parchment:#F5E6C8;--parchment-dark:#E8D5A8;--parchment-deep:#D4BC8B;
+--wood:#5C3A1E;--wood-light:#8B5E34;--wood-dark:#3B2210;
+--felt-green:#1B4D2E;--felt-dark:#0F2E1A;
+--gold:#C8963E;--gold-light:#E8B84A;--gold-dark:#8B6914;
+--red-card:#B83232;--red-deep:#8B1A1A;
+--blue-card:#2B5C8B;--blue-deep:#1A3A5C;
+--yellow-card:#C89632;--yellow-deep:#8B6A14;
+--team-a:#2B6CB0;--team-b:#C53030;
+--ink:#2C1810;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow-x:hidden}
+body{font-family:'Lora',Georgia,serif;background:var(--felt-green);color:var(--ink);
+background-image:radial-gradient(ellipse at 30% 20%,rgba(27,77,46,.9),transparent 60%),radial-gradient(ellipse at 70% 80%,rgba(15,46,26,.9),transparent 60%)}
+button{font-family:inherit;outline:none;border:none;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent;min-height:44px}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+@keyframes cardFlip{from{transform:perspective(800px) rotateY(90deg);opacity:0}to{transform:perspective(800px) rotateY(0);opacity:1}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@keyframes confetti{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+@keyframes glow{0%,100%{text-shadow:0 0 8px rgba(200,150,62,.4)}50%{text-shadow:0 0 20px rgba(200,150,62,.8),0 0 40px rgba(200,150,62,.3)}}
+@keyframes breathe{0%,100%{opacity:.4}50%{opacity:.9}}
+@keyframes countPulse{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
+@keyframes scoreFloat{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(-40px) scale(1.5)}}
+@keyframes stampIn{from{transform:scale(2) rotate(-12deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+@keyframes cdPop{0%{transform:scale(2.5);opacity:0}40%{transform:scale(.9);opacity:1}100%{transform:scale(1);opacity:1}}
+@keyframes singPulse{0%,100%{box-shadow:0 0 0 0 rgba(200,150,62,.4)}50%{box-shadow:0 0 0 12px rgba(200,150,62,0)}}
+@keyframes correctStamp{0%{transform:scale(0) rotate(-20deg);opacity:0}60%{transform:scale(1.15) rotate(3deg);opacity:1}100%{transform:scale(1) rotate(0);opacity:1}}
+
+.screen{min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 14px;position:relative}
+.content{z-index:1;display:flex;flex-direction:column;align-items:center;width:100%;max-width:380px}
+.panel{background:var(--parchment);border-radius:6px;position:relative;box-shadow:0 2px 8px rgba(0,0,0,.3),inset 0 0 20px rgba(139,94,52,.12);border:2px solid var(--parchment-deep);contain:content}
+.wood-frame{background:linear-gradient(145deg,var(--wood-light),var(--wood),var(--wood-dark));border-radius:8px;padding:5px;box-shadow:0 4px 16px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.1)}
+.gold-line{height:2px;background:linear-gradient(90deg,transparent,var(--gold),var(--gold-light),var(--gold),transparent);margin:6px auto;opacity:.7}
+.scores{display:flex;gap:10px;justify-content:center;width:100%}
+.score-box{flex:1;border-radius:4px;text-align:center;padding:10px 6px;transition:all .3s;contain:content}
+.score-label{font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin-bottom:2px;font-weight:700}
+.score-val{font-family:'Cinzel',serif;font-size:38px;font-weight:900;line-height:1}
+/* Compact scores for gameplay */
+.scores-compact{display:flex;gap:6px;align-items:center;justify-content:center;width:100%}
+.scores-compact .sc-team{display:flex;align-items:center;gap:4px;padding:6px 10px;border-radius:4px;font-family:'Cinzel',serif;font-weight:700}
+.scores-compact .sc-label{font-size:10px;letter-spacing:1px;opacity:.8}
+.scores-compact .sc-num{font-size:22px}
+.scores-compact .sc-div{font-family:'Almendra',serif;font-size:12px;color:var(--gold);opacity:.5}
+/* Big card for gameplay */
+.big-card{width:100%;padding:28px 18px 22px;border-radius:12px;text-align:center;position:relative;border-left-width:8px;border-left-style:solid;box-shadow:0 8px 24px rgba(0,0,0,.45)}
+.big-word{font-family:'Almendra',serif;font-weight:700;padding:16px 4px;line-height:1.05;color:var(--ink);text-shadow:0 2px 0 rgba(200,150,62,.18);word-wrap:break-word;overflow-wrap:break-word}
+@media(max-width:340px){.sc-num{font-size:18px!important}}
+.game-card{border-radius:8px;position:relative;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.35);contain:content}
+.card-border{position:absolute;inset:4px;border:1px solid rgba(200,150,62,.3);border-radius:4px;pointer-events:none;z-index:1}
+.btn-wood{padding:14px 20px;border-radius:6px;font-family:'Cinzel',serif;font-weight:700;font-size:14px;background:linear-gradient(180deg,var(--wood-light),var(--wood));color:var(--parchment);letter-spacing:1px;box-shadow:0 3px 8px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.15),inset 0 -2px 0 rgba(0,0,0,.2);text-shadow:0 1px 2px rgba(0,0,0,.4);transition:all .12s;border:1px solid var(--wood-dark);min-height:48px}
+.btn-wood:active{transform:translateY(2px);box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.btn-gold{padding:14px 20px;border-radius:6px;font-family:'Cinzel',serif;font-weight:700;font-size:14px;background:linear-gradient(180deg,var(--gold-light),var(--gold),var(--gold-dark));color:var(--wood-dark);letter-spacing:1px;box-shadow:0 3px 8px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.3);text-shadow:0 1px 0 rgba(255,255,255,.2);transition:all .12s;border:1px solid var(--gold-dark);min-height:48px}
+.btn-gold:active{transform:translateY(2px)}
+.btn-correct{width:100%;padding:18px;font-size:18px;background:linear-gradient(180deg,#2D7B2D,#1B5D1B);border-color:#0F3E0F;text-align:center;letter-spacing:2px;min-height:60px}
+.modal-overlay{position:fixed;inset:0;background:rgba(15,10,5,.88);z-index:100;display:flex;align-items:center;justify-content:center;padding:14px;animation:fadeIn .3s}
+.modal{border-radius:8px;max-width:400px;width:100%;max-height:85vh;overflow-y:auto}
+.confetti-piece{position:fixed;z-index:2;will-change:transform;animation:confetti var(--dur) linear var(--delay) both}
+.sing-team-box{padding:12px;border-radius:6px;text-align:center;transition:all .3s;flex:1}
+.sing-team-box.active{animation:singPulse 1.5s ease-in-out infinite}
+.sing-word{font-family:'Almendra',serif;font-weight:700;padding:8px 0}
+.countdown-overlay{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;background:rgba(15,10,5,.75)}
+.summary-stat{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--parchment-deep)}.summary-stat:last-child{border:none}
+.pause-overlay{position:fixed;inset:0;z-index:80;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(15,10,5,.92);gap:16px;animation:fadeIn .2s}
+.top-bar{display:flex;justify-content:space-between;width:100%;align-items:center;min-height:44px}
+.top-bar-btns{display:flex;gap:4px;align-items:center}
+.top-bar-btn{min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;border:1px solid var(--gold);border-radius:6px;color:var(--gold-light);font-size:16px}
+.correct-stamp{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:10;pointer-events:none}
+.correct-stamp svg{animation:correctStamp .4s ease-out both}
+.install-banner{position:fixed;bottom:0;left:0;right:0;z-index:50;padding:14px;background:linear-gradient(180deg,transparent,rgba(15,10,5,.95) 20%);animation:slideUp .5s}
+.install-inner{background:linear-gradient(135deg,var(--wood),var(--wood-dark));border:1px solid var(--gold);border-radius:8px;padding:12px;display:flex;align-items:center;gap:10px;max-width:400px;margin:0 auto}
+.timer-display{text-align:center;padding:4px 0}
+.timer-num{font-family:'Cinzel',serif;font-weight:900;line-height:1;transition:color .3s}
+.timer-sub{font-family:'Lora',serif;font-size:8px;color:var(--wood-light);letter-spacing:1px;text-transform:uppercase}
+.tut-step{text-align:center;padding:20px 16px}
+.tut-dots{display:flex;gap:8px;justify-content:center;margin:12px 0}
+.tut-dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--gold);transition:all .3s}
+.tut-dot.active{background:var(--gold)}
+
+/* Word definition card */
+.def-overlay{position:fixed;inset:0;z-index:110;display:flex;align-items:center;justify-content:center;background:rgba(15,10,5,.85);padding:14px;animation:fadeIn .2s}
+.def-card{width:100%;max-width:340px;animation:cardFlip .4s ease-out}
+.def-close{position:absolute;top:8px;right:8px;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--wood);color:var(--parchment);font-size:16px;font-weight:700;box-shadow:0 2px 6px rgba(0,0,0,.3);z-index:2}
+
+/* Word list for Logo's Learning */
+.word-grid{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;padding:8px 0}
+.word-chip{display:inline-flex;align-items:center;gap:4px;padding:6px 10px;border-radius:4px;font-family:'Lora',serif;font-size:12px;border:1px solid var(--parchment-deep);background:var(--parchment);cursor:pointer;transition:all .15s;min-height:36px}
+.word-chip:active{transform:scale(.95);background:var(--parchment-dark)}
+.word-chip .q{width:18px;height:18px;border-radius:50%;background:var(--gold);color:var(--wood-dark);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* Summary word list */
+.sum-word{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(200,150,62,.15)}
+.sum-word:last-child{border:none}
+.sum-word-btn{width:28px;height:28px;border-radius:50%;background:var(--gold);color:var(--wood-dark);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;min-height:28px;flex-shrink:0;cursor:pointer}
+
+/* Scrollable content */
+.scroll-content{max-height:60vh;overflow-y:auto;padding:0 4px}
+.scroll-content::-webkit-scrollbar{width:4px}
+.scroll-content::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+'use strict';
+const APP_VERSION='8.0';
+
+// ─── CARDS WITH DEFINITIONS ───
+// Format: [easy_word, challenge_word, easy_def, challenge_def]
+const SING=[
+["Amen","Faithful","A word of agreement and affirmation used in prayer, meaning 'so be it'","Worthy of trust; God's unchanging reliability and loyalty to His promises"],
+["Love","Redeemer","God's unconditional care and affection for humanity (1 John 4:8)","One who pays a price to set another free; Jesus Christ who saves us from sin"],
+["Grace","Everlasting","God's unmerited favour and kindness towards sinners","Without beginning or end; describing God's eternal nature"],
+["Bless","Victory","To speak well of or to bestow God's favour upon someone","Triumph over sin, death, and evil through Christ's power"],
+["Holy","Majesty","Set apart, pure, and dedicated to God's purposes","The greatness and dignity of God as supreme ruler of all"],
+["Glory","Righteousness","The visible splendour and radiance of God's presence","Right standing with God; being in alignment with His will and character"],
+["Praise","Sanctuary","Expressing admiration and worship to God for who He is","A sacred place of worship; in SDA theology, also the heavenly temple"],
+["Joy","Almighty","Deep gladness that comes from the Holy Spirit, beyond circumstances","All-powerful; one of God's attributes meaning unlimited in power"],
+["Peace","Emmanuel","Inner calm and harmony that comes from trusting God","'God with us' — the prophetic name given to Jesus (Isaiah 7:14)"],
+["King","Hallelujah","A sovereign ruler; Jesus Christ as King of Kings","Hebrew exclamation meaning 'Praise the Lord!'"],
+["Lord","Calvary","Master and ruler; a title of divine authority given to Jesus","The hill outside Jerusalem where Jesus was crucified"],
+["Heaven","Merciful","The dwelling place of God; the eternal home of the redeemed","Showing compassion and forgiveness even when punishment is deserved"],
+["Light","Cornerstone","A symbol of God's truth, guidance, and presence in darkness","The foundational stone of a building; Jesus as the foundation of faith"],
+["Hope","Hosanna","Confident expectation in God's promises, especially the Second Coming","Hebrew cry meaning 'Save us!' — shouted at Jesus' triumphal entry"],
+["Cross","Shepherd","The instrument of Jesus' sacrifice; symbol of salvation","One who tends and protects sheep; Jesus as the Good Shepherd (John 10)"],
+["Faith","Wonderful","Complete trust and confidence in God and His Word","Inspiring awe and amazement; a name for Jesus in Isaiah 9:6"],
+["Pray","Salvation","To communicate with God; talking and listening to the Creator","Deliverance from sin and its consequences through Jesus Christ"],
+["Free","Covenant","Released from bondage of sin through Christ's sacrifice","A solemn agreement between God and His people with promises and conditions"],
+["Spirit","Consecration","The Holy Spirit, third person of the Godhead","The act of dedicating oneself entirely to God's service"],
+["Power","Omnipotent","God's ability to accomplish all things according to His will","Having unlimited, infinite power — an attribute of God alone"],
+["Blood","Atonement","The blood of Jesus shed for the forgiveness of sins","The reconciliation of God and humanity through Christ's sacrifice"],
+["Fire","Sanctify","Symbol of God's presence, purification, and the Holy Spirit","To make holy; the process of being set apart and purified by God"],
+["Rock","Overcomer","A symbol of Christ's strength, stability, and reliability","One who conquers sin and trials through faith in Jesus (Revelation 2-3)"],
+["Lamb","Resurrection","Jesus as the Lamb of God who takes away the sin of the world","Rising from the dead; Christ's resurrection and the future resurrection of believers"],
+["Name","Deliverance","The name of Jesus through which salvation and authority come","Being rescued or set free from oppression, danger, or bondage by God"],
+["Trust","Tabernacle","Firm reliance on God's character, promises, and faithfulness","The portable sanctuary used by Israel; a type of the heavenly sanctuary"],
+["Heal","Compassion","To restore health; Jesus' ministry included physical and spiritual healing","Deep sympathy and concern for the suffering of others, moved to action"],
+["Rise","Glorified","To be raised up; Christ rising from the grave on the third day","Transformed to a state of heavenly perfection at Christ's return"],
+["Soul","Transfigured","The whole living person; in SDA theology, a unified being, not a separate spirit","Changed in appearance; when Jesus' glory was revealed on the mountain"],
+["Mercy","Repentance","Compassionate treatment shown to an offender; God's lovingkindness","A turning away from sin and turning toward God with a changed heart"],
+["Heart","Providence","The inner person — thoughts, will, emotions; the centre of spiritual life","God's continuous care and guidance over all creation and human affairs"],
+["Rest","Testimony","Sabbath rest; spiritual peace found in trusting God completely","A declaration of truth; the witness of God's law and His faithfulness"],
+["Word","Inheritance","The Bible as God's written revelation; Jesus as the Living Word","The eternal life and heavenly home promised to God's children"],
+["Good","Intercession","Morally excellent; only God is truly good (Mark 10:18)","Praying on behalf of others; Christ's ongoing ministry in the heavenly sanctuary"],
+["Way","Advent","Jesus declared 'I am the way' — the path to eternal life (John 14:6)","Coming or arrival; specifically, the Second Coming of Jesus Christ"],
+["Come","Prophecy","An invitation from Jesus to follow Him and find rest","A message from God about future events, often given through prophets"],
+["Stand","Worship","To remain firm in faith; to stand for truth in the last days","Reverent honour and devotion given to God alone"],
+["Sing","Revelation","To praise God through music; a key part of worship","The last book of the Bible; unveiling of end-time events and God's plan"],
+["Walk","Anointed","To live daily in relationship with God; a journey of faith","Chosen and set apart by God for a special purpose; empowered by the Spirit"],
+["Call","Baptism","God's invitation to salvation and service","Immersion in water symbolising death to sin and new life in Christ"],
+["Rain","Trumpet","Symbol of the Holy Spirit's outpouring (early and latter rain)","An instrument of announcement; the trumpets of Revelation signal end-time events"],
+["Shine","Sabbath","To reflect God's light and character to the world","The seventh day of the week (Saturday); God's memorial of creation"],
+["Day","Remnant","A period of time; in prophecy, often represents a year","The faithful last-day people who keep God's commandments (Revelation 12:17)"],
+["Life","Jubilee","Eternal life offered through Jesus Christ; 'I am the life' (John 14:6)","Year of release every 50th year; a type of the final restoration of all things"],
+["New","Doxology","Made new in Christ; the new heavens and new earth promised","A short hymn of praise to God, often sung at the close of worship"],
+["Crown","Zion","The crown of life promised to the faithful (Revelation 2:10)","A name for Jerusalem and God's holy mountain; symbol of God's eternal kingdom"],
+["Door","Communion","Jesus said 'I am the door' — access to God through Christ","The Lord's Supper; sharing bread and wine in remembrance of Christ's sacrifice"],
+["Wine","Manna","New wine symbolises joy; in prophecy, Babylon's false teachings","Bread from heaven that God provided to Israel in the wilderness"],
+["Bread","Jordan","Jesus as the Bread of Life; essential spiritual nourishment","The river Israel crossed into the Promised Land; symbol of entering God's rest"],
+["Water","Justified","Living water offered by Jesus; symbol of the Holy Spirit","Declared righteous before God through faith in Jesus Christ"]
+];
+
+const ACT=[
+["Angel","Woman touches garment","A heavenly messenger created by God to serve and deliver His messages","The woman with the issue of blood who was healed by touching Jesus' robe (Mark 5)"],
+["Prayer","Walls of Jericho fall","Communication with God; talking, listening, and communing with the Creator","When Israel marched around Jericho for seven days and the walls collapsed (Joshua 6)"],
+["Baptism","Moses parts the sea","Immersion in water symbolising death to sin and resurrection to new life","When God parted the Red Sea through Moses so Israel could escape Egypt (Exodus 14)"],
+["Shepherd","David slays Goliath","A keeper of sheep; Jesus is called the Good Shepherd who lays down His life","The young shepherd boy who defeated the Philistine giant with a stone and sling (1 Samuel 17)"],
+["Noah","Elijah calls fire from heaven","The man God chose to build the ark and save his family from the flood","When the prophet Elijah challenged the prophets of Baal and fire fell from God (1 Kings 18)"],
+["Cross","Daniel in the lions' den","The wooden cross where Jesus was crucified for the sins of the world","When Daniel was thrown to the lions for praying, but God shut the lions' mouths (Daniel 6)"],
+["Dove","Jonah swallowed by whale","A symbol of the Holy Spirit and peace; descended on Jesus at His baptism","When the prophet Jonah was swallowed by a great fish for three days (Jonah 1-2)"],
+["Crown","Peter walks on water","A symbol of royal authority; the crown of thorns placed on Jesus","When Peter stepped out of the boat and walked on water toward Jesus (Matthew 14)"],
+["Worship","Samson pushes pillars","Reverent honour and adoration directed to God alone","When the strongman Samson pushed apart the pillars of the Philistine temple (Judges 16)"],
+["Fishing","Three Hebrew boys in fire","Jesus called His disciples to be 'fishers of men' (Matthew 4:19)","Shadrach, Meshach, and Abednego survived Nebuchadnezzar's fiery furnace (Daniel 3)"],
+["Healing","Turn stone to bread","Jesus' ministry included healing the sick as a sign of God's kingdom","Satan's first temptation of Jesus in the wilderness (Matthew 4:3)"],
+["Fasting","Feeding five thousand","Abstaining from food for spiritual focus and dependence on God","When Jesus miraculously multiplied five loaves and two fish to feed a multitude (John 6)"],
+["Singing","Writing on the wall","Praising God through song; a key form of worship and witness","When mysterious fingers wrote on Belshazzar's palace wall, interpreted by Daniel (Daniel 5)"],
+["Prophet","Holy Communion","A spokesperson for God who delivers divine messages and warnings","The Lord's Supper service with bread and wine remembering Christ's sacrifice"],
+["Garden","Joshua stops the sun","The Garden of Eden; also Gethsemane where Jesus prayed before the cross","When God made the sun stand still during Israel's battle at Gibeon (Joshua 10)"],
+["Temple","Burning bush","A place of worship; Solomon's temple in Jerusalem; the body as God's temple","When God spoke to Moses through a bush that burned but was not consumed (Exodus 3)"],
+["Servant","Walking through Red Sea","One who serves others; Jesus came as a servant (Philippians 2:7)","When Israel walked on dry ground through the parted Red Sea waters (Exodus 14)"],
+["Lion","Jesus washes disciples' feet","Jesus is the Lion of the tribe of Judah (Revelation 5:5)","An act of humble service Jesus performed before the Last Supper (John 13)"],
+["Trumpet","Lazarus rises from tomb","An instrument announcing God's presence and end-time events","When Jesus called Lazarus back to life after four days in the grave (John 11)"],
+["Offering","Jacob wrestles the angel","A gift presented to God in worship; a sacrifice of dedication","When Jacob wrestled with a divine being all night and was renamed Israel (Genesis 32)"],
+["Harvest","Balaam's donkey speaks","The gathering of crops; symbolises the ingathering of souls at the end","When God opened the mouth of Balaam's donkey to speak a warning (Numbers 22)"],
+["Sword","Jesus calms the storm","The Word of God described as the sword of the Spirit (Ephesians 6:17)","When Jesus rebuked the wind and waves and they obeyed Him (Mark 4)"],
+["Praise","Paul and Silas in prison","Expressing admiration and gratitude to God through words and actions","When Paul and Silas sang hymns at midnight in prison and were freed by an earthquake (Acts 16)"],
+["Bible","Abraham sacrifices Isaac","The Holy Scriptures; God's written Word and guide for life","When God tested Abraham by asking him to offer his son Isaac (Genesis 22)"],
+["Church","Water turns to wine","The body of believers; the community of Christ's followers","Jesus' first miracle at the wedding in Cana, turning water into wine (John 2)"],
+["Miracle","Joseph's coat of many colors","A supernatural act of God that defies natural law","The special garment Jacob gave to his favourite son Joseph (Genesis 37)"],
+["Chariot","Tower of Babel","A vehicle of war or transport; Elijah was taken up in a chariot of fire","When people tried to build a tower to heaven and God confused their languages (Genesis 11)"],
+["Ark","Naaman dips in Jordan","Noah's ark or the Ark of the Covenant containing the Ten Commandments","When the Syrian commander was healed of leprosy by washing in the Jordan River (2 Kings 5)"],
+["Pillar","Jesus overturns tables","A supporting column; the pillar of cloud and fire that guided Israel","When Jesus drove out the money changers from the temple (Matthew 21)"],
+["Disciple","Blind man receives sight","A follower and student of Jesus; the twelve apostles","When Jesus healed a man born blind, demonstrating His divine power (John 9)"],
+["Sabbath","Fiery serpent on a pole","The seventh-day rest established at Creation; kept from Friday sunset to Saturday sunset","When Moses lifted up a bronze serpent to heal those bitten by snakes (Numbers 21)"],
+["Tithe","Widow's oil multiplied","Returning one-tenth of income to God as an act of faithful stewardship","When Elisha miraculously multiplied a poor widow's jar of oil (2 Kings 4)"],
+["Elder","Philip carried by Spirit","A mature leader in the church responsible for spiritual oversight","When the Holy Spirit transported Philip after he baptised the Ethiopian (Acts 8)"],
+["Parable","Good Samaritan","A short story Jesus told to teach spiritual truths","Jesus' parable about a Samaritan who helped a wounded stranger (Luke 10)"],
+["Manna","Prodigal son returns","Bread from heaven provided by God during Israel's wilderness journey","Jesus' parable about a wayward son who returns home to his father's embrace (Luke 15)"],
+["Candle","Jesus rides a donkey","A light source; symbolising believers shining in darkness (Matthew 5:14-16)","Jesus' triumphal entry into Jerusalem fulfilling Zechariah's prophecy (Matthew 21)"],
+["Throne","Stoning of Stephen","The seat of God's authority and rule in heaven","When the first Christian martyr Stephen was killed for his faith (Acts 7)"],
+["Armor","Road to Emmaus","The full armor of God described in Ephesians 6 for spiritual warfare","When the risen Jesus walked unrecognised with two disciples (Luke 24)"],
+["Shield","Ruth gleans the field","The shield of faith that extinguishes the devil's fiery darts (Ephesians 6:16)","When Ruth gathered leftover grain in Boaz's field, showing her loyalty (Ruth 2)"],
+["Scroll","Esther approaches the king","A rolled document; the scroll of life in Revelation","When Queen Esther risked her life to save her people from Haman's plot (Esther 4-5)"],
+["Altar","Creation of Adam","A raised structure for offering sacrifices and worship to God","When God formed the first man from the dust of the ground (Genesis 2:7)"],
+["Robe","Jesus in Gethsemane","A garment of honour; the robe of righteousness Christ provides","When Jesus prayed in agony in the garden before His arrest (Luke 22)"],
+["Staff","Aaron's rod that budded","A walking stick; Moses' staff used in miracles; symbol of authority","When Aaron's staff miraculously sprouted, budded, and produced almonds (Numbers 17)"],
+["Vineyard","Wedding at Cana","A grape farm; used by Jesus to represent God's people and kingdom","The wedding feast where Jesus performed His first miracle of turning water to wine (John 2)"],
+["Sheep","Lost coin found","Followers of Jesus; He knows each one by name (John 10:27)","Jesus' parable about a woman who searches diligently for one lost coin (Luke 15)"],
+["Whale","Elijah fed by ravens","The great sea creature that swallowed Jonah for three days","When God sent ravens to bring food to the prophet Elijah by the brook (1 Kings 17)"],
+["Rainbow","Dry bones come alive","God's sign of His covenant promise to never flood the earth again","Ezekiel's vision of a valley of dry bones that God restored to life (Ezekiel 37)"],
+["Rock","Jesus tempted on mountain","Christ the solid Rock; the rock Moses struck that gave water","Satan's temptation offering Jesus all kingdoms if He would worship him (Matthew 4)"],
+["Lamp","Ten virgins","A light for guidance; God's Word is a lamp to our feet (Psalm 119:105)","Jesus' parable about ten bridesmaids, five prepared and five not (Matthew 25)"],
+["Bread","Zacchaeus in the tree","Jesus as the Bread of Life who sustains our spiritual hunger","The short tax collector who climbed a sycamore tree to see Jesus (Luke 19)"]
+];
+
+const EXPLAIN=[
+["Sarah","Babylon","Abraham's wife; mother of Isaac; her name means 'princess'","An ancient empire; in Revelation, symbolises false religious systems opposing God"],
+["Bethlehem","Hosea","The town where Jesus was born, fulfilling Micah's prophecy","An Old Testament prophet commanded to love his unfaithful wife as God loves Israel"],
+["Moses","Justification","The great leader who delivered Israel from Egypt and received the Ten Commandments","Being declared righteous before God through faith in Jesus, not by works"],
+["Adam","Sanctification","The first human created by God; through him sin entered the world","The ongoing process of becoming holy through the work of the Holy Spirit"],
+["Eve","Glorification","The first woman, created from Adam's rib; mother of all living","The final transformation of believers at Christ's return to immortal, perfect beings"],
+["Abraham","Investigative Judgment","Father of faith; God's covenant partner; ancestor of Israel","SDA doctrine: A pre-Advent judgment in heaven reviewing the lives of professed believers since 1844"],
+["David","State of the Dead","Israel's greatest king; a man after God's own heart; ancestor of Jesus","SDA belief that the dead sleep unconsciously until the resurrection, not in heaven or hell"],
+["Daniel","Great Controversy","A prophet in Babylon who interpreted dreams and survived the lions' den","SDA teaching about the cosmic battle between Christ and Satan over God's character and law"],
+["Ruth","Sanctuary Doctrine","A Moabite woman whose loyalty led her to become an ancestor of Jesus","SDA teaching that Christ ministers in a heavenly sanctuary, applying His sacrifice for believers"],
+["Esther","Spirit of Prophecy","A Jewish queen who saved her people from destruction in Persia","SDA belief that the gift of prophecy was manifest in the ministry of Ellen G. White"],
+["Joseph","Remnant Church","Jacob's son sold into slavery who became ruler of Egypt; also Jesus' earthly father","SDA understanding of being God's end-time faithful church keeping His commandments"],
+["Peter","Second Coming","A fisherman who became a leading apostle; denied Jesus but was restored","The visible, literal, personal return of Jesus Christ to earth to take His people home"],
+["Paul","Health Message","A former persecutor of Christians who became the greatest missionary apostle","SDA emphasis on healthful living: vegetarian diet, temperance, and caring for the body temple"],
+["Mary","Three Angels' Messages","The mother of Jesus; chosen by God to bear the Messiah","Three proclamations in Revelation 14 calling the world to worship God, leave Babylon, and avoid the mark"],
+["Luke","Mark of the Beast","A physician and companion of Paul who wrote a Gospel and the book of Acts","A symbol of allegiance to a false system of worship in opposition to God's Sabbath (Revelation 13)"],
+["John","Seal of God","The beloved disciple who wrote a Gospel, three epistles, and Revelation","A mark of God's ownership on His faithful people; linked to Sabbath observance in SDA theology"],
+["Matthew","Heavenly Sanctuary","A tax collector who became an apostle and wrote the first Gospel","The temple in heaven where Christ ministers as our High Priest (Hebrews 8-9)"],
+["Mark","1844","The author of the second Gospel; accompanied Paul and Barnabas","The year SDAs believe the investigative judgment began in the heavenly sanctuary (Daniel 8:14)"],
+["Timothy","Remnant","Paul's young protégé in ministry; recipient of two pastoral epistles","The faithful last-day people who keep God's commandments and have the testimony of Jesus"],
+["Titus","Reformation","A Greek convert who became a leader in Crete; recipient of Paul's letter","A movement to restore biblical truth; historically the Protestant Reformation of the 16th century"],
+["Solomon","Millennium","David's son; wisest king of Israel; built the first temple","The 1,000-year period after Christ's return when saints are in heaven and earth is desolate (Revelation 20)"],
+["Samson","New Jerusalem","An Israelite judge with supernatural strength from God (Judges 13-16)","The holy city that descends from heaven to earth after the millennium (Revelation 21)"],
+["Gideon","Laodicea","A judge who defeated the Midianites with just 300 men (Judges 7)","The seventh church in Revelation; represents the last-day lukewarm church needing revival"],
+["Joshua","Righteousness by Faith","Moses' successor who led Israel into the Promised Land","The teaching that we are made right with God through trusting in Christ, not our own efforts"],
+["Nehemiah","Sabbath Keeping","The cupbearer who rebuilt Jerusalem's walls after the Babylonian exile","Observing the seventh-day Sabbath (Saturday) as a day of rest and worship as the Bible commands"],
+["Isaiah","Tithing","A major Old Testament prophet who foretold the Messiah's birth and suffering","Returning 10% of one's income to God through the church for the support of ministry"],
+["Jeremiah","Stewardship","The weeping prophet who warned Judah before the Babylonian captivity","The responsible management of all God has entrusted to us: time, health, resources, and abilities"],
+["Ezekiel","Adventism","A prophet in Babylonian exile who saw visions of God's glory and future restoration","The worldwide movement expecting Christ's soon return; the Seventh-day Adventist Church"],
+["Elijah","Prophecy of Daniel 2","A bold prophet who confronted Baal worship; taken to heaven without dying","Nebuchadnezzar's dream of a great statue representing successive world empires until God's kingdom"],
+["Elisha","70 Weeks","Elijah's successor who received a double portion of his spirit","Daniel's time prophecy (Daniel 9:24-27) pointing to the Messiah's arrival and ministry"],
+["Noah","2300 Day Prophecy","Built the ark and warned the world before the flood; a preacher of righteousness","The longest time prophecy in Daniel 8:14 pointing to 1844 and the cleansing of the sanctuary"],
+["Jacob","Clean and Unclean Foods","Isaac's son who wrestled with God; father of the twelve tribes of Israel","Biblical dietary laws in Leviticus 11 distinguishing foods God designed for human consumption"],
+["Rachel","Temperance","Jacob's beloved wife; mother of Joseph and Benjamin","Self-control and moderation in all things; abstaining from harmful substances"],
+["Leah","Christian Education","Jacob's first wife; mother of six sons including Judah","Education that integrates faith with learning; SDA schools and universities worldwide"],
+["Miriam","Ellen White","Moses' sister; a prophetess who led Israel in worship after the Red Sea crossing","Co-founder of the SDA Church; believed to have the prophetic gift; authored many books"],
+["Deborah","Camp Meeting","A judge and prophetess in Israel who led the nation to victory (Judges 4-5)","An SDA tradition of multi-day outdoor worship gatherings for spiritual renewal"],
+["Hannah","Pathfinders","Samuel's mother who prayed fervently for a child and dedicated him to God","The SDA youth organisation similar to Scouts, focused on spiritual growth and outdoor skills"],
+["Naomi","Dorcas Society","Ruth's mother-in-law who guided her toward redemption and a new life","An SDA women's ministry focused on community service and helping those in need"],
+["Priscilla","General Conference","A leader in the early church who taught alongside her husband Aquila","The highest administrative body of the worldwide Seventh-day Adventist Church"],
+["Lydia","Colporteur","A seller of purple cloth; the first European convert (Acts 16)","A literature evangelist who distributes Christian books and publications door to door"],
+["Philemon","Advent Hope","A Christian slave owner Paul wrote to about receiving back his runaway slave Onesimus","The blessed hope of Christ's imminent, visible, literal return to earth"],
+["Barnabas","Law and Grace","An encouraging apostle who mentored Paul and Mark; his name means 'Son of Encouragement'","The relationship between God's moral law (Ten Commandments) and His saving grace"],
+["Stephen","Foot Washing","The first Christian martyr, stoned for his bold witness (Acts 7)","An ordinance of humility practised before Communion, following Jesus' example (John 13)"],
+["Caleb","Communion Service","One of two faithful spies who trusted God to give Israel the Promised Land","The Lord's Supper service including foot washing, bread, and grape juice"],
+["Aaron","Ordination","Moses' brother; Israel's first high priest","The formal setting apart of individuals for ministry through prayer and laying on of hands"],
+["Jonah","Evangelism","A reluctant prophet who was swallowed by a great fish before preaching to Nineveh","Sharing the good news of Jesus Christ and His saving power with the world"],
+["Job","Revelation Seminar","A righteous man tested by suffering who maintained faith in God","A series of Bible study presentations focusing on the prophecies of Revelation"],
+["Lot","Vegetarianism","Abraham's nephew rescued from Sodom's destruction (Genesis 19)","A plant-based diet advocated by SDAs based on God's original diet in Eden (Genesis 1:29)"],
+["Enoch","Translation","A man who walked so closely with God that God took him to heaven alive","Being taken to heaven without experiencing death, as with Enoch and Elijah"],
+["Methuselah","Longevity","The longest-lived person in the Bible at 969 years (Genesis 5:27)","Long life; SDAs are studied for their longer-than-average lifespans due to health practices"]
+];
+
+// ─── STATE ───
+let S={
+  screen:'home',mode:null,diff:'easy',sA:0,sB:0,team:'A',cards:[],ci:0,
+  time:60,round:1,rounds:5,rules:false,showAbout:false,
+  countdown:0,cdKey:0,cdActive:false,
+  turnCorrect:0,turnSkip:0,turnPenalty:0,turnWon:0,
+  skipsLeft:2,showExit:false,
+  cardDiff:'easy',diffLocked:false,
+  paused:false,muted:false,showStamp:false,
+  singTeam:'A',singTimer:10,singScoreA:0,singScoreB:0,singRoundTime:120,
+  showTutorial:false,tutStep:0,
+  mixModes:['sing','act','explain'],mixRoundIndex:0,
+  turnWords:[],
+  defWord:null,defDef:null,
+  showLearning:false,
+  gameStartTime:0,
+  role:'host',teamView:null,roomCode:null,showJoin:false,
+  showUnlock:false,isPro:false,showDenomPacks:false,showRequestFree:false,
+  // v8: Custom team names + Championship
+  nameA:'Team A',nameB:'Team B',
+  // Championship mode
+  champSing:2,champAct:2,champExplain:2, // rounds per mode in championship
+  champPhase:0, // 0=sing rounds, 1=act rounds, 2=explain rounds
+  champPhaseRound:0, // current round within phase
+  champTotalA:0,champTotalB:0, // running totals across all phases
+  champScores:[], // [{phase:'sing',sA:x,sB:y},...]
+};
+let tid=null,singTid=null,singRTid=null,cdTid=null;
+let actx=null,deferP=null,wakeLock=null;
+let lastAction=0;
+let usedByMode={sing:new Set(),act:new Set(),explain:new Set()};
+function getUsed(){const m=getActiveMode();if(!usedByMode[m])usedByMode[m]=new Set();return usedByMode[m]}
+let syncCh=null;
+let syncWs=null;
+
+// ─── DENOMINATION CARD PACKS (50 cards each) ───
+// Format: [easy_word, challenge_word, easy_def, challenge_def]
+const DENOM_SDA=[
+["Sabbath","Investigative Judgment","The seventh day (Saturday) set apart by God at Creation as a day of rest and worship","An SDA teaching that Christ reviews the records of professed believers in heaven's sanctuary since 1844"],
+["Ellen White","2300 Days","Co-founder of the SDA Church, believed to have the prophetic gift; authored Steps to Christ and many others","The longest Bible time prophecy (Daniel 8:14) pointing to 1844 and the cleansing of the heavenly sanctuary"],
+["Remnant","Three Angels' Messages","The faithful end-time people who keep God's commandments and have the testimony of Jesus (Rev 12:17)","Three urgent proclamations in Revelation 14 calling the world to worship God, leave Babylon, and reject the mark"],
+["Sanctuary","State of the Dead","The heavenly temple where Christ ministers as High Priest, central to SDA theology","SDA belief that the dead sleep unconsciously in the grave until the resurrection at Christ's return"],
+["Health Message","Spirit of Prophecy","SDA emphasis on caring for the body temple through diet, exercise, rest, and temperance","The prophetic gift as manifested in the life and writings of Ellen G. White"],
+["Camp Meeting","Pathfinders","A multi-day outdoor worship gathering for spiritual renewal, an SDA tradition since the 1800s","The SDA youth organisation focused on spiritual growth, community service, and outdoor skills"],
+["Colporteur","Dorcas Society","A literature evangelist who distributes Christian books and publications door to door","An SDA women's ministry group focused on community service, welfare, and helping those in need"],
+["General Conference","Vegetarianism","The highest administrative body of the worldwide Seventh-day Adventist Church","A plant-based diet advocated by SDAs based on God's original diet in Eden (Genesis 1:29)"],
+["Temperance","Clean and Unclean","Self-control and moderation in all things; abstaining from harmful substances like alcohol and tobacco","Biblical dietary distinctions in Leviticus 11 between animals God designed for food and those He did not"],
+["Advent Hope","Great Controversy","The blessed hope of Christ's imminent, visible, literal return to gather His people","The cosmic conflict between Christ and Satan over God's character, law, and government of the universe"],
+["Stewardship","Heavenly Sanctuary","Faithful management of all God has entrusted: time, talents, money, health, and the environment","The real temple in heaven (Hebrews 8-9) where Jesus serves as our High Priest before the Father"],
+["Tithe","1844","Returning 10% of one's income to God through the church, supporting gospel ministry worldwide","The pivotal year when SDAs believe Christ entered the Most Holy Place to begin the investigative judgment"],
+["Revelation Seminar","Seal of God","A series of Bible study meetings focused on the prophecies of Daniel and Revelation","A sign of God's ownership and protection on His faithful people, linked to Sabbath keeping in SDA thought"],
+["Mark of the Beast","New Jerusalem","A symbol of allegiance to a false system of worship that opposes God's Sabbath (Rev 13)","The holy city descending from heaven to the new earth after the millennium, our eternal home (Rev 21)"],
+["Millennium","Laodicea","The 1,000-year period (Rev 20) after Christ's return: saints in heaven, earth desolate, Satan bound","The seventh and final church of Revelation; symbolises the lukewarm end-time church that needs revival"],
+["Daniel 2","70 Weeks","Nebuchadnezzar's dream of a great statue representing world empires from Babylon to God's eternal kingdom","Daniel's time prophecy (Dan 9:24-27) pinpointing the exact year of the Messiah's baptism and crucifixion"],
+["Sabbath School","Adventist Education","Weekly Bible study classes held before the worship service; a core part of SDA church life","An integrated system of schools, colleges, and universities operated by the SDA Church worldwide"],
+["Baptism by Immersion","Ordination","Full submersion in water symbolising death to sin and new life in Christ, as Jesus modelled","The setting apart of pastors and elders for ministry through prayer and the laying on of hands"],
+["Foot Washing","Communion Service","An ordinance of humility before the Lord's Supper, following Christ's example in John 13","The complete worship service including foot washing, the bread (Christ's body), and grape juice (His blood)"],
+["Fundamental Beliefs","Prophecy of Daniel 7","The 28 core doctrines of the Seventh-day Adventist Church, adopted by the General Conference","Daniel's vision of four beasts representing empires, a little horn power, and the heavenly judgment scene"],
+["ADRA","Bible Worker","Adventist Development and Relief Agency — the SDA Church's humanitarian and disaster relief organisation","A trained lay or employed church member who gives Bible studies and leads people to Christ"],
+["Ingathering","ASI","An annual SDA fundraising campaign where members collect donations for community and mission projects","Adventist-laymen's Services and Industries — an organisation of SDA business and professional people"],
+["Voice of Prophecy","It Is Written","One of the oldest SDA media ministries, offering Bible correspondence courses worldwide","An international SDA television ministry sharing Bible truth through broadcasts and evangelistic events"],
+["Maranatha","Mission Service","An Aramaic word meaning 'Our Lord, come!' expressing the Adventist longing for Christ's return","Volunteer work in other countries building churches, schools, and clinics for communities in need"],
+["Review and Herald","Signs of the Times","A historic SDA publishing house and the name of the church's flagship magazine since 1850","An SDA outreach magazine sharing Bible prophecy and health principles with the general public"]
+];
+
+const DENOM_CATHOLIC=[
+["Mass","Transubstantiation","The central act of Catholic worship where the Eucharist is celebrated and Christ is made present","The belief that bread and wine become the actual Body and Blood of Christ during consecration"],
+["Pope","Papal Infallibility","The Bishop of Rome and head of the Catholic Church, considered the successor of the Apostle Peter","The doctrine that the Pope cannot err when officially defining faith or morals for the whole Church"],
+["Rosary","Immaculate Conception","A prayer devotion using beads to meditate on events in the lives of Jesus and Mary","The belief that the Virgin Mary was conceived without original sin from the moment of her conception"],
+["Confession","Purgatory","The sacrament of reconciliation where sins are confessed to a priest and absolution is received","A state of purification after death where souls are cleansed before entering heaven"],
+["Saints","Canonisation","Holy people recognised by the Church as being in heaven and worthy of veneration and intercession","The formal process by which the Church declares a deceased person to be a saint"],
+["Eucharist","Apostolic Succession","The sacrament of Holy Communion; the body and blood of Christ under the appearance of bread and wine","The unbroken chain of bishops traced back to the apostles through the laying on of hands"],
+["Advent","Liturgical Year","The four-week season of preparation before Christmas, marked by hope and anticipation","The annual cycle of seasons and feasts that structures Catholic worship throughout the year"],
+["Lent","Ash Wednesday","A 40-day season of fasting, prayer, and repentance before Easter, imitating Christ's desert fast","The first day of Lent when ashes are placed on the forehead as a sign of repentance and mortality"],
+["Confirmation","Sacraments","A sacrament where baptised persons receive the Holy Spirit to strengthen their faith","The seven sacred rites instituted by Christ: Baptism, Eucharist, Confirmation, Reconciliation, Anointing, Marriage, Holy Orders"],
+["Crucifix","Stations of the Cross","A cross bearing the image of the crucified Christ, central to Catholic devotion and worship","Fourteen images depicting Jesus' journey from condemnation to burial, used for prayer and meditation"],
+["Cardinal","Vatican","A senior leader appointed by the Pope; cardinals form the body that elects a new Pope","The independent city-state in Rome that serves as the headquarters of the Catholic Church"],
+["Bishop","Diocese","An ordained minister who oversees a regional area of churches and confirms and ordains","The geographical territory of churches under a bishop's pastoral authority and governance"],
+["Nun","Monastery","A woman who has taken solemn vows of poverty, chastity, and obedience in a religious community","A residence where monks or nuns live a communal life devoted to prayer, work, and contemplation"],
+["Hail Mary","Assumption","A prayer asking the Virgin Mary to intercede with God on behalf of the one praying","The belief that Mary was taken body and soul into heaven at the end of her earthly life"],
+["Holy Water","Catechism","Water blessed by a priest, used for blessings and as a reminder of baptismal promises","A summary of Catholic doctrine used for instruction in the faith, especially before sacraments"],
+["Novena","Encyclical","Nine consecutive days of prayer for a special intention or in honour of a saint","A formal letter from the Pope to the Church addressing matters of faith, morals, or social teaching"],
+["Indulgence","Magisterium","The remission of temporal punishment due for sins already forgiven through certain prayers or acts","The teaching authority of the Catholic Church exercised by the Pope and bishops in communion with him"],
+["Patron Saint","Relic","A saint regarded as the heavenly advocate of a person, place, occupation, or country","A physical object associated with a saint or with Christ, venerated as a focus for prayer"],
+["Deacon","Curia","An ordained minister who assists priests and bishops in liturgy, preaching, and charitable works","The administrative body that assists the Pope in governing the universal Catholic Church"],
+["Vespers","Lectionary","Evening prayer in the Liturgy of the Hours; a daily prayer tradition of the Catholic Church","A book of Scripture readings organised for use in worship throughout the liturgical year"],
+["Chalice","Monstrance","The sacred cup used to hold the wine that becomes Christ's Blood during the Mass","An ornate vessel used to display the consecrated Eucharistic host for adoration by the faithful"],
+["Beatification","Excommunication","A step in canonisation declaring a deceased person 'Blessed' and worthy of local veneration","The most severe censure in the Church, excluding a person from the sacraments and community"],
+["Annulment","Canon Law","A declaration that a marriage was never valid due to a defect in consent or form","The system of laws and legal principles governing the Catholic Church's organisation and discipline"],
+["Tabernacle","Sanctuary Lamp","The ornate container in a church where the consecrated Eucharist is reserved for worship","A candle or lamp that burns near the tabernacle, indicating the presence of the Blessed Sacrament"],
+["Ave Maria","Magnificat","Latin for 'Hail Mary,' the opening words of the prayer honouring the Virgin Mary","Mary's song of praise recorded in Luke 1:46-55, proclaiming God's mercy and justice"]
+];
+
+const DENOM_BAPTIST=[
+["Believer's Baptism","Soul Competency","The practice of baptising only those who have personally professed faith in Christ, not infants","The belief that each person is competent to approach God directly without any human intermediary"],
+["Altar Call","Sinner's Prayer","An invitation during a service for people to come forward and publicly accept Christ as Saviour","A prayer expressing repentance and faith in Jesus, often prayed at the moment of conversion"],
+["Born Again","Eternal Security","A spiritual rebirth through faith in Christ; becoming a new creation (John 3:3)","The belief that once truly saved, a person cannot lose their salvation — 'once saved, always saved'"],
+["Revival","Bible Belt","A series of impassioned worship services aimed at renewing faith and winning new converts","A region in the southern United States known for strong Baptist and evangelical Christian culture"],
+["Deacon","Congregational Governance","A church leader who serves alongside the pastor in ministry, care, and practical church needs","The system where the local church congregation holds final authority over its own affairs and decisions"],
+["Tithe","Cooperative Program","Giving 10% of one's income to the local church as an act of worship and obedience","The unified financial plan through which Southern Baptist churches fund missions and ministries together"],
+["Missionary","Great Commission","A person sent to share the gospel and plant churches in other cultures or countries","Christ's command in Matthew 28:19-20 to make disciples of all nations, baptising and teaching them"],
+["Sunday School","Vacation Bible School","Weekly Bible classes for all ages, a cornerstone of Baptist education and discipleship","A week-long summer programme of Bible teaching, crafts, and activities for children"],
+["Hymnal","Invitation Hymn","A book of hymns used in congregational singing during worship services","A song sung at the end of a service while people are invited to respond to the gospel message"],
+["Lord's Supper","Closed Communion","The Baptist term for Communion, a memorial of Christ's death using bread and grape juice","The practice of limiting Communion to members of that specific local church congregation"],
+["Ordination","Priesthood of Believers","The formal recognition and setting apart of a person for pastoral ministry","The doctrine that every Christian has direct access to God and can minister without a priestly mediator"],
+["Church Covenant","Baptist Distinctives","A written agreement among church members outlining their commitments to God and each other","Core Baptist principles: Bible authority, autonomy of the local church, believer's baptism, soul freedom"],
+["Evangelism","Decisional Regeneration","Actively sharing the gospel to lead people to a personal decision for Christ","The view that a person is spiritually reborn at the specific moment they decide to trust Christ"],
+["Bible Study","Expository Preaching","Systematic group study of Scripture for understanding and application to daily life","Preaching that explains a Bible passage verse by verse, drawing out its original meaning and application"],
+["Testimony","Witnessing","A personal account of how God has worked in one's life, especially the conversion experience","Intentionally sharing one's faith and the gospel message with others in everyday life"],
+["Potluck","Fellowship Meal","A communal meal where church members each bring a dish to share after a service","A shared meal bringing the church family together for community, conversation, and mutual encouragement"],
+["Prayer Meeting","Prayer Warrior","A regular gathering of church members devoted to corporate prayer for needs and missions","A person known for their dedicated and persistent prayer life, interceding faithfully for others"],
+["Mission Trip","Church Plant","A short-term journey to serve communities and share the gospel locally or internationally","A new church established in an area where there is no existing Baptist congregation"],
+["Association","Convention","A regional group of Baptist churches that cooperate for fellowship, missions, and support","A larger organisational body of Baptist churches united for cooperative missions and ministry efforts"],
+["Sword Drill","AWANA","A Bible knowledge competition where participants race to find and read Scripture verses","A children's ministry programme emphasising Scripture memorisation, discipleship, and fun activities"],
+["Covered Dish","Homecoming Sunday","Another term for a potluck meal, deeply rooted in Baptist church social culture","An annual celebration where former members and friends return for worship, fellowship, and a shared meal"],
+["Baptistery","Immersion Pool","The pool or tank in a Baptist church building designed specifically for baptism by immersion","The body of water, whether indoor tank or outdoor river or lake, where believers are fully submerged"],
+["Church Bus","Bus Ministry","A vehicle used to transport people, especially children and elderly, to church services","An outreach ministry using buses or vans to bring people from the community to church programmes"],
+["Pulpit Committee","Called to Preach","A group of church members tasked with searching for and recommending a new pastor","The conviction that God has specifically summoned a person to dedicate their life to preaching ministry"],
+["Amen Corner","Preacher Boy","The section of the congregation known for vocal affirmation during the sermon","A young man in training or mentorship for future pastoral ministry, learning under senior pastors"]
+];
+
+const DENOM_METHODIST=[
+["Wesley","Aldersgate","John Wesley, the 18th-century Anglican priest who founded Methodism through open-air preaching","The experience on May 24, 1738 when Wesley's heart was 'strangely warmed' and he found assurance of faith"],
+["Circuit Rider","Class Meeting","An early Methodist preacher who travelled on horseback to serve multiple congregations","A small group of Methodists who met weekly for accountability, prayer, confession, and spiritual growth"],
+["Social Holiness","Sanctification","Wesley's teaching that true Christianity is lived out in community and service to others","The process of growing in Christlikeness through the Holy Spirit's work after justification"],
+["Prevenient Grace","Justifying Grace","God's grace that goes before us, working in every person before they are aware of God","The grace by which God pardons sin and restores relationship through faith in Jesus Christ"],
+["Sanctifying Grace","Christian Perfection","Grace that works in believers after salvation, transforming them into the likeness of Christ","Wesley's teaching that Christians can reach a state of perfect love for God and neighbour in this life"],
+["Connectionalism","Annual Conference","The Methodist system where churches are linked together in a shared network of support and governance","The regional body of Methodist churches that meets yearly to conduct business, ordain, and assign pastors"],
+["Itinerancy","Appointment","The practice of sending pastors to churches rather than churches choosing their own pastors","The assignment of a pastor to a specific church by the bishop, typically for a set period"],
+["Bishop","District Superintendent","A senior church leader who oversees a geographical area and appoints pastors to churches","A pastor appointed by the bishop to supervise a district of churches and support local pastors"],
+["Hymn Singing","Charles Wesley","Congregational singing of hymns, a vital part of Methodist worship from the very beginning","John Wesley's brother, who wrote over 6,000 hymns including 'Hark! The Herald Angels Sing'"],
+["Open Table","Love Feast","The Methodist practice of welcoming all people to receive Holy Communion regardless of denomination","A simple meal shared in worship, reviving the early church's practice of communal fellowship and testimony"],
+["Quadrilateral","Means of Grace","Wesley's method of theology using four sources: Scripture, tradition, reason, and experience","Practices through which God works: prayer, Scripture, Communion, fasting, and Christian community"],
+["General Rules","Band Meeting","Wesley's three rules: do no harm, do good, and attend upon the ordinances of God","An intimate group of 4-5 same-gender members meeting for deep spiritual accountability and confession"],
+["Lay Preacher","Certified Lay Minister","A non-ordained person authorised to preach and lead worship in Methodist congregations","A trained layperson who serves alongside pastors in preaching, pastoral care, and congregation leadership"],
+["Social Creed","Temperance","The Methodist statement on social justice, workers' rights, peace, and care for creation","The Methodist commitment to moderation and sobriety, historically supporting abstinence from alcohol"],
+["Aldersgate Day","Covenant Service","A commemoration of Wesley's heart-warming experience, celebrated by Methodists worldwide on May 24","A special Methodist worship service, often on New Year's, where members renew their covenant with God"],
+["United Methodist Women","Epworth League","An organisation of Methodist women dedicated to mission, service, advocacy, and spiritual growth","A historic Methodist youth organisation founded in 1889 for the spiritual development of young people"],
+["General Conference","Jurisdictional Conference","The highest legislative body of The United Methodist Church, meeting every four years","A regional body that elects bishops and coordinates ministry across a geographical jurisdiction"],
+["Deaconess","Order of Deacons","A woman consecrated for a lifetime of service in ministries of love, justice, and compassion","An order of ordained clergy dedicated to serving the community as a bridge between church and world"],
+["Stole","Liturgical Colours","A vestment worn by clergy over the shoulders during worship, symbolising the yoke of Christ","The system of colours (purple, white, green, red) used in paraments and vestments throughout the church year"],
+["Mission Society","In Mission Together","An organisation that sends and supports Methodist missionaries in evangelism and church planting","The connectional emphasis on local churches partnering with global communities for mutual ministry"],
+["Camp Meeting","Brush Arbor","An outdoor multi-day gathering for worship, preaching, and spiritual renewal — a Methodist tradition","An open-air shelter made of branches where early Methodists gathered for frontier revival meetings"],
+["Aldersgate Experience","Entire Sanctification","A personal moment of deep spiritual assurance, named after Wesley's transformative 1738 experience","Wesley's teaching that the Holy Spirit can cleanse believers from inward sin, perfecting them in love"],
+["Probationer","Full Connection","A ministerial candidate in the process of meeting requirements for full ordination","The status of being fully ordained and received as a permanent member of an annual conference"],
+["Trust Clause","Apportionment","The legal provision that Methodist church property is held in trust for the denomination","The share of connectional funds each local church is asked to contribute to support wider mission"],
+["Watch Night","Covenant Prayer","A New Year's Eve worship service originating with the Wesleys, marking the year with prayer and praise","A prayer used in the Methodist Covenant Service: 'I am no longer my own, but thine'"]
+];
+
+const DENOM_PENTECOSTAL=[
+["Speaking in Tongues","Initial Evidence","The spiritual gift of speaking in a language unknown to the speaker, empowered by the Holy Spirit","The Pentecostal belief that speaking in tongues is the first sign of receiving the baptism of the Holy Spirit"],
+["Baptism of the Spirit","Tarrying","A distinct experience after salvation where the believer is filled with the Holy Spirit's power","The practice of waiting in prayer, often at the altar, seeking the baptism of the Holy Spirit"],
+["Healing","Laying on of Hands","Divine physical healing through faith and prayer, a central belief in Pentecostal worship","The practice of placing hands on a person while praying for healing, empowerment, or blessing"],
+["Prophecy","Word of Knowledge","A Spirit-inspired message declaring God's will, encouragement, or warning to the congregation","A supernatural revelation by the Holy Spirit about a fact or situation unknown to the speaker"],
+["Praise and Worship","Holy Ghost Fire","The extended time of singing, clapping, dancing, and celebrating God that opens Pentecostal services","An expression describing the intense presence and power of the Holy Spirit experienced in worship"],
+["Altar Call","Slain in the Spirit","An invitation for people to come to the front of the church for prayer, salvation, or rededication","The experience of falling to the ground under the overwhelming power of the Holy Spirit during prayer"],
+["Spiritual Warfare","Deliverance","The battle against demonic forces through prayer, fasting, and wielding the Word of God","Ministry focused on freeing people from demonic oppression or bondage through authoritative prayer"],
+["Revival","Azusa Street","An outpouring of the Holy Spirit marked by renewed passion, signs, wonders, and mass conversions","The 1906 revival in Los Angeles that is widely regarded as the birthplace of modern Pentecostalism"],
+["Gifts of the Spirit","Nine Gifts","Supernatural abilities given by the Holy Spirit for the building up of the church (1 Cor 12)","The nine spiritual gifts listed in 1 Corinthians 12: wisdom, knowledge, faith, healing, miracles, prophecy, discernment, tongues, interpretation"],
+["Anointing","Anointing Oil","The empowering presence of the Holy Spirit upon a person for ministry, preaching, or service","Oil consecrated for prayer use, applied when praying for the sick or setting someone apart (James 5:14)"],
+["Intercessory Prayer","Prayer Warrior","Deep, Spirit-led prayer on behalf of others, often accompanied by groaning and spiritual intensity","A person who devotes significant time to persistent, fervent prayer for others and spiritual battles"],
+["Fasting","Consecration","Abstaining from food (and sometimes drink) for spiritual focus, breakthrough, and deeper communion with God","A period of setting oneself apart for God through prayer, fasting, and abstaining from worldly distractions"],
+["Testimony","Shout of Praise","A public declaration of what God has done in one's life, commonly shared during Pentecostal services","An exuberant, loud vocal expression of joy and victory in worship, often spontaneous and Spirit-led"],
+["Church of God","Assemblies of God","A major Pentecostal denomination emphasising the gifts of the Spirit and holiness of life","The largest Pentecostal denomination worldwide, known for missions, Spirit-baptism, and biblical authority"],
+["Interpretation of Tongues","Discerning of Spirits","The spiritual gift of explaining a message spoken in tongues so the church can understand it","The ability given by the Spirit to distinguish between divine, human, and demonic spiritual influences"],
+["Dancing in the Spirit","Holy Laughter","Spontaneous, joyful movement in worship believed to be prompted by the Holy Spirit's presence","An experience of uncontrollable, Spirit-inspired laughter during worship or prayer, signifying God's joy"],
+["Camp Meeting","Tent Revival","A multi-day outdoor gathering for worship, preaching, and seeking the power of the Holy Spirit","An evangelistic meeting held under a tent, common in Pentecostal history for community outreach"],
+["Power of God","Unction","The manifest demonstration of the Holy Spirit's strength in miracles, healing, and transformed lives","A special anointing or empowerment from the Holy Spirit, particularly evident in preaching and prayer"],
+["Holy Convocation","Solemn Assembly","A large gathering of believers for corporate worship, teaching, and seeking the Holy Spirit together","A sacred gathering called for repentance, fasting, and earnest prayer, often at pivotal spiritual moments"],
+["Rapture","End-Time Harvest","The catching up of believers to meet Christ in the air before or during the tribulation","The Pentecostal expectation of a massive, final ingathering of souls before Christ's return"],
+["Prayer Language","Devotional Tongues","The personal use of speaking in tongues for private prayer and communion with God","Speaking in tongues in one's private devotional life, distinct from the public gift that requires interpretation"],
+["Praise Break","Jubilee Shout","An unplanned, spontaneous outbreak of exuberant worship, dancing, and shouting during a service","A collective burst of ecstatic praise, often triggered by a powerful moment in worship or preaching"],
+["Full Gospel","Fourfold Gospel","A term meaning the complete message including salvation, healing, Spirit-baptism, and Christ's return","The teaching that Jesus is Saviour, Baptiser in the Holy Spirit, Healer, and Soon-Coming King"],
+["Miracle Service","Signs and Wonders","A worship gathering specifically dedicated to praying for divine healing and supernatural intervention","Extraordinary acts of God — healings, deliverances, supernatural occurrences — that confirm the gospel message"],
+["Fire Baptism","Upper Room Experience","A term for the intense filling of the Holy Spirit, referencing the tongues of fire at Pentecost","Seeking a personal Pentecost-like encounter with the Holy Spirit, modelled on the disciples in Acts 1-2"]
+];
+
+// Denomination pack metadata
+const DENOM_PACKS=[
+  {id:'sda',name:'Seventh-day Adventist',icon:'⛪',cards:DENOM_SDA,color:'#2D6B2D',codes:['SDAPACK26','ADVENTIST']},
+  {id:'catholic',name:'Catholic',icon:'✝️',cards:DENOM_CATHOLIC,color:'#7B2D8B',codes:['CATHPACK26','CATHOLIC1']},
+  {id:'baptist',name:'Baptist',icon:'💧',cards:DENOM_BAPTIST,color:'#2B5C8B',codes:['BAPTPACK26','BAPTIST01']},
+  {id:'methodist',name:'Methodist',icon:'❤️',cards:DENOM_METHODIST,color:'#8B5E34',codes:['METHPACK26','METHODIST']},
+  {id:'pentecostal',name:'Pentecostal',icon:'🔥',cards:DENOM_PENTECOSTAL,color:'#B83232',codes:['PENTPACK26','PENTECOST']}
+];
+
+// ─── MONETISATION ───
+const VALID_CODES=['LOGOS2026','LIVINGWORD','FULLGAME50','ADVENT144','BLESSED777','PSALM2334','JOHN316GO','FAITHFULL','REDEEMED1','GRACE4ALL'];
+function isPro(){return S.isPro}
+function checkUnlock(){
+  try{
+    if(localStorage.getItem('ll_pro')==='1')S.isPro=true;
+    // Load denomination packs
+    DENOM_PACKS.forEach(p=>{p.unlocked=localStorage.getItem('ll_dp_'+p.id)==='1'});
+  }catch(e){}
+}
+function unlockPro(code){
+  const c=code.trim().toUpperCase();
+  if(VALID_CODES.includes(c)){
+    S.isPro=true;try{localStorage.setItem('ll_pro','1')}catch(e){}return true}
+  // Check denomination pack codes
+  for(const p of DENOM_PACKS){
+    if(p.codes.includes(c)){p.unlocked=true;try{localStorage.setItem('ll_dp_'+p.id,'1')}catch(e){}return true}
+  }
+  return false;
+}
+function getWeekNumber(){const d=new Date(),j=new Date(d.getFullYear(),0,1);return Math.ceil(((d-j)/86400000+j.getDay()+1)/7)}
+function getWeeklyCards(full){
+  if(isPro())return full;
+  const week=getWeekNumber(),n=full.length,count=Math.min(20,n),idx=[];
+  let seed=week*7+13;
+  for(let i=0;i<n;i++)idx.push(i);
+  for(let i=n-1;i>0;i--){seed=(seed*1103515245+12345)&0x7fffffff;const j=seed%(i+1);[idx[i],idx[j]]=[idx[j],idx[i]]}
+  return idx.slice(0,count).sort((a,b)=>a-b).map(i=>full[i]);
+}
+// Get cards for a mode, including unlocked denomination cards
+function gc(m){
+  const base=m==='sing'?SING:m==='act'?ACT:EXPLAIN;
+  let full=[...base];
+  // Add unlocked denomination pack cards
+  DENOM_PACKS.forEach(p=>{if(p.unlocked){full=full.concat(p.cards)}});
+  return getWeeklyCards(full);
+}
+
+// ─── MULTI-DEVICE SYNC ───
+function genRoomCode(){return String(Math.floor(1000+Math.random()*9000))}
+
+function getShareState(){
+  return {sA:S.sA,sB:S.sB,team:S.team,round:S.round,rounds:S.rounds,time:S.time,screen:S.screen,
+    mode:S.mode,singTimer:S.singTimer,singTeam:S.singTeam,singRoundTime:S.singRoundTime,
+    singScoreA:S.singScoreA,singScoreB:S.singScoreB,countdown:S.countdown,paused:S.paused,
+    turnCorrect:S.turnCorrect,turnSkip:S.turnSkip,turnPenalty:S.turnPenalty,turnWon:S.turnWon,
+    activeMode:getActiveMode(),diffLocked:S.diffLocked,cardDiff:S.cardDiff,roomCode:S.roomCode}
+}
+
+function broadcastState(){
+  if(S.role!=='host')return;
+  const data=getShareState();
+  try{if(syncCh)syncCh.postMessage(data)}catch(e){}
+  try{if(syncWs&&syncWs.readyState===1)syncWs.send(JSON.stringify({type:'state',room:S.roomCode,data}))}catch(e){}
+}
+
+function startHosting(){
+  S.roomCode=genRoomCode();
+  // BroadcastChannel (same browser/device tabs)
+  try{syncCh=new BroadcastChannel('ll_'+S.roomCode);syncCh.onmessage=()=>{}}catch(e){}
+  // WebSocket relay for cross-device (free public relay)
+  connectRelay('host');
+}
+
+function joinRoom(code){
+  S.roomCode=code;S.role='team';S.screen='team-lobby';
+  try{syncCh=new BroadcastChannel('ll_'+code);
+    syncCh.onmessage=(e)=>{applyRemoteState(e.data)}}catch(e){}
+  connectRelay('team');
+  render();
+}
+
+function connectRelay(role){
+  // Try connecting to a free WebSocket relay
+  // Using a public WebSocket echo/relay service
+  try{
+    const wsUrl='wss://free.blr1.piesocket.com/v3/ll_'+S.roomCode+'?api_key=oCdCMcMPQpbvNjUIzqtvF1d2X2okWpDQj4AwARJuAgtjhzKJVEjQU6IdCjwm&notify_self';
+    syncWs=new WebSocket(wsUrl);
+    syncWs.onopen=()=>{if(role==='team')syncWs.send(JSON.stringify({type:'join',room:S.roomCode}))};
+    syncWs.onmessage=(e)=>{
+      try{
+        const msg=JSON.parse(e.data);
+        if(msg.type==='state'&&role==='team')applyRemoteState(msg.data);
+      }catch(ex){}
+    };
+    syncWs.onerror=()=>{syncWs=null};
+    syncWs.onclose=()=>{syncWs=null};
+  }catch(e){syncWs=null}
+}
+
+function applyRemoteState(data){
+  if(!data||S.role!=='team')return;
+  S.sA=data.sA;S.sB=data.sB;S.team=data.team;S.round=data.round;S.rounds=data.rounds;
+  S.time=data.time;S.screen=data.screen;S.mode=data.mode;
+  S.singTimer=data.singTimer;S.singTeam=data.singTeam;S.singRoundTime=data.singRoundTime;
+  S.singScoreA=data.singScoreA;S.singScoreB=data.singScoreB;
+  S.countdown=data.countdown;S.paused=data.paused;
+  S.turnCorrect=data.turnCorrect;S.turnSkip=data.turnSkip;S.turnPenalty=data.turnPenalty;S.turnWon=data.turnWon;
+  S.cardDiff=data.cardDiff;S.diffLocked=data.diffLocked;
+  render();
+}
+
+function disconnectSync(){
+  try{if(syncCh){syncCh.close();syncCh=null}}catch(e){}
+  try{if(syncWs){syncWs.close();syncWs=null}}catch(e){}
+  S.roomCode=null;S.role='host';S.teamView=null;
+}
+
+// ─── ALL WORDS for Logo's Learning ───
+let _allWordsCache=null;
+function getAllWords(){
+  if(_allWordsCache)return _allWordsCache;
+  const all=[];
+  [SING,ACT,EXPLAIN].forEach((deck,di)=>{
+    const mode=['sing','act','explain'][di];
+    deck.forEach(c=>{
+      all.push({word:c[0],def:c[2],mode,diff:'easy'});
+      all.push({word:c[1],def:c[3],mode,diff:'challenge'});
+    });
+  });
+  all.sort((a,b)=>a.word.localeCompare(b.word));
+  // Remove duplicates by word
+  const seen=new Set();
+  _allWordsCache=all.filter(w=>{if(seen.has(w.word))return false;seen.add(w.word);return true});
+  return _allWordsCache;
+}
+
+// ─── ANALYTICS ───
+function logGame(){
+  try{
+    const dur=Date.now()-S.gameStartTime;
+    const games=JSON.parse(localStorage.getItem('ll_games')||'[]');
+    games.push({mode:S.mode,rounds:S.rounds,sA:S.sA,sB:S.sB,diff:S.diff,date:Date.now(),duration:dur,
+      skipped:S.turnWords.filter(w=>w.action==='skip').map(w=>w.word),
+      penalised:S.turnWords.filter(w=>w.action==='penalty').map(w=>w.word)});
+    if(games.length>100)games.shift();
+    localStorage.setItem('ll_games',JSON.stringify(games));
+    localStorage.setItem('ll_total',String((parseInt(localStorage.getItem('ll_total')||'0'))+1));
+  }catch(e){}
+}
+function getStats(){try{return{total:parseInt(localStorage.getItem('ll_total')||'0')}}catch(e){return{total:0}}}
+
+// ─── INSTALL / WAKE / BACK ───
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferP=e;render()});
+async function requestWake(){try{if('wakeLock'in navigator){wakeLock=await navigator.wakeLock.request('screen')}}catch(e){}}
+function releaseWake(){try{if(wakeLock){wakeLock.release();wakeLock=null}}catch(e){}}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&isTimerActive())requestWake()});
+function isTimerActive(){return['card-reveal','sing-play','sing-reveal'].includes(S.screen)}
+
+window.addEventListener('popstate',()=>{
+  if(S.defWord){S.defWord=null;S.defDef=null;render();return}
+  if(S.showUnlock){S.showUnlock=false;render();return}
+  if(S.showRequestFree){S.showRequestFree=false;render();return}
+  if(S.showJoin){S.showJoin=false;render();return}
+  if(S.rules){S.rules=false;render();return}
+  if(S.showAbout){S.showAbout=false;render();return}
+  if(S.showTutorial){S.showTutorial=false;render();return}
+  if(S.showLearning){S.showLearning=false;render();return}
+  if(S.showExit){S.showExit=false;render();return}
+  if(['card-front','card-reveal','sing-play','sing-reveal','summary','countdown'].includes(S.screen)){confirmExit();return}
+  if(S.screen==='setup'){S.screen='home';render();return}
+  if(S.screen==='gameover'){S.screen='home';S.mode=null;render();return}
+});
+function pushState(){try{history.pushState({},'','')}catch(e){}}
+
+// ─── AUDIO ───
+function vibrate(ms){try{if(!S.muted&&navigator.vibrate)navigator.vibrate(ms)}catch(e){}}
+function ensureAudio(){try{if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();if(actx.state==='suspended')actx.resume()}catch(e){}}
+function beep(t){
+  if(S.muted)return;
+  try{ensureAudio();const c=actx;if(!c)return;
+    if(t==='correct'){[660,880].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);g.gain.value=.05;o.frequency.value=f;o.type='sine';o.start(c.currentTime+i*.08);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.3+i*.08);o.stop(c.currentTime+.35+i*.08)});vibrate(50)}
+    else if(t==='skip'){const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);g.gain.value=.05;o.frequency.value=350;o.type='triangle';o.start();o.frequency.linearRampToValueAtTime(200,c.currentTime+.2);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.25);o.stop(c.currentTime+.3)}
+    else if(t==='timesup'){[200,180,160].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);g.gain.value=.08;o.frequency.value=f;o.type='sawtooth';o.start(c.currentTime+i*.2);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.5+i*.2);o.stop(c.currentTime+.55+i*.2)});vibrate([100,50,100,50,200])}
+    else if(t==='penalty'){const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);g.gain.value=.07;o.frequency.value=150;o.type='square';o.start();g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.5);o.stop(c.currentTime+.55);vibrate([200,100,200])}
+    else if(t==='countdown'||t==='tick'){const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);g.gain.value=.04;o.frequency.value=550;o.type='sine';o.start();g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.15);o.stop(c.currentTime+.2);vibrate(30)}
+    else if(t==='go'){[440,660,880].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);g.gain.value=.05;o.frequency.value=f;o.type='sine';o.start(c.currentTime+i*.06);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.3+i*.06);o.stop(c.currentTime+.35+i*.06)});vibrate(80)}
+    else{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);g.gain.value=.04;o.frequency.value=660;o.type='sine';o.start();g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.2);o.stop(c.currentTime+.25)}
+  }catch(e){}
+}
+function debounced(fn){const now=Date.now();if(now-lastAction<400)return;lastAction=now;fn()}
+
+// ─── UTILS ───
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
+function gc(m){const full=m==='sing'?SING:m==='act'?ACT:EXPLAIN;return getWeeklyCards(full)}
+function mColHex(m){return m==='sing'?'#C89632':m==='act'?'#B83232':'#2B5C8B'}
+function mBg(m){return m==='sing'?'linear-gradient(135deg,#F8EDD0,#E8D5A0)':m==='act'?'linear-gradient(135deg,#F5D0D0,#E8B8B8)':'linear-gradient(135deg,#D0DCF5,#B8CCE8)'}
+function mCardBg(m){return m==='sing'?'#E8D5A0':m==='act'?'#E8B8B8':'#B8CCE8'}
+function mL(m){return m==='sing'?'Sing-Off':m==='act'?'Act It Out':m==='explain'?'Explain':'Championship'}
+function mI(m){return m==='sing'?'🎵':m==='act'?'🎭':m==='explain'?'💬':'🏆'}
+function mD(m){return m==='sing'?'Sing a Christian song with this word':m==='act'?'1 word & gestures only':'Describe any way you like'}
+function getActiveMode(){return S.mode==='mix'?S.mixModes[S.champPhase%3]:S.mode}
+function tN(t){return t==='A'?S.nameA:S.nameB} // team name helper
+function tIcon(t){return t==='A'?'⚔️':'🛡️'}
+function wordSize(len){return len>20?32:len>14?42:len>8?54:64}
+function clearAllTimers(){clearInterval(tid);clearInterval(singTid);clearInterval(singRTid);clearInterval(cdTid);tid=null;singTid=null;singRTid=null;cdTid=null;S.cdActive=false}
+
+function getCurWord(){return S.cards[S.ci]?S.cards[S.ci][S.cardDiff==='easy'?0:1]:''}
+function getCurDef(){return S.cards[S.ci]?S.cards[S.ci][S.cardDiff==='easy'?2:3]:''}
+
+// Track word used this turn
+function trackWord(action){
+  const w=getCurWord(),d=getCurDef(),m=getActiveMode();
+  if(w)S.turnWords.push({word:w,def:d,action,mode:m,diff:S.cardDiff});
+}
+
+// ─── TIMERS ───
+function startGameTimer(){
+  clearInterval(tid);S.time=60;requestWake();
+  tid=setInterval(()=>{
+    if(S.paused)return;
+    S.time--;
+    if(S.time<=5&&S.time>0)beep('tick');
+    updateTimerDisplay();
+    if(S.time<=0){clearInterval(tid);tid=null;beep('timesup');releaseWake();S.screen='summary';render()}
+  },1000);
+}
+function updateTimerDisplay(){
+  const el=document.getElementById('timerNum');
+  if(el){
+    el.textContent=S.time;
+    const urg=S.time<=5;
+    el.style.color=urg?'#FF4444':'var(--gold-light)';
+    el.style.animation=urg?'countPulse .5s ease-in-out infinite':'none';
+  }
+}
+
+function startCountdown(thenFn){
+  S.countdown=3;S.cdKey++;S.cdActive=true;S.screen='countdown';render();
+  cdTid=setInterval(()=>{
+    if(S.paused)return;
+    S.countdown--;S.cdKey++;
+    if(S.countdown>0){beep('countdown');render()}
+    else{clearInterval(cdTid);cdTid=null;S.cdActive=false;beep('go');thenFn();render()}
+  },800);
+}
+
+// ─── SING-OFF ───
+function startSingRound(){
+  S.screen='sing-play';S.singTeam=S.ci%2===0?'A':'B'; // alternate first singer
+  S.singScoreA=0;S.singScoreB=0;S.singRoundTime=120;S.diffLocked=true;requestWake();
+  clearInterval(singRTid);
+  singRTid=setInterval(()=>{
+    if(S.paused)return;
+    S.singRoundTime--;
+    const el=document.getElementById('singRoundT');if(el)el.textContent=S.singRoundTime+'s left';
+    if(S.singRoundTime<=0){clearInterval(singRTid);singRTid=null;clearInterval(singTid);singTid=null;beep('timesup');releaseWake();S.screen='summary';render()}
+  },1000);
+  startSingCardTimer();render();
+}
+function startSingCardTimer(){
+  clearInterval(singTid);S.singTimer=10;
+  singTid=setInterval(()=>{
+    if(S.paused)return;
+    S.singTimer--;
+    const el=document.getElementById('singCardT');if(el){el.textContent=S.singTimer;el.style.color=S.singTimer<=3?'var(--red-card)':'var(--ink)'}
+    if(S.singTimer<=0){clearInterval(singTid);singTid=null;beep('timesup');vibrate([100,50,100]);
+      const pts=S.cardDiff==='challenge'?2:1;
+      if(S.singTeam==='A'){S.sB+=pts}else{S.sA+=pts}
+      S.turnWon++;trackWord('won');advanceSingCard()}
+  },1000);
+}
+function singTeamSang(){debounced(()=>{
+  clearInterval(singTid);beep('correct');vibrate(50);
+  if(S.singTeam==='A')S.singScoreA++;else S.singScoreB++;
+  S.singTeam=S.singTeam==='A'?'B':'A';S.singTimer=10;
+  singTid=setInterval(()=>{
+    if(S.paused)return;S.singTimer--;
+    const el=document.getElementById('singCardT');if(el){el.textContent=S.singTimer;el.style.color=S.singTimer<=3?'var(--red-card)':'var(--ink)'}
+    if(S.singTimer<=0){clearInterval(singTid);singTid=null;beep('timesup');vibrate([100,50,100]);
+      const pts=S.cardDiff==='challenge'?2:1;
+      if(S.singTeam==='A'){S.sB+=pts}else{S.sA+=pts}
+      S.turnWon++;trackWord('won');advanceSingCard()}
+  },1000);render()
+})}
+function advanceSingCard(){
+  nextC();S.cardDiff=S.diff;S.diffLocked=false;
+  if(S.singRoundTime>0){S.singTeam=S.ci%2===0?'A':'B';S.singScoreA=0;S.singScoreB=0;S.screen='sing-reveal'}
+  else{S.screen='summary'}render()
+}
+function singRevealNext(){S.diffLocked=true;startSingCardTimer();S.screen='sing-play';render()}
+function singSkipCard(){debounced(()=>{clearInterval(singTid);S.turnSkip++;trackWord('skip');nextC();S.cardDiff=S.diff;
+  if(S.singRoundTime>0){S.singTeam=S.ci%2===0?'A':'B';S.singScoreA=0;S.singScoreB=0;S.screen='sing-reveal'}else{S.screen='summary'}render()})}
+
+function togglePause(){S.paused=!S.paused;render()}
+
+function nextC(){
+  const used=getUsed();
+  used.add(S.ci);
+  let next=S.ci+1;
+  const deck=gc(getActiveMode());
+  let attempts=0;
+  while(used.has(next)&&attempts<deck.length){next=(next+1)%deck.length;attempts++}
+  if(attempts>=deck.length){used.clear();next=(S.ci+1)%deck.length}
+  S.ci=next;S.cardDiff=S.diff;S.diffLocked=false;
+}
+
+function scores(t){
+  const tm=t||S.team;
+  return `<div class="scores">${[{l:S.nameA,s:S.sA,c:'--team-a',a:tm==='A'},{l:S.nameB,s:S.sB,c:'--team-b',a:tm==='B'}].map(x=>{
+    const bg=x.a?`background:${x.c==='--team-a'?'linear-gradient(135deg,#D5E0F5,#C0D0E8)':'linear-gradient(135deg,#F5D5D5,#E8C0C0)'}`:'background:var(--parchment)';
+    return `<div class="score-box panel" style="${bg};border:2px solid ${x.a?'var('+x.c+')':'var(--parchment-deep)'};${x.a?'box-shadow:0 3px 10px rgba(0,0,0,.2)':''}">
+      <div class="score-label" style="color:var(${x.c})">${x.l}</div>
+      <div class="score-val" style="color:${x.a?'var(--ink)':'var(--parchment-deep)'}">${x.s}</div>
+    </div>`}).join('')}</div>`;
+}
+
+// Compact score bar with team names
+function compactBar(type){
+  const isSing=type==='sing';
+  const timerVal=isSing?S.singRoundTime:S.time;
+  const timerId=isSing?'singRoundT':'timerNum';
+  const urg=isSing?(S.singRoundTime<=15):(S.time<=5&&S.time>0);
+  const aActive=S.team==='A';
+  const nA=S.nameA.length>8?S.nameA.slice(0,7)+'…':S.nameA;
+  const nB=S.nameB.length>8?S.nameB.slice(0,7)+'…':S.nameB;
+  return `<div style="display:flex;align-items:stretch;gap:3px;width:100%">
+    <div class="panel" style="flex:1;display:flex;align-items:center;justify-content:center;gap:4px;padding:4px 6px;background:${aActive||isSing?'linear-gradient(135deg,#D5E0F5,#C0D0E8)':'var(--parchment)'};border:2px solid ${aActive||isSing?'var(--team-a)':'var(--parchment-deep)'}">
+      <span style="font-family:'Cinzel',serif;font-size:8px;font-weight:700;color:var(--team-a)">${nA}</span>
+      <span class="sc-num" style="font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:${aActive||isSing?'var(--ink)':'var(--parchment-deep)'};line-height:1">${S.sA}</span>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:center;padding:2px 6px;background:var(--wood-dark);border-radius:6px;min-width:48px">
+      <span id="${timerId}" style="font-family:'Cinzel',serif;font-size:${urg?26:22}px;font-weight:900;color:${urg?'#FF4444':'var(--gold-light)'};line-height:1;${urg?'animation:countPulse .5s ease-in-out infinite':''}">${timerVal}</span>
+    </div>
+    <div class="panel" style="flex:1;display:flex;align-items:center;justify-content:center;gap:4px;padding:4px 6px;background:${!aActive||isSing?'linear-gradient(135deg,#F5D5D5,#E8C0C0)':'var(--parchment)'};border:2px solid ${!aActive||isSing?'var(--team-b)':'var(--parchment-deep)'}">
+      <span style="font-family:'Cinzel',serif;font-size:8px;font-weight:700;color:var(--team-b)">${nB}</span>
+      <span class="sc-num" style="font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:${!aActive||isSing?'var(--ink)':'var(--parchment-deep)'};line-height:1">${S.sB}</span>
+    </div>
+  </div>`;
+}
+
+
+function diffToggle(){
+  if(S.diffLocked)return `<div style="margin-top:4px;padding:3px 12px;border-radius:3px;display:inline-block;font-family:'Cinzel',serif;font-size:9px;font-weight:700;letter-spacing:1px;background:${S.cardDiff==='easy'?'var(--felt-green)':'var(--red-card)'};color:var(--parchment)">${S.cardDiff==='easy'?'Easy · 1pt':'Challenge · 2pts'}</div>`;
+  return `<div style="display:flex;gap:6px;justify-content:center;margin-top:4px">${['easy','challenge'].map(d=>`<button onclick="setCardDiff('${d}')" style="padding:3px 10px;border-radius:3px;font-family:'Cinzel',serif;font-size:9px;font-weight:700;letter-spacing:1px;min-height:30px;background:${S.cardDiff===d?(d==='easy'?'var(--felt-green)':'var(--red-card)'):'transparent'};color:${S.cardDiff===d?'var(--parchment)':'var(--parchment-deep)'};border:1px solid ${S.cardDiff===d?(d==='easy'?'var(--felt-green)':'var(--red-card)'):'var(--parchment-deep)'}">${d==='easy'?'Easy · 1pt':'Challenge · 2pts'}</button>`).join('')}</div>`;
+}
+
+function topBar(extra){
+  return `<div class="top-bar"><span style="font-family:'Cinzel',serif;font-size:10px;color:var(--gold-light);letter-spacing:2px">ROUND ${S.round}/${S.rounds}</span>
+    <div class="top-bar-btns">${extra||''}<button class="top-bar-btn" onclick="S.muted=!S.muted;render()">${S.muted?'🔇':'🔊'}</button><button class="top-bar-btn" onclick="togglePause()">⏸</button><button class="top-bar-btn" onclick="confirmExit()">✕</button></div></div>`;
+}
+
+function svgCheck(){return '<svg width="60" height="60" viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" fill="#2D7B2D"/><polyline points="42 20 25 42 17 33" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>'}
+
+function defCardHTML(word,def){
+  return `<div class="def-overlay" onclick="closeDef()"><div class="def-card" onclick="event.stopPropagation()">
+    <div class="wood-frame"><div class="panel" style="padding:24px 18px;position:relative">
+      <button class="def-close" onclick="closeDef()">✕</button>
+      <div style="text-align:center">
+        <div style="font-family:'Almendra',serif;font-size:28px;color:var(--ink);margin-bottom:4px">${word}</div>
+        <div class="gold-line" style="width:40px"></div>
+        <div style="font-family:'Lora',serif;font-size:13px;color:var(--wood-light);line-height:1.6;font-style:italic;margin-top:8px">${def||'Definition coming soon.'}</div>
+      </div>
+    </div></div>
+  </div></div>`;
+}
+
+function wordSummaryHTML(){
+  if(!S.turnWords.length)return '';
+  return `<div class="panel" style="width:100%;padding:14px">
+    <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:var(--wood-light);text-transform:uppercase;margin-bottom:6px;text-align:center">Words This Turn</div>
+    <div class="scroll-content" style="max-height:30vh">
+      ${S.turnWords.map(w=>{
+        const icon=w.action==='correct'||w.action==='won'?'✓':w.action==='skip'?'⏭':'⚠';
+        const col=w.action==='correct'||w.action==='won'?'var(--felt-green)':w.action==='skip'?'var(--wood-light)':'var(--red-card)';
+        return `<div class="sum-word">
+          <div style="display:flex;align-items:center;gap:6px">
+            <span style="font-family:'Cinzel',serif;font-size:12px;color:${col};font-weight:700">${icon}</span>
+            <span style="font-family:'Lora',serif;font-size:12px;color:var(--ink)">${w.word}</span>
+            <span style="font-size:8px;color:var(--parchment-deep)">${w.diff}</span>
+          </div>
+          <button class="sum-word-btn" onclick="openDef('${w.word.replace(/'/g,"\\'")}','${(w.def||'').replace(/'/g,"\\'")}')">?</button>
+        </div>`;
+      }).join('')}
+    </div>
+  </div>`;
+}
+
+function installHTML(){if(!deferP)return '';return `<div class="install-banner"><div class="install-inner"><div style="flex:1"><div style="font-family:'Cinzel',serif;font-weight:700;font-size:13px;color:var(--parchment)">📲 Install Game</div><div style="font-size:10px;color:var(--parchment-deep)">Add to home screen</div></div><button class="btn-gold" style="padding:8px 14px;font-size:12px" onclick="installApp()">Install</button><button onclick="dismissInstall()" style="color:var(--parchment-deep);font-size:16px;padding:8px">✕</button></div></div>`}
+
+function shareResult(){
+  const w=S.sA>S.sB?'A':S.sB>S.sA?'B':'Tie';
+  const t=w==='Tie'?`It's a tie! ${S.sA}-${S.sB}`:`Team ${w} won ${Math.max(S.sA,S.sB)}-${Math.min(S.sA,S.sB)}!`;
+  const msg=`🏆 Logo's Living — ${mL(S.mode)}\n${t}\n${S.rounds} rounds\nPlay: ${location.href}`;
+  if(navigator.share)navigator.share({title:"Logo's Living",text:msg}).catch(()=>{});
+  else if(navigator.clipboard)navigator.clipboard.writeText(msg).then(()=>alert('Copied!'));
+}
+
+// ─── RENDER ───
+function render(){
+  try{
+    // Broadcast state to connected team devices
+    if(S.role==='host'&&S.roomCode)broadcastState();
+
+    const app=document.getElementById('app');
+    const am=getActiveMode();
+    const cw=getCurWord();
+    const inGame=['card-front','card-reveal','sing-play','sing-reveal','countdown','summary'].includes(S.screen);
+    let h='';
+
+    // ─── TEAM DISPLAY MODE (spectator device) ───
+    if(S.role==='team'){
+      const isGameScreen=['card-front','card-reveal','sing-play','sing-reveal','countdown'].includes(S.screen);
+      const isA=S.team==='A';const tc=isA?'var(--team-a)':'var(--team-b)';
+      const myTeam=S.teamView;
+      const myScore=myTeam==='A'?S.sA:S.sB;
+      const oppScore=myTeam==='A'?S.sB:S.sA;
+      const isMy=S.team===myTeam;
+
+      if(S.screen==='home'||S.screen==='setup'||!isGameScreen&&S.screen!=='summary'&&S.screen!=='gameover'){
+        // Waiting for host to start
+        h=`<div class="screen" style="animation:fadeIn .5s"><div class="content" style="gap:16px;text-align:center">
+          <div class="wood-frame" style="width:100%"><div class="panel" style="padding:24px 16px">
+            <div style="font-family:'Almendra',serif;font-size:28px;color:var(--wood-dark)">Logo's Living</div>
+            <div class="gold-line" style="width:40px"></div>
+            <div style="font-family:'Cinzel',serif;font-size:14px;color:${myTeam==='A'?'var(--team-a)':'var(--team-b)'};letter-spacing:2px">${myTeam==='A'?'⚔️':'🛡️'} TEAM ${myTeam} DISPLAY</div>
+            <div style="font-family:'Lora',serif;font-size:12px;color:var(--wood-light);margin-top:8px;font-style:italic">Connected to room <b style="color:var(--gold)">${S.roomCode}</b></div>
+            <div style="font-family:'Lora',serif;font-size:13px;color:var(--ink);margin-top:12px">Waiting for host to start the game...</div>
+            <div style="font-size:40px;margin-top:12px;animation:breathe 2s ease-in-out infinite">⏳</div>
+          </div></div>
+          <button class="btn-wood" onclick="disconnectSync();S.screen='home';render()" style="width:100%;text-align:center">← Leave Room</button>
+        </div></div>`;
+      } else if(S.screen==='countdown'){
+        h=`<div class="screen"><div class="countdown-overlay"><div style="font-family:'Cinzel',serif;font-size:100px;font-weight:900;color:var(--gold-light);text-shadow:0 4px 20px rgba(200,150,62,.5)">${S.countdown>0?S.countdown:'GO!'}</div></div></div>`;
+      } else if(S.screen==='gameover'){
+        const w=S.sA>S.sB?'A':S.sB>S.sA?'B':null;const wc=w==='A'?'var(--team-a)':w==='B'?'var(--team-b)':'var(--gold)';
+        h=`<div class="screen" style="animation:fadeIn .5s"><div class="content" style="gap:16px;z-index:3">
+          <div class="wood-frame" style="width:100%"><div class="panel" style="padding:24px 16px;text-align:center">
+            <div style="font-size:42px;margin-bottom:6px">🏆</div>
+            <div style="font-family:'Almendra',serif;font-size:34px;color:${wc};animation:glow 2s ease-in-out infinite">${w?'Team '+w+' Wins!':"'Tis a Tie!"}</div>
+          </div></div>
+          <div class="wood-frame" style="width:100%"><div style="padding:4px">${scores(w||'A')}</div></div>
+          <button class="btn-wood" onclick="disconnectSync();S.screen='home';render()" style="width:100%;text-align:center">← Leave</button>
+        </div></div>`;
+      } else {
+        // Active game - TEAM SCOREBOARD DISPLAY
+        const timerVal=S.mode==='sing'||am==='sing'?S.singRoundTime:S.time;
+        const urg=am==='sing'?(S.singRoundTime<=15):(S.time<=5);
+        h=`<div class="screen" style="animation:fadeIn .3s;${isMy?'background:linear-gradient(165deg,'+( myTeam==='A'?'rgba(30,60,100,.3),rgba(15,30,50,.5)':'rgba(100,30,30,.3),rgba(50,15,15,.5)')+')':''}">
+          <div class="content" style="gap:10px">
+            <!-- Team identity banner -->
+            <div style="width:100%;text-align:center;padding:8px;border-radius:8px;background:${myTeam==='A'?'linear-gradient(135deg,#D5E0F5,#B0C8E8)':'linear-gradient(135deg,#F5D5D5,#E8B0B0)'};border:3px solid ${myTeam==='A'?'var(--team-a)':'var(--team-b)'}">
+              <div style="font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:${myTeam==='A'?'var(--team-a)':'var(--team-b)'};letter-spacing:3px">${myTeam==='A'?'⚔️':'🛡️'} TEAM ${myTeam}</div>
+            </div>
+
+            <!-- Big score display -->
+            <div style="display:flex;gap:8px;width:100%;align-items:stretch">
+              <div class="panel" style="flex:2;padding:16px;text-align:center;background:${myTeam==='A'?'linear-gradient(135deg,#D5E0F5,#C0D0E8)':'linear-gradient(135deg,#F5D5D5,#E8C0C0)'};border:3px solid ${myTeam==='A'?'var(--team-a)':'var(--team-b)'}">
+                <div style="font-family:'Cinzel',serif;font-size:10px;color:${myTeam==='A'?'var(--team-a)':'var(--team-b)'};letter-spacing:2px;font-weight:700">OUR SCORE</div>
+                <div style="font-family:'Cinzel',serif;font-size:64px;font-weight:900;color:var(--ink);line-height:1">${myScore}</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px;flex:1">
+                <div class="panel" style="flex:1;padding:8px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center">
+                  <div style="font-family:'Cinzel',serif;font-size:9px;color:var(--parchment-deep);letter-spacing:1px">OPP</div>
+                  <div style="font-family:'Cinzel',serif;font-size:28px;font-weight:900;color:var(--parchment-deep);line-height:1">${oppScore}</div>
+                </div>
+                <div style="padding:8px;text-align:center;background:var(--wood-dark);border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center">
+                  <div style="font-family:'Cinzel',serif;font-size:${urg?36:28}px;font-weight:900;color:${urg?'#FF4444':'var(--gold-light)'};line-height:1;${urg?'animation:countPulse .5s ease-in-out infinite':''}">${timerVal}</div>
+                  <div style="font-family:'Lora',serif;font-size:7px;color:var(--gold);letter-spacing:1px">SEC</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Status -->
+            <div class="panel" style="width:100%;padding:12px;text-align:center">
+              <div style="font-family:'Cinzel',serif;font-size:12px;font-weight:700;letter-spacing:2px;color:${isMy?'var(--felt-green)':'var(--red-card)'}">${isMy?'🟢 YOUR TURN!':'🔴 OPPONENT\'S TURN'}</div>
+              <div style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);margin-top:4px;font-style:italic">Round ${S.round}/${S.rounds} · ${mI(am)} ${mL(am)}</div>
+              ${am==='sing'&&isGameScreen?`<div style="font-family:'Cinzel',serif;font-size:11px;color:var(--ink);margin-top:6px">${S.singTeam==='A'?'⚔️':'🛡️'} Team ${S.singTeam} singing · A:${S.singScoreA} B:${S.singScoreB}</div>`:''}
+            </div>
+
+            ${S.paused?'<div class="panel" style="width:100%;padding:16px;text-align:center"><div style="font-family:\'Almendra\',serif;font-size:24px;color:var(--gold)">⏸ Paused</div></div>':''}
+
+            <!-- Room code -->
+            <div style="font-family:'Lora',serif;font-size:9px;color:var(--gold);text-align:center;font-style:italic">Room ${S.roomCode}</div>
+          </div>
+        </div>`;
+      }
+
+      // Team display shows summary too
+      if(S.screen==='summary'&&S.role==='team'){
+        h=`<div class="screen" style="animation:fadeIn .5s"><div class="content" style="gap:14px;text-align:center">
+          <div class="wood-frame" style="width:100%"><div class="panel" style="padding:18px 12px">
+            <div style="font-family:'Almendra',serif;font-size:28px;color:var(--red-card)">Time's Up!</div>
+            <div style="font-size:26px;margin-top:4px">⏳</div>
+          </div></div>
+          <div class="wood-frame" style="width:100%"><div style="padding:4px">${scores()}</div></div>
+          <div style="font-family:'Lora',serif;font-size:13px;color:var(--gold-light);font-style:italic">
+            ${S.team==='A'?'Team B up next!':S.round>=S.rounds?'Final scores!':'Next round coming!'}</div>
+        </div></div>`;
+      }
+
+      app.innerHTML=h;
+      if(S.defWord)app.innerHTML+=defCardHTML(S.defWord,S.defDef);
+      return;
+    }
+
+    if(S.screen==='home'){
+      const st=getStats();
+      const pro=isPro();
+      const cardCount=pro?50:20;
+      h=`<div class="screen" style="animation:fadeIn .6s"><div class="content" style="gap:10px">
+        <div class="wood-frame" style="width:100%;animation:slideUp .5s"><div class="panel" style="padding:22px 14px;text-align:center">
+          <div style="font-family:'Almendra',serif;font-size:clamp(32px,9vw,48px);color:var(--wood-dark);line-height:1;text-shadow:0 2px 0 rgba(200,150,62,.3)">Logo's Living</div>
+          <div class="gold-line" style="width:50px"></div>
+          <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:4px;color:var(--wood-light);text-transform:uppercase">The Christian Party Game</div>
+          ${pro?`<div style="display:inline-block;margin-top:6px;padding:2px 10px;border-radius:3px;background:linear-gradient(135deg,var(--gold-light),var(--gold));font-family:'Cinzel',serif;font-size:8px;font-weight:700;color:var(--wood-dark);letter-spacing:2px">⭐ FULL EDITION</div>`
+            :`<div style="font-family:'Lora',serif;font-size:10px;color:var(--parchment-deep);margin-top:4px;font-style:italic">${cardCount} of 50 cards this week</div>`}
+          ${st.total>0?`<div style="font-family:'Lora',serif;font-size:10px;color:var(--parchment-deep);margin-top:2px;font-style:italic">${st.total} game${st.total>1?'s':''} played</div>`:''}
+        </div></div>
+        ${[{m:'sing',i:'🎵',t:'Sing-Off',s:'Teams alternate singing',c:'#C89632',d:'.1s'},
+           {m:'act',i:'🎭',t:'Act It Out',s:'1 word & gestures only',c:'#B83232',d:'.18s'},
+           {m:'explain',i:'💬',t:'Explain',s:'Describe any way you like',c:'#2B5C8B',d:'.26s'},
+           {m:'mix',i:'🏆',t:'Championship',s:'Sing + Act + Explain combined',c:'#8B5E34',d:'.34s'}
+        ].map(g=>`<button onclick="ensureAudio();selectMode('${g.m}')" class="game-card" style="width:100%;padding:14px 12px 14px 16px;background:${g.m==='mix'?'linear-gradient(135deg,#F0E8D0,#E0D0B0)':mBg(g.m)};animation:slideUp .5s ease-out ${g.d} both;text-align:center;border-left:6px solid ${g.c}">
+          <div class="card-border"></div><div style="font-size:26px;margin-bottom:2px">${g.i}</div>
+          <div style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--ink);letter-spacing:2px">${g.t}</div>
+          <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);margin-top:1px;font-style:italic">${g.s}${!pro?` · ${cardCount} cards`:''}</div>
+        </button>`).join('')}
+
+        <!-- Logo's Learning -->
+        <button onclick="pushState();S.showLearning=true;render()" class="game-card" style="width:100%;padding:14px 12px 14px 16px;background:linear-gradient(135deg,#E8E0D0,#D8CDB8);animation:slideUp .5s ease-out .42s both;text-align:center;border-left:6px solid var(--gold-dark)">
+          <div class="card-border"></div><div style="font-size:26px;margin-bottom:2px">📚</div>
+          <div style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--ink);letter-spacing:2px">Logo's Learning</div>
+          <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);margin-top:1px;font-style:italic">${pro?'Explore all 300 words & definitions':'🔒 Full dictionary in Full Edition'}</div>
+        </button>
+
+        ${!pro?`<!-- Unlock Full Edition -->
+        <button onclick="pushState();S.showUnlock=true;render()" class="btn-gold" style="width:100%;text-align:center;font-size:14px;animation:slideUp .5s ease-out .5s both;letter-spacing:2px">🔓 Unlock Full Edition</button>`:''}
+
+        <div style="display:flex;gap:6px;margin-top:4px;flex-wrap:wrap;justify-content:center">
+          <button onclick="pushState();showRules()" style="padding:6px 14px;border-radius:6px;border:1px solid var(--gold);background:rgba(200,150,62,.08);color:var(--gold-light);font-family:'Cinzel',serif;font-size:10px;min-height:40px">📖 Rules</button>
+          <button onclick="pushState();S.showAbout=true;render()" style="padding:6px 14px;border-radius:6px;border:1px solid var(--gold);background:rgba(200,150,62,.08);color:var(--gold-light);font-family:'Cinzel',serif;font-size:10px;min-height:40px">ℹ️ About</button>
+          <button onclick="showTutorial()" style="padding:6px 14px;border-radius:6px;border:1px solid var(--gold);background:rgba(200,150,62,.08);color:var(--gold-light);font-family:'Cinzel',serif;font-size:10px;min-height:40px">🎓 Learn</button>
+        </div>
+        <!-- Join Game -->
+        <button onclick="pushState();S.showJoin=true;render()" class="btn-wood" style="width:100%;text-align:center;font-size:13px;margin-top:2px;background:linear-gradient(180deg,#3A6B3A,#1B4D1B);border-color:#0F2E0F">📲 Join Team Display</button>
+        <div style="font-size:8px;color:rgba(200,150,62,.25);text-align:center">v${APP_VERSION}</div>
+      </div>${installHTML()}</div>`;
+    }
+
+    else if(S.screen==='setup'){
+      const isChamp=S.mode==='mix';
+      const champTotal=S.champSing+S.champAct+S.champExplain;
+      h=`<div class="screen" style="animation:fadeIn .5s"><div class="content" style="gap:10px">
+        <button onclick="S.screen='home';render()" style="align-self:flex-start;color:var(--gold-light);font-family:'Lora',serif;font-size:14px;min-height:44px">← Back</button>
+        <div class="wood-frame" style="width:100%"><div class="panel" style="padding:12px;text-align:center">
+          <div style="font-size:20px">${mI(S.mode)}</div>
+          <div style="font-family:'Cinzel',serif;font-size:17px;font-weight:700;color:var(--ink);letter-spacing:2px">${mL(S.mode)}</div>
+          <div class="gold-line" style="width:30px"></div>
+          <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);font-style:italic">${S.mode==='sing'?'10s per song. 120s round.':isChamp?'Sing + Act + Explain — highest total wins!':mD(S.mode)+' · 60s'}</div>
+        </div></div>
+        <!-- Team Names -->
+        <div class="panel" style="width:100%;padding:10px">
+          <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;color:var(--wood-light);text-transform:uppercase;margin-bottom:6px;text-align:center">Team Names</div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <div style="flex:1;text-align:center">
+              <div style="font-size:16px">⚔️</div>
+              <input id="nameAInput" type="text" value="${S.nameA}" maxlength="15" onchange="S.nameA=this.value||'Team A'" style="width:100%;text-align:center;font-family:'Cinzel',serif;font-size:12px;font-weight:700;padding:6px;border:2px solid var(--team-a);border-radius:4px;background:var(--parchment-dark);color:var(--team-a);outline:none">
+            </div>
+            <div style="font-family:'Almendra',serif;font-size:14px;color:var(--parchment-deep)">vs</div>
+            <div style="flex:1;text-align:center">
+              <div style="font-size:16px">🛡️</div>
+              <input id="nameBInput" type="text" value="${S.nameB}" maxlength="15" onchange="S.nameB=this.value||'Team B'" style="width:100%;text-align:center;font-family:'Cinzel',serif;font-size:12px;font-weight:700;padding:6px;border:2px solid var(--team-b);border-radius:4px;background:var(--parchment-dark);color:var(--team-b);outline:none">
+            </div>
+          </div>
+        </div>
+        <!-- Difficulty -->
+        <div class="panel" style="width:100%;padding:8px">
+          <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;color:var(--wood-light);text-transform:uppercase;margin-bottom:4px;text-align:center">Difficulty</div>
+          <div style="display:flex;gap:6px;justify-content:center">${['easy','challenge'].map(d=>`<button onclick="setDiff('${d}')" style="padding:6px 12px;border-radius:4px;font-family:'Cinzel',serif;font-size:11px;font-weight:700;min-height:38px;border:2px solid ${S.diff===d?(d==='easy'?'var(--felt-green)':'var(--red-card)'):'var(--parchment-deep)'};background:${S.diff===d?'rgba(0,0,0,.05)':'transparent'};color:${S.diff===d?(d==='easy'?'var(--felt-green)':'var(--red-card)'):'var(--parchment-deep)'}">${d==='easy'?'Easy · 1pt':'Challenge · 2pts'}</button>`).join('')}</div>
+        </div>
+        ${isChamp?`
+        <!-- Championship Config -->
+        <div class="panel" style="width:100%;padding:10px">
+          <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;color:var(--wood-light);text-transform:uppercase;margin-bottom:6px;text-align:center">Championship Rounds</div>
+          ${['Sing','Act','Explain'].map((label,i)=>{
+            const key=['champSing','champAct','champExplain'][i];
+            const icons=['🎵','🎭','💬'][i];
+            const val=S[key];
+            return `<div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0">
+              <span style="font-family:'Lora',serif;font-size:12px;color:var(--ink)">${icons} ${label}-Off</span>
+              <div style="display:flex;align-items:center;gap:6px">
+                <button onclick="if(S.${key}>1){S.${key}--;render()}" style="width:32px;height:32px;border-radius:50%;border:2px solid var(--parchment-deep);font-size:16px;color:var(--ink);min-height:32px">−</button>
+                <span style="font-family:'Cinzel',serif;font-size:18px;font-weight:700;width:28px;text-align:center">${val}</span>
+                <button onclick="if(S.${key}<5){S.${key}++;render()}" style="width:32px;height:32px;border-radius:50%;border:2px solid var(--parchment-deep);font-size:16px;color:var(--ink);min-height:32px">+</button>
+              </div>
+            </div>`;
+          }).join('')}
+          <div class="gold-line" style="width:30px"></div>
+          <div style="font-family:'Cinzel',serif;font-size:11px;color:var(--gold);text-align:center;font-weight:700">Total: ${champTotal} rounds</div>
+        </div>`
+        :`<!-- Regular Rounds -->
+        <div class="panel" style="width:100%;padding:8px">
+          <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;color:var(--wood-light);text-transform:uppercase;margin-bottom:4px;text-align:center">Rounds</div>
+          <div style="display:flex;gap:6px;justify-content:center">${[3,5,7,10].map(n=>`<button onclick="setRounds(${n})" style="width:42px;height:42px;border-radius:50%;font-family:'Cinzel',serif;font-size:15px;font-weight:700;border:2px solid ${S.rounds===n?'var(--gold)':'var(--parchment-deep)'};background:${S.rounds===n?'var(--gold)':'transparent'};color:${S.rounds===n?'var(--wood-dark)':'var(--parchment-deep)'}">${n}</button>`).join('')}</div>
+        </div>`}
+        <button class="btn-gold" onclick="saveTeamNames();startGame()" style="width:100%;padding:14px;font-size:17px;letter-spacing:3px">⚜ BEGIN ⚜</button>
+      </div></div>`;
+    }
+
+    else if(S.screen==='countdown'){
+      h=`<div class="screen"><div class="countdown-overlay"><div style="font-family:'Cinzel',serif;font-size:110px;font-weight:900;color:var(--gold-light);text-shadow:0 4px 20px rgba(200,150,62,.5);animation:cdPop .6s ease-out" data-k="${S.cdKey}">${S.countdown>0?S.countdown:'GO!'}</div></div></div>`;
+    }
+
+    else if(S.screen==='card-front'){
+      const tc=S.team==='A'?'var(--team-a)':'var(--team-b)';
+      const tBg=S.team==='A'?'linear-gradient(135deg,#D5E0F5,#C0D0E8)':'linear-gradient(135deg,#F5D5D5,#E8C0C0)';
+      const cm=getActiveMode();
+      const champInfo=S.mode==='mix'?` · ${mI(cm)} ${mL(cm)}`:'';
+      h=`<div class="screen" style="animation:fadeIn .4s"><div class="content" style="gap:8px">
+        ${topBar()}
+        <div style="padding:4px 14px;border-radius:4px;background:${tBg};border:2px solid ${tc}">
+          <span style="font-family:'Cinzel',serif;font-size:12px;font-weight:700;letter-spacing:2px;color:${tc}">${tIcon(S.team)} ${tN(S.team)}'s Turn${champInfo}</span></div>
+        <button onclick="revealCard()" class="game-card" style="width:100%;max-width:260px;aspect-ratio:3/4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:${mCardBg(cm)};border-left:8px solid ${mColHex(cm)};animation:cardFlip .5s ease-out">
+          <div class="card-border"></div><span style="font-size:44px">${mI(cm)}</span>
+          <span style="font-family:'Cinzel',serif;font-size:17px;font-weight:700;color:var(--ink);letter-spacing:2px">${mL(cm)}</span>
+          <span style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);font-style:italic;animation:breathe 2s ease-in-out infinite">Tap to reveal</span>
+        </button>
+      </div></div>`;
+    }
+
+    else if(S.screen==='card-reveal'){
+      const cm=getActiveMode();const fs=wordSize(cw.length);
+      h=`<div class="screen" style="animation:fadeIn .3s"><div class="content" style="gap:5px">
+        ${topBar(`<span style="font-family:'Lora',serif;font-size:10px;color:var(--gold);font-style:italic">${S.ci+1}/${S.cards.length}</span>`)}
+        <div style="position:relative;width:100%">${compactBar('game')}
+          <div id="scoreAnim" style="display:none;position:absolute;top:30%;font-family:'Cinzel',serif;font-size:24px;font-weight:900;pointer-events:none;z-index:5"></div>
+        </div>
+        <div class="big-card game-card" style="background:${mBg(cm)};border-left-color:${mColHex(cm)};animation:slideIn .3s;flex:1;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center">
+          <div class="card-border"></div>
+          <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:${mColHex(cm)};font-weight:700;opacity:.8">${mD(cm)}</div>
+          <div class="gold-line" style="width:60px"></div>
+          <div class="big-word" style="font-size:${fs}px">${cw}</div>
+          <div class="gold-line" style="width:60px"></div>
+          ${diffToggle()}
+          ${S.showStamp?`<div class="correct-stamp">${svgCheck()}</div>`:''}
+        </div>
+        <button onclick="debounced(correctCard)" class="btn-wood btn-correct">✓ CORRECT!</button>
+        <div style="display:flex;gap:6px;width:100%">
+          <button onclick="debounced(skipCard)" class="btn-wood" style="flex:1;padding:10px;font-size:12px;background:linear-gradient(180deg,#8B7744,#6B5522);border-color:#4A3311;text-align:center;${S.skipsLeft<=0?'opacity:.35;pointer-events:none':''}">⏭ Skip (${S.skipsLeft})</button>
+          <button onclick="debounced(penaltyCard)" class="btn-wood" style="flex:1;padding:10px;font-size:12px;background:linear-gradient(180deg,#8B3333,#6B1111);border-color:#4A0808;text-align:center">⚠ Penalty</button>
+        </div>
+      </div></div>`;
+    }
+
+    else if(S.screen==='sing-reveal'){
+      const cw2=S.cards[S.ci]?S.cards[S.ci][S.cardDiff==='easy'?0:1]:'';
+      const fs2=cw2.length>15?32:48;
+      h=`<div class="screen" style="animation:fadeIn .4s"><div class="content" style="gap:6px">
+        ${topBar()}
+        ${compactBar('sing')}
+        <div class="big-card game-card" style="background:${mBg('sing')};border-left-color:${mColHex('sing')};animation:cardFlip .4s;flex:1;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center">
+          <div class="card-border"></div>
+          <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--yellow-deep);font-weight:700;opacity:.8">Next Word</div>
+          <div class="gold-line" style="width:50px"></div>
+          <div class="big-word" style="font-size:${fs2}px">${cw2}</div>
+          ${diffToggle()}
+        </div>
+        <button onclick="singRevealNext()" class="btn-gold" style="width:100%;padding:16px;font-size:16px;letter-spacing:2px">🎵 Start Singing!</button>
+      </div></div>`;
+    }
+
+    else if(S.screen==='sing-play'){
+      const cw2=S.cards[S.ci]?S.cards[S.ci][S.cardDiff==='easy'?0:1]:'';const isA=S.singTeam==='A';
+      const fs2=cw2.length>15?28:42;
+      h=`<div class="screen" style="animation:fadeIn .3s"><div class="content" style="gap:5px">
+        ${topBar()}
+        ${compactBar('sing')}
+        <div class="big-card game-card" style="background:${mBg('sing')};border-left-color:${mColHex('sing')};min-height:140px;display:flex;flex-direction:column;align-items:center;justify-content:center">
+          <div class="card-border"></div>
+          <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--yellow-deep);font-weight:700;opacity:.8">Sing a song with</div>
+          <div class="big-word" style="font-size:${fs2}px">${cw2}</div>
+          ${diffToggle()}
+        </div>
+        <div style="display:flex;gap:4px;width:100%">
+          <div class="sing-team-box ${isA?'active':''}" style="background:${isA?'linear-gradient(135deg,#C0D0E8,#A0B8D8)':'var(--parchment)'};border:2px solid ${isA?'var(--team-a)':'var(--parchment-deep)'}">
+            <div style="font-family:'Cinzel',serif;font-size:10px;font-weight:700;color:var(--team-a)">⚔️ A · ${S.singScoreA}</div></div>
+          <div class="sing-team-box ${!isA?'active':''}" style="background:${!isA?'linear-gradient(135deg,#E8C0C0,#D8A0A0)':'var(--parchment)'};border:2px solid ${!isA?'var(--team-b)':'var(--parchment-deep)'}">
+            <div style="font-family:'Cinzel',serif;font-size:10px;font-weight:700;color:var(--team-b)">🛡️ B · ${S.singScoreB}</div></div>
+        </div>
+        <div class="panel" style="width:100%;padding:6px;text-align:center">
+          <div style="font-family:'Cinzel',serif;font-size:11px;font-weight:700;color:${isA?'var(--team-a)':'var(--team-b)'};letter-spacing:2px">${isA?'⚔️':'🛡️'} TEAM ${S.singTeam} — SING!</div>
+          <div id="singCardT" style="font-family:'Cinzel',serif;font-size:40px;font-weight:900;line-height:1;color:${S.singTimer<=3?'var(--red-card)':'var(--ink)'}">${S.singTimer}</div>
+        </div>
+        <button onclick="singTeamSang()" class="btn-gold" style="width:100%;padding:12px;font-size:15px;letter-spacing:2px">🎵 They Sang! Next →</button>
+        <button onclick="singSkipCard()" style="font-family:'Lora',serif;font-size:11px;color:var(--gold);text-decoration:underline;min-height:36px">Skip word</button>
+      </div></div>`;
+    }
+
+    else if(S.screen==='summary'){
+      const tc=S.team==='A'?'var(--team-a)':'var(--team-b)';const isSing=getActiveMode()==='sing';
+      const nextTeamName=S.team==='A'?tN('B'):tN('A');
+      h=`<div class="screen" style="animation:fadeIn .5s"><div class="content" style="gap:12px">
+        <div class="wood-frame" style="width:100%"><div class="panel" style="padding:18px 12px;text-align:center">
+          <div style="font-family:'Almendra',serif;font-size:28px;color:var(--red-card);animation:shake .5s">Time's Up!</div>
+          <div style="font-size:26px;margin-top:4px">⏳</div>
+        </div></div>
+        <div class="panel" style="width:100%;padding:12px">
+          <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:${tc};text-transform:uppercase;margin-bottom:6px;text-align:center">${tIcon(S.team)} ${tN(S.team)}'s Summary</div>
+          ${isSing?
+            `<div class="summary-stat"><span>🎵 Won</span><span style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--felt-green)">${S.turnWon||0}</span></div>
+             <div class="summary-stat"><span>⏭ Skipped</span><span style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--wood-light)">${S.turnSkip}</span></div>`
+            :`<div class="summary-stat"><span>✓ Correct</span><span style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--felt-green)">${S.turnCorrect}</span></div>
+             <div class="summary-stat"><span>⏭ Skipped</span><span style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--wood-light)">${S.turnSkip}</span></div>
+             <div class="summary-stat"><span>⚠ Penalties</span><span style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--red-card)">${S.turnPenalty}</span></div>`}
+        </div>
+        ${wordSummaryHTML()}
+        <div class="wood-frame" style="width:100%"><div style="padding:4px">${scores()}</div></div>
+        <div style="font-family:'Lora',serif;font-size:12px;color:var(--gold-light);text-align:center;font-style:italic">
+          ${S.team==='A'?nextTeamName+' up next!':S.round>=S.rounds?'Final scores!':'Round '+(S.round+1)+' next!'}</div>
+        <button class="btn-gold" onclick="endTurn()" style="width:100%;max-width:280px;padding:14px;font-size:15px;letter-spacing:2px">
+          ${S.team==='A'?nextTeamName+" →":S.round>=S.rounds?"Results →":"Next Round →"}</button>
+      </div></div>`;
+    }
+
+    else if(S.screen==='gameover'){
+      const w=S.sA>S.sB?'A':S.sB>S.sA?'B':null;const wc=w==='A'?'var(--team-a)':w==='B'?'var(--team-b)':'var(--gold)';const wcH=w==='A'?'#2B6CB0':w==='B'?'#C53030':'#C8963E';
+      const cc=Math.min(15,25);let conf='';if(w)for(let i=0;i<cc;i++){conf+=`<div class="confetti-piece" style="left:${Math.random()*100}%;top:-${Math.random()*20}%;width:${5+Math.random()*5}px;height:${5+Math.random()*5}px;background:${[wcH,'#C8963E','#1B4D2E','#E8B44A','#F5E6C8'][Math.floor(Math.random()*5)]};border-radius:${Math.random()>.5?'50%':'1px'};--dur:${2+Math.random()*3}s;--delay:${Math.random()*2}s"></div>`}
+      h=`<div class="screen" style="animation:fadeIn .5s">${conf}<div class="content" style="gap:12px;z-index:3">
+        <div class="wood-frame" style="width:100%;animation:stampIn .5s"><div class="panel" style="padding:22px 14px;text-align:center">
+          <div style="font-size:40px;margin-bottom:4px">🏆</div>
+          <div style="font-family:'Almendra',serif;font-size:32px;color:${wc};letter-spacing:2px;animation:glow 2s ease-in-out infinite">${w?'Team '+w+' Wins!':"'Tis a Tie!"}</div>
+        </div></div>
+        <div class="wood-frame" style="width:100%"><div style="padding:4px">${scores(w||'A')}</div></div>
+        <div class="panel" style="padding:8px 12px;text-align:center">
+          <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);font-style:italic">${mL(S.mode)} · ${S.rounds} rounds · ${S.sA+S.sB} pts</div>
+        </div>
+        <div style="display:flex;gap:8px;width:100%">
+          <button class="btn-wood" onclick="playAgain()" style="flex:1;text-align:center;font-size:12px">Rematch</button>
+          <button class="btn-gold" onclick="shareResult()" style="flex:1;text-align:center;font-size:12px">📤 Share</button>
+        </div>
+        <button onclick="resetGame()" style="font-family:'Lora',serif;font-size:12px;color:var(--gold);text-decoration:underline;min-height:40px">← New Game</button>
+      </div></div>`;
+    }
+
+    // Modals
+    if(S.rules)h+=rulesModal();
+    if(S.showAbout)h+=aboutModal();
+    if(S.showExit)h+=exitModal();
+    if(S.showTutorial)h+=tutorialModal();
+    if(S.showLearning)h+=learningModal();
+    if(S.showJoin)h+=joinModal();
+    if(S.showUnlock)h+=unlockModal();
+    if(S.showRequestFree)h+=requestFreeModal();
+    if(S.defWord)h+=defCardHTML(S.defWord,S.defDef);
+    if(S.paused&&inGame){h+=`<div class="pause-overlay"><div style="font-family:'Almendra',serif;font-size:36px;color:var(--gold-light)">Paused</div><div style="font-family:'Lora',serif;font-size:13px;color:var(--parchment-deep);font-style:italic">${S.screen==='sing-reveal'?'':'Word hidden'}</div><button class="btn-gold" onclick="togglePause()" style="padding:14px 34px;font-size:17px">▶ Resume</button></div>`}
+    // Room code badge for host during game
+    if(S.roomCode&&S.role==='host'&&inGame){h+=`<div style="position:fixed;bottom:8px;left:50%;transform:translateX(-50%);z-index:40;padding:4px 12px;border-radius:4px;background:var(--wood-dark);font-family:'Cinzel',serif;font-size:10px;color:var(--gold-light);opacity:.7">Room: ${S.roomCode}</div>`}
+
+    app.innerHTML=h;
+  }catch(e){
+    document.getElementById('app').innerHTML=`<div class="screen"><div class="content" style="gap:16px;text-align:center"><div style="font-size:48px">⚠️</div><div style="font-family:'Cinzel',serif;font-size:18px;color:var(--gold-light)">Something went wrong</div><button class="btn-gold" onclick="resetGame()">Restart</button></div></div>`;
+  }
+}
+
+// ─── MODALS ───
+function rulesModal(){return `<div class="modal-overlay" onclick="hideRules()"><div class="wood-frame modal" onclick="event.stopPropagation()"><div class="panel" style="padding:18px 14px">
+  <div style="font-family:'Almendra',serif;font-size:20px;color:var(--wood-dark);text-align:center">How To Play</div><div class="gold-line" style="width:36px"></div>
+  <div style="font-family:'Lora',serif;font-size:12px;line-height:1.6;color:var(--ink)">
+    <p style="margin-bottom:5px"><b style="color:var(--yellow-card)">🎵 Sing-Off:</b> 5s to sing a song with the word. Teams alternate. 60s round.</p>
+    <p style="margin-bottom:5px"><b style="color:var(--red-card)">🎭 Act:</b> 1 word + gestures. Can't say the word! 30s.</p>
+    <p style="margin-bottom:5px"><b style="color:var(--blue-card)">💬 Explain:</b> Describe freely. Can't say the word! 30s.</p>
+    <p style="margin-bottom:5px"><b style="color:var(--wood)">🎲 Mix:</b> All three modes alternate each round.</p>
+    <p style="margin-bottom:5px"><b style="color:var(--felt-green)">Difficulty:</b> Easy (1pt) or Challenge (2pts) per card.</p>
+    <p><b style="color:var(--red-card)">⚠ Penalty:</b> Say the word → opponent gets the point!</p>
+  </div>
+  <button class="btn-gold" onclick="hideRules()" style="margin-top:8px;width:100%;text-align:center">Got It!</button>
+</div></div></div>`}
+
+function aboutModal(){return `<div class="modal-overlay" onclick="S.showAbout=false;render()"><div class="wood-frame modal" onclick="event.stopPropagation()"><div class="panel" style="padding:18px 14px;text-align:center">
+  <div style="font-family:'Almendra',serif;font-size:20px;color:var(--wood-dark)">About</div><div class="gold-line" style="width:36px"></div>
+  <div style="font-family:'Lora',serif;font-size:12px;line-height:1.6;color:var(--ink)">
+    <p style="margin-bottom:6px"><b>Logo's Living</b> v${APP_VERSION}</p>
+    <p style="margin-bottom:6px">A digital Christian party game for church groups, youth ministries, and family game nights. 150 cards across Sing-Off, Act It Out, and Explain modes with biblical and SDA theology content.</p>
+    <p style="margin-bottom:6px;font-size:11px;color:var(--wood-light);font-style:italic">All game data is stored locally on your device only. No data is collected or sent externally.</p>
+    <p style="margin-bottom:6px"><b style="color:var(--gold-dark)">Feedback & Suggestions:</b></p>
+    <p style="margin-bottom:6px;font-size:11px">We'd love to hear from you! Tap below to send us your ideas, report issues, or suggest new card words.</p>
+  </div>
+  <button class="btn-gold" onclick="S.showAbout=false;render()" style="margin-top:6px;width:100%;text-align:center">Close</button>
+</div></div></div>`}
+
+function exitModal(){return `<div class="modal-overlay" onclick="cancelExit()"><div class="wood-frame" style="max-width:300px;width:100%" onclick="event.stopPropagation()"><div class="panel" style="padding:18px 14px;text-align:center">
+  <div style="font-family:'Almendra',serif;font-size:18px;color:var(--red-card);margin-bottom:6px">Leave Game?</div>
+  <div style="font-family:'Lora',serif;font-size:12px;color:var(--ink);margin-bottom:10px">Progress will be lost.</div>
+  <div style="display:flex;gap:8px"><button class="btn-wood" onclick="cancelExit()" style="flex:1;text-align:center;font-size:13px">Stay</button><button class="btn-wood" onclick="forceExit()" style="flex:1;text-align:center;font-size:13px;background:linear-gradient(180deg,#8B3333,#6B1111);border-color:#4A0808">Leave</button></div>
+</div></div></div>`}
+
+function tutorialModal(){
+  const steps=[
+    {icon:'👥',title:'Split Into Teams',text:'Divide into Team A and Team B. Each team picks a describer.'},
+    {icon:'🎴',title:'Choose Your Mode',text:'Sing, Act, Explain, or Mix. Each has different rules!'},
+    {icon:'⏳',title:'Beat the Timer',text:'Tap to reveal. 30s for Act/Explain, 60s for Sing-Off.'},
+    {icon:'⚡',title:'Easy or Challenge',text:'Each card has two words. Easy = 1pt, Challenge = 2pts.'},
+  ];const s=steps[S.tutStep]||steps[0];
+  return `<div class="modal-overlay"><div class="wood-frame modal" onclick="event.stopPropagation()"><div class="panel" style="padding:0;overflow:hidden">
+    <div class="tut-step"><div style="font-size:48px;margin-bottom:8px">${s.icon}</div><div style="font-family:'Cinzel',serif;font-size:17px;font-weight:700;color:var(--ink);margin-bottom:4px">${s.title}</div><div style="font-family:'Lora',serif;font-size:12px;color:var(--wood-light);line-height:1.5;font-style:italic">${s.text}</div></div>
+    <div class="tut-dots">${steps.map((_,i)=>`<div class="tut-dot ${i===S.tutStep?'active':''}"></div>`).join('')}</div>
+    <div style="display:flex;padding:0 14px 14px;gap:8px">
+      ${S.tutStep>0?`<button class="btn-wood" onclick="S.tutStep--;render()" style="flex:1;text-align:center;font-size:12px">←</button>`:''}
+      ${S.tutStep<steps.length-1?`<button class="btn-gold" onclick="S.tutStep++;render()" style="flex:1;text-align:center;font-size:12px">Next →</button>`:`<button class="btn-gold" onclick="S.showTutorial=false;render()" style="flex:1;text-align:center;font-size:12px">Play!</button>`}
+    </div>
+  </div></div></div>`;
+}
+
+function learningModal(){
+  const words=getAllWords();
+  return `<div class="modal-overlay" onclick="S.showLearning=false;render()"><div class="wood-frame modal" onclick="event.stopPropagation()"><div class="panel" style="padding:16px 12px">
+    <div style="font-family:'Almendra',serif;font-size:20px;color:var(--wood-dark);text-align:center">Logo's Learning</div>
+    <div class="gold-line" style="width:40px"></div>
+    <div style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);text-align:center;font-style:italic;margin-bottom:8px">${words.length} words — tap ❓ for definitions</div>
+    <div class="scroll-content">
+      <div class="word-grid">${words.map(w=>{
+        const mc=w.mode==='sing'?'var(--yellow-card)':w.mode==='act'?'var(--red-card)':'var(--blue-card)';
+        return `<button class="word-chip" onclick="event.stopPropagation();openDef('${w.word.replace(/'/g,"\\'")}','${(w.def||'').replace(/'/g,"\\'")}')">
+          <span style="color:var(--ink);font-size:11px">${w.word}</span>
+          <span class="q">?</span>
+        </button>`;
+      }).join('')}</div>
+    </div>
+    <button class="btn-gold" onclick="S.showLearning=false;render()" style="margin-top:10px;width:100%;text-align:center">Close</button>
+  </div></div></div>`;
+}
+
+function joinModal(){
+  return `<div class="modal-overlay" onclick="S.showJoin=false;render()"><div class="wood-frame modal" style="max-width:340px" onclick="event.stopPropagation()"><div class="panel" style="padding:20px 16px;text-align:center">
+    <div style="font-family:'Almendra',serif;font-size:20px;color:var(--wood-dark)">Join Team Display</div>
+    <div class="gold-line" style="width:36px"></div>
+    <div style="font-family:'Lora',serif;font-size:12px;color:var(--wood-light);line-height:1.5;font-style:italic;margin-bottom:12px">
+      Enter the 4-digit room code shown on the host device, then choose your team.
+    </div>
+    <div style="margin-bottom:12px">
+      <input id="joinCodeInput" type="tel" maxlength="4" placeholder="0000" style="width:140px;text-align:center;font-family:'Cinzel',serif;font-size:32px;font-weight:700;padding:10px;border:3px solid var(--gold);border-radius:8px;background:var(--parchment-dark);color:var(--ink);outline:none;letter-spacing:8px">
+    </div>
+    <div style="font-family:'Cinzel',serif;font-size:10px;color:var(--wood-light);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Choose Your Team</div>
+    <div style="display:flex;gap:8px;justify-content:center">
+      <button onclick="joinAsTeam('A')" class="btn-wood" style="flex:1;text-align:center;font-size:13px;background:linear-gradient(180deg,#3A5A8B,#2B4A7B);border-color:#1A3A5C">⚔️ Team A</button>
+      <button onclick="joinAsTeam('B')" class="btn-wood" style="flex:1;text-align:center;font-size:13px;background:linear-gradient(180deg,#8B3A3A,#7B2A2A);border-color:#5C1A1A">🛡️ Team B</button>
+    </div>
+    <button onclick="S.showJoin=false;render()" style="margin-top:10px;font-family:'Lora',serif;font-size:12px;color:var(--gold);text-decoration:underline;min-height:40px">Cancel</button>
+  </div></div></div>`;
+}
+
+function joinAsTeam(team){
+  const input=document.getElementById('joinCodeInput');
+  const code=input?input.value.trim():'';
+  if(code.length!==4||isNaN(code)){alert('Enter a valid 4-digit room code');return}
+  S.showJoin=false;S.teamView=team;
+  joinRoom(code);
+}
+
+function unlockModal(){
+  const pro=isPro();
+  const unlockedCount=DENOM_PACKS.filter(p=>p.unlocked).length;
+  return `<div class="modal-overlay" onclick="S.showUnlock=false;render()"><div class="wood-frame modal" style="max-width:380px" onclick="event.stopPropagation()"><div class="panel" style="padding:18px 14px;text-align:center">
+    <div style="font-family:'Almendra',serif;font-size:20px;color:var(--wood-dark)">Game Store</div>
+    <div class="gold-line" style="width:40px"></div>
+
+    <!-- Full Edition -->
+    <div style="background:${pro?'rgba(45,123,45,.08)':'linear-gradient(135deg,rgba(200,150,62,.08),rgba(200,150,62,.02))'};border:2px solid ${pro?'var(--felt-green)':'var(--gold)'};border-radius:8px;padding:12px;margin:8px 0;text-align:left">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:var(--ink)">⭐ Full Edition</div>
+        ${pro?'<span style="font-family:\'Cinzel\',serif;font-size:9px;color:var(--felt-green);font-weight:700;padding:2px 8px;border:1px solid var(--felt-green);border-radius:3px">UNLOCKED</span>':''}
+      </div>
+      <div style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);line-height:1.5;margin-top:4px">All 150 base cards (50 per mode) — no weekly rotation limits</div>
+    </div>
+
+    <!-- Denomination Packs -->
+    <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:var(--wood-light);text-transform:uppercase;margin:10px 0 6px">Denomination Packs · 50 Cards Each</div>
+    <div class="scroll-content" style="max-height:30vh">
+      ${DENOM_PACKS.map(p=>`<div style="background:${p.unlocked?'rgba(45,123,45,.06)':'var(--parchment)'};border:2px solid ${p.unlocked?'var(--felt-green)':p.color};border-radius:6px;padding:10px;margin-bottom:6px;text-align:left">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div style="font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--ink)">${p.icon} ${p.name}</div>
+          ${p.unlocked?'<span style="font-family:\'Cinzel\',serif;font-size:8px;color:var(--felt-green);font-weight:700">✓ ACTIVE</span>'
+            :`<span style="font-family:'Cinzel',serif;font-size:8px;color:${p.color};font-weight:700">🔒 LOCKED</span>`}
+        </div>
+        <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);margin-top:2px">50 cards unique to ${p.name} beliefs & practices</div>
+      </div>`).join('')}
+    </div>
+
+    <!-- Unlock Code Entry -->
+    <div style="font-family:'Cinzel',serif;font-size:10px;color:var(--wood-light);letter-spacing:2px;text-transform:uppercase;margin:10px 0 6px">Enter Unlock Code</div>
+    <div style="margin-bottom:8px">
+      <input id="unlockCodeInput" type="text" maxlength="12" placeholder="ENTER CODE" style="width:200px;text-align:center;font-family:'Cinzel',serif;font-size:15px;font-weight:700;padding:8px;border:3px solid var(--gold);border-radius:8px;background:var(--parchment-dark);color:var(--ink);outline:none;letter-spacing:3px;text-transform:uppercase">
+    </div>
+    <button class="btn-gold" onclick="tryUnlock()" style="width:100%;text-align:center;font-size:13px;letter-spacing:2px">🔓 UNLOCK</button>
+    <div id="unlockError" style="font-family:'Lora',serif;font-size:11px;color:var(--red-card);margin-top:4px;display:none">Invalid code. Please check and try again.</div>
+
+    <!-- Buy / Request Free -->
+    <div style="display:flex;gap:6px;margin-top:10px">
+      <button onclick="S.showUnlock=false;S.showRequestFree=true;render()" class="btn-wood" style="flex:1;text-align:center;font-size:10px;padding:10px 6px">🎁 Request Free</button>
+      <button onclick="S.showUnlock=false;render()" class="btn-wood" style="flex:1;text-align:center;font-size:10px;padding:10px 6px">Maybe Later</button>
+    </div>
+    <div style="font-family:'Lora',serif;font-size:9px;color:var(--parchment-deep);margin-top:6px;line-height:1.4;font-style:italic">
+      Purchase codes via the developer. Ministry groups may request free access.
+    </div>
+  </div></div></div>`;
+}
+
+function requestFreeModal(){
+  return `<div class="modal-overlay" onclick="S.showRequestFree=false;render()"><div class="wood-frame modal" style="max-width:360px" onclick="event.stopPropagation()"><div class="panel" style="padding:18px 14px;text-align:center">
+    <div style="font-family:'Almendra',serif;font-size:18px;color:var(--wood-dark)">Request Free Access</div>
+    <div class="gold-line" style="width:36px"></div>
+    <div style="font-family:'Lora',serif;font-size:12px;color:var(--wood-light);line-height:1.5;font-style:italic;margin-bottom:10px">
+      If you're using Logo's Living for ministry, youth group, or church education, you may qualify for free access. Please share your details below.
+    </div>
+    <div style="text-align:left;display:flex;flex-direction:column;gap:8px;margin-bottom:10px">
+      <input id="reqName" type="text" placeholder="Your Name" style="width:100%;font-family:'Lora',serif;font-size:13px;padding:10px;border:2px solid var(--parchment-deep);border-radius:6px;background:var(--parchment-dark);color:var(--ink);outline:none">
+      <input id="reqContact" type="text" placeholder="Email or WhatsApp Number" style="width:100%;font-family:'Lora',serif;font-size:13px;padding:10px;border:2px solid var(--parchment-deep);border-radius:6px;background:var(--parchment-dark);color:var(--ink);outline:none">
+      <input id="reqChurch" type="text" placeholder="Church / Organisation" style="width:100%;font-family:'Lora',serif;font-size:13px;padding:10px;border:2px solid var(--parchment-deep);border-radius:6px;background:var(--parchment-dark);color:var(--ink);outline:none">
+      <select id="reqPack" style="width:100%;font-family:'Lora',serif;font-size:13px;padding:10px;border:2px solid var(--parchment-deep);border-radius:6px;background:var(--parchment-dark);color:var(--ink);outline:none">
+        <option value="">Which pack do you need?</option>
+        <option value="full">⭐ Full Edition (all 150 base cards)</option>
+        ${DENOM_PACKS.map(p=>`<option value="${p.id}">${p.icon} ${p.name} Pack</option>`).join('')}
+        <option value="all">All packs</option>
+      </select>
+      <textarea id="reqReason" rows="3" placeholder="Why do you need free access? (ministry use, youth group, etc.)" style="width:100%;font-family:'Lora',serif;font-size:13px;padding:10px;border:2px solid var(--parchment-deep);border-radius:6px;background:var(--parchment-dark);color:var(--ink);outline:none;resize:vertical"></textarea>
+    </div>
+    <button class="btn-gold" onclick="submitFreeRequest()" style="width:100%;text-align:center;font-size:13px">📩 Submit Request</button>
+    <button onclick="S.showRequestFree=false;render()" style="margin-top:6px;font-family:'Lora',serif;font-size:12px;color:var(--gold);text-decoration:underline;min-height:36px">Cancel</button>
+  </div></div></div>`;
+}
+
+function submitFreeRequest(){
+  const name=document.getElementById('reqName')?.value?.trim()||'';
+  const contact=document.getElementById('reqContact')?.value?.trim()||'';
+  const church=document.getElementById('reqChurch')?.value?.trim()||'';
+  const pack=document.getElementById('reqPack')?.value||'';
+  const reason=document.getElementById('reqReason')?.value?.trim()||'';
+  if(!name||!contact){alert('Please enter your name and contact details.');return}
+  if(!reason){alert('Please explain why you need free access.');return}
+  // Compose message for sharing via native share or clipboard
+  const msg=`Logo's Living — Free Access Request\n\nName: ${name}\nContact: ${contact}\nChurch: ${church}\nPack: ${pack||'Not specified'}\nReason: ${reason}`;
+  if(navigator.share){
+    navigator.share({title:"Logo's Living — Free Access Request",text:msg}).then(()=>{
+      S.showRequestFree=false;render();
+      alert('Request sent! We\'ll review and get back to you with an unlock code.');
+    }).catch(()=>{
+      copyAndConfirm(msg);
+    });
+  } else {
+    copyAndConfirm(msg);
+  }
+}
+function copyAndConfirm(msg){
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(msg).then(()=>{
+      S.showRequestFree=false;render();
+      alert('Request copied to clipboard! Please paste it in an email or message to the developer.');
+    }).catch(()=>{alert('Please screenshot this form and send to the developer.')});
+  } else {
+    alert('Please screenshot this form and send to the developer.');
+  }
+}
+
+function tryUnlock(){
+  const input=document.getElementById('unlockCodeInput');
+  const code=input?input.value.trim():'';
+  if(!code)return;
+  if(unlockPro(code)){
+    S.showUnlock=false;render();
+    setTimeout(()=>{alert('🎉 Unlocked successfully! Enjoy your new content.')},100);
+  } else {
+    const err=document.getElementById('unlockError');
+    if(err)err.style.display='block';
+  }
+}
+
+// ─── ACTIONS ───
+function selectMode(m){pushState();S.mode=m;S.screen='setup';render()}
+function setDiff(d){S.diff=d;S.cardDiff=d;render()}
+function setRounds(n){S.rounds=n;render()}
+function showRules(){S.rules=true;render()}
+function hideRules(){S.rules=false;render()}
+function setCardDiff(d){if(!S.diffLocked){S.cardDiff=d;render()}}
+function showTutorial(){pushState();S.showTutorial=true;S.tutStep=0;render()}
+function openDef(w,d){pushState();S.defWord=w;S.defDef=d;render()}
+function closeDef(){S.defWord=null;S.defDef=null;render()}
+
+function saveTeamNames(){
+  const a=document.getElementById('nameAInput');const b=document.getElementById('nameBInput');
+  if(a&&a.value.trim())S.nameA=a.value.trim();
+  if(b&&b.value.trim())S.nameB=b.value.trim();
+}
+
+function startGame(){
+  saveTeamNames();
+  if(S.mode==='mix'){
+    // Championship: build round sequence
+    S.champPhase=0;S.champPhaseRound=0;
+    S.champTotalA=0;S.champTotalB=0;S.champScores=[];
+    const totalRounds=S.champSing+S.champAct+S.champExplain;
+    S.rounds=totalRounds;S.round=1;
+    // Build the sequence of modes
+    S.mixModes=[];
+    for(let i=0;i<S.champSing;i++)S.mixModes.push('sing');
+    for(let i=0;i<S.champAct;i++)S.mixModes.push('act');
+    for(let i=0;i<S.champExplain;i++)S.mixModes.push('explain');
+    S.champPhase=0;
+    const am=S.mixModes[0];
+    S.cards=shuffle(gc(am));S.ci=0;
+  } else {
+    const am=S.mode;
+    S.cards=shuffle(gc(am));S.ci=0;
+  }
+  S.sA=0;S.sB=0;S.team='A';S.round=1;
+  S.cardDiff=S.diff;S.diffLocked=false;S.paused=false;
+  S.gameStartTime=Date.now();usedByMode={sing:new Set(),act:new Set(),explain:new Set()};
+  S.role='host';startHosting();
+  resetTurnStats();pushState();S.screen='card-front';render();
+}
+
+function revealCard(){
+  ensureAudio();beep('reveal');S.cardDiff=S.diff;S.diffLocked=false;
+  const am=getActiveMode();
+  if(am==='sing'){startCountdown(()=>{startSingRound()})}
+  else{startCountdown(()=>{S.diffLocked=true;S.screen='card-reveal';startGameTimer()})}
+}
+
+function correctCard(){
+  beep('correct');const p=S.cardDiff==='challenge'?2:1;
+  if(S.team==='A')S.sA+=p;else S.sB+=p;
+  S.turnCorrect++;trackWord('correct');S.showStamp=true;render();
+  animScore('+'+p,'var(--felt-green)',S.team==='A'?'25%':'75%');
+  setTimeout(()=>{S.showStamp=false;nextC();S.diffLocked=true;render()},350);
+}
+function skipCard(){if(S.skipsLeft<=0)return;beep('skip');S.skipsLeft--;S.turnSkip++;trackWord('skip');nextC();S.diffLocked=true;render()}
+function penaltyCard(){
+  beep('penalty');const p=S.cardDiff==='challenge'?2:1;
+  const opp=S.team==='A'?'B':'A';
+  if(opp==='A')S.sA+=p;else S.sB+=p;
+  S.turnPenalty++;trackWord('penalty');nextC();S.diffLocked=true;render();
+  animScore('+'+p,opp==='A'?'var(--team-a)':'var(--team-b)',opp==='A'?'25%':'75%');
+}
+
+function animScore(txt,color,left){
+  setTimeout(()=>{const el=document.getElementById('scoreAnim');if(el){el.style.display='block';el.style.left=left;el.style.transform='translateX(-50%)';el.textContent=txt;el.style.color=color;el.style.animation='none';el.offsetHeight;el.style.animation='scoreFloat .8s ease-out forwards';setTimeout(()=>{if(el)el.style.display='none'},800)}},50);
+}
+
+function endTurn(){
+  clearAllTimers();releaseWake();
+  if(S.team==='A'){S.team='B';resetTurnStats();S.screen='card-front'}
+  else{
+    if(S.round>=S.rounds){
+      // Championship: accumulate scores
+      if(S.mode==='mix'){
+        S.champTotalA+=S.sA;S.champTotalB+=S.sB;
+        S.champScores.push({phase:getActiveMode(),sA:S.sA,sB:S.sB});
+      }
+      logGame();S.screen='gameover';
+    }
+    else{
+      S.round++;S.team='A';resetTurnStats();
+      if(S.mode==='mix'){
+        // Championship: save current phase scores and move to next
+        const prevMode=getActiveMode();
+        S.champTotalA+=S.sA;S.champTotalB+=S.sB;
+        S.champScores.push({phase:prevMode,sA:S.sA,sB:S.sB});
+        // Check if moving to next mode phase
+        const prevPhase=S.champPhase;
+        S.champPhase=S.round-1; // 0-indexed position in mixModes
+        if(S.mixModes[S.champPhase]!==prevMode){
+          // New mode phase — reset round scores, load new cards
+          S.sA=0;S.sB=0;
+          S.cards=shuffle(gc(getActiveMode()));S.ci=0;
+        }
+      }
+      S.screen='card-front';
+    }
+  }render();
+}
+function resetTurnStats(){S.turnCorrect=0;S.turnSkip=0;S.turnPenalty=0;S.turnWon=0;S.skipsLeft=2;S.cardDiff=S.diff;S.diffLocked=false;S.paused=false;S.showStamp=false;S.turnWords=[]}
+
+function playAgain(){S.cardDiff=S.diff;S.diffLocked=false;startGame()}
+function confirmExit(){S.showExit=true;render()}
+function cancelExit(){S.showExit=false;render()}
+function forceExit(){clearAllTimers();releaseWake();disconnectSync();S.showExit=false;S.paused=false;S.screen='home';S.mode=null;render()}
+function resetGame(){clearAllTimers();releaseWake();disconnectSync();S.paused=false;S.screen='home';S.mode=null;render()}
+async function installApp(){if(deferP){deferP.prompt();await deferP.userChoice;deferP=null;render()}}
+function dismissInstall(){deferP=null;render()}
+
+// ─── INIT ───
+checkUnlock(); // Load pro status from localStorage
+localStorage.setItem('ll_opens',String((parseInt(localStorage.getItem('ll_opens')||'0'))+1));
+if(!localStorage.getItem('ll_seen')){localStorage.setItem('ll_seen','1');S.showTutorial=true;S.tutStep=0}
+render();
+
+if('serviceWorker'in navigator){
+  navigator.serviceWorker.register('sw.js').then(reg=>{
+    reg.addEventListener('updatefound',()=>{
+      const nw=reg.installing;
+      nw.addEventListener('statechange',()=>{
+        if(nw.state==='installed'&&navigator.serviceWorker.controller){
+          const b=document.createElement('div');b.className='install-banner';b.onclick=()=>location.reload();
+          b.innerHTML='<div class="install-inner"><div style="flex:1;color:var(--parchment);font-family:Cinzel,serif;font-size:13px">🆕 Update available</div><button class="btn-gold" style="padding:8px 14px;font-size:12px">Refresh</button></div>';
+          document.body.appendChild(b);
+        }
+      });
+    });
+  }).catch(()=>{});
+}
+
+</script>
+</body>
+</html>

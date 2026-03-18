@@ -1,0 +1,25 @@
+{
+  "name": "Logo's Living — The Christian Party Game",
+  "short_name": "Logo's Living",
+  "description": "Sing, Act, or Explain biblical words. A fun group game for church, youth, and family!",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0F0F1A",
+  "theme_color": "#0F0F1A",
+  "categories": ["games", "entertainment"],
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
