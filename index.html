@@ -65,6 +65,30 @@ button{font-family:inherit;outline:none;border:none;background:none;cursor:point
 .big-card{width:100%;padding:28px 18px 22px;border-radius:12px;text-align:center;position:relative;border-left-width:8px;border-left-style:solid;box-shadow:0 8px 24px rgba(0,0,0,.45)}
 .big-word{font-family:'Almendra',serif;font-weight:700;padding:16px 4px;line-height:1.05;color:var(--ink);text-shadow:0 2px 0 rgba(200,150,62,.18);word-wrap:break-word;overflow-wrap:break-word}
 @media(max-width:340px){.sc-num{font-size:18px!important}}
+
+/* ─── LANDSCAPE MODE ─── */
+@media(orientation:landscape) and (max-height:500px){
+  .screen{padding:8px 10px;min-height:100dvh}
+  .content{max-width:100%;flex-direction:row;flex-wrap:wrap;gap:4px}
+  /* Top bar spans full width */
+  .top-bar{width:100%;min-height:32px}
+  .top-bar-btn{min-width:36px;min-height:36px;font-size:14px}
+  /* Landscape gameplay layout: card left, controls right */
+  .ls-card-area{flex:3;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+  .ls-ctrl-area{flex:2;min-width:140px;max-width:220px;display:flex;flex-direction:column;gap:4px;align-items:stretch;justify-content:center}
+  .big-card{padding:14px 10px 10px;min-height:auto!important;border-radius:8px}
+  .big-word{font-size:clamp(28px,8vw,56px)!important;padding:8px 2px}
+  .btn-correct{padding:10px!important;font-size:14px!important;min-height:42px!important}
+  .btn-wood{padding:8px 12px;font-size:12px;min-height:38px}
+  .btn-gold{padding:8px 12px;font-size:12px;min-height:38px}
+  .sing-team-box{padding:6px}
+  .gold-line{margin:3px auto}
+  /* Score bar compact in landscape */
+  .ls-score-bar{width:100%}
+  .panel{border-radius:4px}
+  /* Home screen in landscape */
+  .ls-home-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%}
+}
 .game-card{border-radius:8px;position:relative;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.35);contain:content}
 .card-border{position:absolute;inset:4px;border:1px solid rgba(200,150,62,.3);border-radius:4px;pointer-events:none;z-index:1}
 .btn-wood{padding:14px 20px;border-radius:6px;font-family:'Cinzel',serif;font-weight:700;font-size:14px;background:linear-gradient(180deg,var(--wood-light),var(--wood));color:var(--parchment);letter-spacing:1px;box-shadow:0 3px 8px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.15),inset 0 -2px 0 rgba(0,0,0,.2);text-shadow:0 1px 2px rgba(0,0,0,.4);transition:all .12s;border:1px solid var(--wood-dark);min-height:48px}
@@ -1093,24 +1117,30 @@ function render(){
 
     else if(S.screen==='card-reveal'){
       const cm=getActiveMode();const fs=wordSize(cw.length);
-      h=`<div class="screen" style="animation:fadeIn .3s"><div class="content" style="gap:5px">
+      const ls=isLandscape;
+      h=`<div class="screen" style="animation:fadeIn .3s"><div class="content" style="gap:${ls?'3px':'5px'}">
         ${topBar(`<span style="font-family:'Lora',serif;font-size:10px;color:var(--gold);font-style:italic">${S.ci+1}/${S.cards.length}</span>`)}
-        <div style="position:relative;width:100%">${compactBar('game')}
+        <div class="ls-score-bar" style="position:relative;width:100%">${compactBar('game')}
           <div id="scoreAnim" style="display:none;position:absolute;top:30%;font-family:'Cinzel',serif;font-size:24px;font-weight:900;pointer-events:none;z-index:5"></div>
         </div>
-        <div class="big-card game-card" style="background:${mBg(cm)};border-left-color:${mColHex(cm)};animation:slideIn .3s;flex:1;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center">
-          <div class="card-border"></div>
-          <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:${mColHex(cm)};font-weight:700;opacity:.8">${mD(cm)}</div>
-          <div class="gold-line" style="width:60px"></div>
-          <div class="big-word" style="font-size:${fs}px">${cw}</div>
-          <div class="gold-line" style="width:60px"></div>
-          ${diffToggle()}
-          ${S.showStamp?`<div class="correct-stamp">${svgCheck()}</div>`:''}
-        </div>
-        <button onclick="debounced(correctCard)" class="btn-wood btn-correct">✓ CORRECT!</button>
-        <div style="display:flex;gap:6px;width:100%">
-          <button onclick="debounced(skipCard)" class="btn-wood" style="flex:1;padding:10px;font-size:12px;background:linear-gradient(180deg,#8B7744,#6B5522);border-color:#4A3311;text-align:center;${S.skipsLeft<=0?'opacity:.35;pointer-events:none':''}">⏭ Skip (${S.skipsLeft})</button>
-          <button onclick="debounced(penaltyCard)" class="btn-wood" style="flex:1;padding:10px;font-size:12px;background:linear-gradient(180deg,#8B3333,#6B1111);border-color:#4A0808;text-align:center">⚠ Penalty</button>
+        <div style="display:flex;gap:${ls?'6px':'0'};width:100%;${ls?'flex-direction:row;flex:1;min-height:0':'flex-direction:column;gap:5px'}">
+          <div class="${ls?'ls-card-area':''}${ls?'':'" style="width:100%'}">
+            <div class="big-card game-card" style="background:${mBg(cm)};border-left-color:${mColHex(cm)};animation:slideIn .3s;${ls?'height:100%':'flex:1;min-height:200px'};display:flex;flex-direction:column;align-items:center;justify-content:center">
+              <div style="font-family:'Cinzel',serif;font-size:${ls?'9px':'10px'};letter-spacing:2px;text-transform:uppercase;color:${mColHex(cm)};font-weight:700;opacity:.8">${mD(cm)}</div>
+              <div class="gold-line" style="width:${ls?'40px':'60px'}"></div>
+              <div class="big-word" style="font-size:${ls?'clamp(32px,7vw,52px)':fs+'px'}">${cw}</div>
+              <div class="gold-line" style="width:${ls?'40px':'60px'}"></div>
+              ${diffToggle()}
+              ${S.showStamp?`<div class="correct-stamp">${svgCheck()}</div>`:''}
+            </div>
+          </div>
+          <div class="${ls?'ls-ctrl-area':''}${ls?'':'" style="display:flex;flex-direction:column;gap:5px;width:100%'}">
+            <button onclick="debounced(correctCard)" class="btn-wood btn-correct" style="${ls?'padding:10px;font-size:14px;min-height:42px':''}">✓ CORRECT!</button>
+            <div style="display:flex;gap:${ls?'4px':'6px'};width:100%">
+              <button onclick="debounced(skipCard)" class="btn-wood" style="flex:1;padding:${ls?'8px':'10px'};font-size:12px;background:linear-gradient(180deg,#8B7744,#6B5522);border-color:#4A3311;text-align:center;${S.skipsLeft<=0?'opacity:.35;pointer-events:none':''}">⏭ Skip (${S.skipsLeft})</button>
+              <button onclick="debounced(penaltyCard)" class="btn-wood" style="flex:1;padding:${ls?'8px':'10px'};font-size:12px;background:linear-gradient(180deg,#8B3333,#6B1111);border-color:#4A0808;text-align:center">⚠ Penalty</button>
+            </div>
+          </div>
         </div>
       </div></div>`;
     }
@@ -1118,27 +1148,33 @@ function render(){
     else if(S.screen==='sing-play'){
       const cw2=S.cards[S.ci]?S.cards[S.ci][S.cardDiff==='easy'?0:1]:'';const isA=S.singTeam==='A';
       const fs2=cw2.length>15?28:42;
-      h=`<div class="screen" style="animation:fadeIn .3s"><div class="content" style="gap:5px">
+      const ls=isLandscape;
+      h=`<div class="screen" style="animation:fadeIn .3s"><div class="content" style="gap:${ls?'3px':'5px'}">
         ${topBar()}
-        ${compactBar('sing')}
-        <div class="big-card game-card" style="background:${mBg('sing')};border-left-color:${mColHex('sing')};min-height:140px;display:flex;flex-direction:column;align-items:center;justify-content:center">
-          <div class="card-border"></div>
-          <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--yellow-deep);font-weight:700;opacity:.8">Sing a song with</div>
-          <div class="big-word" style="font-size:${fs2}px">${cw2}</div>
-          ${diffToggle()}
+        <div class="ls-score-bar" style="width:100%">${compactBar('sing')}</div>
+        <div style="display:flex;gap:${ls?'6px':'0'};width:100%;${ls?'flex-direction:row;flex:1;min-height:0':'flex-direction:column;gap:4px'}">
+          <div class="${ls?'ls-card-area':''}${ls?'':'" style="width:100%'}">
+            <div class="big-card game-card" style="background:${mBg('sing')};border-left-color:${mColHex('sing')};${ls?'height:100%':'min-height:140px'};display:flex;flex-direction:column;align-items:center;justify-content:center">
+              <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--yellow-deep);font-weight:700;opacity:.8">Sing a song with</div>
+              <div class="big-word" style="font-size:${ls?'clamp(24px,6vw,44px)':fs2+'px'}">${cw2}</div>
+              ${diffToggle()}
+            </div>
+          </div>
+          <div class="${ls?'ls-ctrl-area':''}${ls?'':'" style="display:flex;flex-direction:column;gap:4px;width:100%'}">
+            <div style="display:flex;gap:4px;width:100%">
+              <div class="sing-team-box ${isA?'active':''}" style="background:${isA?'linear-gradient(135deg,#C0D0E8,#A0B8D8)':'var(--parchment)'};border:2px solid ${isA?'var(--team-a)':'var(--parchment-deep)'}">
+                <div style="font-family:'Cinzel',serif;font-size:${ls?'9px':'10px'};font-weight:700;color:var(--team-a)">${tN('A')} · ${S.singScoreA}</div></div>
+              <div class="sing-team-box ${!isA?'active':''}" style="background:${!isA?'linear-gradient(135deg,#E8C0C0,#D8A0A0)':'var(--parchment)'};border:2px solid ${!isA?'var(--team-b)':'var(--parchment-deep)'}">
+                <div style="font-family:'Cinzel',serif;font-size:${ls?'9px':'10px'};font-weight:700;color:var(--team-b)">${tN('B')} · ${S.singScoreB}</div></div>
+            </div>
+            <div class="panel" style="width:100%;padding:${ls?'4px':'6px'};text-align:center">
+              <div style="font-family:'Cinzel',serif;font-size:${ls?'10px':'11px'};font-weight:700;color:${isA?'var(--team-a)':'var(--team-b)'};letter-spacing:2px">${tIcon(S.singTeam)} ${tN(S.singTeam)} — SING!</div>
+              <div id="singCardT" style="font-family:'Cinzel',serif;font-size:${ls?'32px':'40px'};font-weight:900;line-height:1;color:${S.singTimer<=3?'var(--red-card)':'var(--ink)'}">${S.singTimer}</div>
+            </div>
+            <button onclick="singTeamSang()" class="btn-gold" style="width:100%;padding:${ls?'8px':'12px'};font-size:${ls?'13px':'15px'};letter-spacing:2px">🎵 They Sang!</button>
+            <button onclick="singSkipCard()" style="font-family:'Lora',serif;font-size:11px;color:var(--gold);text-decoration:underline;min-height:${ls?'28px':'36px'}">Skip word</button>
+          </div>
         </div>
-        <div style="display:flex;gap:4px;width:100%">
-          <div class="sing-team-box ${isA?'active':''}" style="background:${isA?'linear-gradient(135deg,#C0D0E8,#A0B8D8)':'var(--parchment)'};border:2px solid ${isA?'var(--team-a)':'var(--parchment-deep)'}">
-            <div style="font-family:'Cinzel',serif;font-size:10px;font-weight:700;color:var(--team-a)">⚔️ A · ${S.singScoreA}</div></div>
-          <div class="sing-team-box ${!isA?'active':''}" style="background:${!isA?'linear-gradient(135deg,#E8C0C0,#D8A0A0)':'var(--parchment)'};border:2px solid ${!isA?'var(--team-b)':'var(--parchment-deep)'}">
-            <div style="font-family:'Cinzel',serif;font-size:10px;font-weight:700;color:var(--team-b)">🛡️ B · ${S.singScoreB}</div></div>
-        </div>
-        <div class="panel" style="width:100%;padding:6px;text-align:center">
-          <div style="font-family:'Cinzel',serif;font-size:11px;font-weight:700;color:${isA?'var(--team-a)':'var(--team-b)'};letter-spacing:2px">${isA?'⚔️':'🛡️'} TEAM ${S.singTeam} — SING!</div>
-          <div id="singCardT" style="font-family:'Cinzel',serif;font-size:40px;font-weight:900;line-height:1;color:${S.singTimer<=3?'var(--red-card)':'var(--ink)'}">${S.singTimer}</div>
-        </div>
-        <button onclick="singTeamSang()" class="btn-gold" style="width:100%;padding:12px;font-size:15px;letter-spacing:2px">🎵 They Sang! Next →</button>
-        <button onclick="singSkipCard()" style="font-family:'Lora',serif;font-size:11px;color:var(--gold);text-decoration:underline;min-height:36px">Skip word</button>
       </div></div>`;
     }
 
@@ -1503,7 +1539,7 @@ function startGame(){
   S.sA=0;S.sB=0;S.team='A';S.round=1;
   S.cardDiff=S.diff;S.diffLocked=false;S.paused=false;
   S.gameStartTime=Date.now();usedByMode={sing:new Set(),act:new Set(),explain:new Set()};
-  S.role='host';startHosting();
+  S.role='host';startHosting();goFullscreen();
   resetTurnStats();pushState();S.screen='card-front';render();
 }
 
@@ -1577,9 +1613,36 @@ async function installApp(){if(deferP){deferP.prompt();await deferP.userChoice;d
 function dismissInstall(){deferP=null;render()}
 
 // ─── INIT ───
-checkUnlock(); // Load pro status from localStorage
+checkUnlock();
 localStorage.setItem('ll_opens',String((parseInt(localStorage.getItem('ll_opens')||'0'))+1));
 if(!localStorage.getItem('ll_seen')){localStorage.setItem('ll_seen','1');S.showTutorial=true;S.tutStep=0}
+
+// Orientation detection
+let isLandscape=false;
+function checkOrientation(){
+  const was=isLandscape;
+  isLandscape=window.innerWidth>window.innerHeight&&window.innerHeight<500;
+  document.body.classList.toggle('landscape',isLandscape);
+  if(was!==isLandscape)render();
+}
+window.addEventListener('resize',checkOrientation);
+window.addEventListener('orientationchange',()=>setTimeout(checkOrientation,100));
+checkOrientation();
+
+// Fullscreen API — enter fullscreen when game starts for max screen space
+function goFullscreen(){
+  try{
+    const el=document.documentElement;
+    if(el.requestFullscreen)el.requestFullscreen();
+    else if(el.webkitRequestFullscreen)el.webkitRequestFullscreen();
+    // Lock to current orientation if possible
+    if(screen.orientation&&screen.orientation.lock){screen.orientation.lock(isLandscape?'landscape':'portrait').catch(()=>{})}
+  }catch(e){}
+}
+function exitFullscreen(){
+  try{if(document.fullscreenElement){document.exitFullscreen()}else if(document.webkitFullscreenElement){document.webkitExitFullscreen()}}catch(e){}
+}
+
 render();
 
 if('serviceWorker'in navigator){
