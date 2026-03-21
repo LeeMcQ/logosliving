@@ -747,13 +747,12 @@ function singTeamSang(){debounced(()=>{
   },1000);render()
 })}
 function advanceSingCard(){
-  nextC();S.cardDiff=S.diff;S.diffLocked=false;
-  if(S.singRoundTime>0){S.singTeam=S.ci%2===0?'A':'B';S.singScoreA=0;S.singScoreB=0;S.screen='sing-reveal'}
+  nextC();S.cardDiff=S.diff;S.diffLocked=true;
+  if(S.singRoundTime>0){S.singTeam=S.ci%2===0?'A':'B';S.singScoreA=0;S.singScoreB=0;startSingCardTimer();S.screen='sing-play'}
   else{S.screen='summary'}render()
 }
-function singRevealNext(){S.diffLocked=true;startSingCardTimer();S.screen='sing-play';render()}
 function singSkipCard(){debounced(()=>{clearInterval(singTid);S.turnSkip++;trackWord('skip');nextC();S.cardDiff=S.diff;
-  if(S.singRoundTime>0){S.singTeam=S.ci%2===0?'A':'B';S.singScoreA=0;S.singScoreB=0;S.screen='sing-reveal'}else{S.screen='summary'}render()})}
+  if(S.singRoundTime>0){S.singTeam=S.ci%2===0?'A':'B';S.singScoreA=0;S.singScoreB=0;startSingCardTimer();S.screen='sing-play'}else{S.screen='summary'}render()})}
 
 function togglePause(){S.paused=!S.paused;render()}
 
@@ -1116,23 +1115,6 @@ function render(){
       </div></div>`;
     }
 
-    else if(S.screen==='sing-reveal'){
-      const cw2=S.cards[S.ci]?S.cards[S.ci][S.cardDiff==='easy'?0:1]:'';
-      const fs2=cw2.length>15?32:48;
-      h=`<div class="screen" style="animation:fadeIn .4s"><div class="content" style="gap:6px">
-        ${topBar()}
-        ${compactBar('sing')}
-        <div class="big-card game-card" style="background:${mBg('sing')};border-left-color:${mColHex('sing')};animation:cardFlip .4s;flex:1;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center">
-          <div class="card-border"></div>
-          <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--yellow-deep);font-weight:700;opacity:.8">Next Word</div>
-          <div class="gold-line" style="width:50px"></div>
-          <div class="big-word" style="font-size:${fs2}px">${cw2}</div>
-          ${diffToggle()}
-        </div>
-        <button onclick="singRevealNext()" class="btn-gold" style="width:100%;padding:16px;font-size:16px;letter-spacing:2px">🎵 Start Singing!</button>
-      </div></div>`;
-    }
-
     else if(S.screen==='sing-play'){
       const cw2=S.cards[S.ci]?S.cards[S.ci][S.cardDiff==='easy'?0:1]:'';const isA=S.singTeam==='A';
       const fs2=cw2.length>15?28:42;
@@ -1187,16 +1169,41 @@ function render(){
     }
 
     else if(S.screen==='gameover'){
-      const w=S.sA>S.sB?'A':S.sB>S.sA?'B':null;const wc=w==='A'?'var(--team-a)':w==='B'?'var(--team-b)':'var(--gold)';const wcH=w==='A'?'#2B6CB0':w==='B'?'#C53030':'#C8963E';
+      const isChamp=S.mode==='mix';
+      const totalA=isChamp?S.champTotalA:S.sA;
+      const totalB=isChamp?S.champTotalB:S.sB;
+      const w=totalA>totalB?'A':totalB>totalA?'B':null;const wc=w==='A'?'var(--team-a)':w==='B'?'var(--team-b)':'var(--gold)';const wcH=w==='A'?'#2B6CB0':w==='B'?'#C53030':'#C8963E';
       const cc=Math.min(15,25);let conf='';if(w)for(let i=0;i<cc;i++){conf+=`<div class="confetti-piece" style="left:${Math.random()*100}%;top:-${Math.random()*20}%;width:${5+Math.random()*5}px;height:${5+Math.random()*5}px;background:${[wcH,'#C8963E','#1B4D2E','#E8B44A','#F5E6C8'][Math.floor(Math.random()*5)]};border-radius:${Math.random()>.5?'50%':'1px'};--dur:${2+Math.random()*3}s;--delay:${Math.random()*2}s"></div>`}
-      h=`<div class="screen" style="animation:fadeIn .5s">${conf}<div class="content" style="gap:12px;z-index:3">
-        <div class="wood-frame" style="width:100%;animation:stampIn .5s"><div class="panel" style="padding:22px 14px;text-align:center">
-          <div style="font-size:40px;margin-bottom:4px">🏆</div>
-          <div style="font-family:'Almendra',serif;font-size:32px;color:${wc};letter-spacing:2px;animation:glow 2s ease-in-out infinite">${w?'Team '+w+' Wins!':"'Tis a Tie!"}</div>
+      h=`<div class="screen" style="animation:fadeIn .5s">${conf}<div class="content" style="gap:10px;z-index:3">
+        <div class="wood-frame" style="width:100%;animation:stampIn .5s"><div class="panel" style="padding:20px 14px;text-align:center">
+          ${isChamp?`<div style="font-size:60px;margin-bottom:4px">🏆</div>
+          <div style="font-family:'Almendra',serif;font-size:26px;color:${wc};letter-spacing:2px;animation:glow 2s ease-in-out infinite">${w?tN(w)+' wins the Championship!':"Championship Tie!"}</div>
+          <div style="font-family:'Cinzel',serif;font-size:16px;color:var(--ink);margin-top:6px;font-weight:700">${totalA} — ${totalB}</div>`
+          :`<div style="font-size:40px;margin-bottom:4px">🏆</div>
+          <div style="font-family:'Almendra',serif;font-size:30px;color:${wc};letter-spacing:2px;animation:glow 2s ease-in-out infinite">${w?tN(w)+' Wins!':"'Tis a Tie!"}</div>`}
         </div></div>
-        <div class="wood-frame" style="width:100%"><div style="padding:4px">${scores(w||'A')}</div></div>
-        <div class="panel" style="padding:8px 12px;text-align:center">
-          <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);font-style:italic">${mL(S.mode)} · ${S.rounds} rounds · ${S.sA+S.sB} pts</div>
+
+        ${isChamp&&S.champScores.length?`
+        <div class="panel" style="width:100%;padding:12px">
+          <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:var(--wood-light);text-transform:uppercase;text-align:center;margin-bottom:6px">Championship Breakdown</div>
+          ${S.champScores.map(sc=>{
+            const icon=sc.phase==='sing'?'🎵':sc.phase==='act'?'🎭':'💬';
+            const label=sc.phase==='sing'?'Sing-Off':sc.phase==='act'?'Act It Out':'Explain';
+            const wn=sc.sA>sc.sB?'A':sc.sB>sc.sA?'B':null;
+            return `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--parchment-deep)">
+              <span style="font-family:'Lora',serif;font-size:12px">${icon} ${label}</span>
+              <span style="font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:${wn==='A'?'var(--team-a)':wn==='B'?'var(--team-b)':'var(--gold)'}">${sc.sA} — ${sc.sB}</span>
+            </div>`;
+          }).join('')}
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0 0;margin-top:4px">
+            <span style="font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--gold);letter-spacing:1px">TOTAL</span>
+            <span style="font-family:'Cinzel',serif;font-size:16px;font-weight:900;color:var(--ink)">${totalA} — ${totalB}</span>
+          </div>
+        </div>`:''}
+
+        ${!isChamp?`<div class="wood-frame" style="width:100%"><div style="padding:4px">${scores(w||'A')}</div></div>`:''}
+        <div class="panel" style="padding:6px 12px;text-align:center">
+          <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);font-style:italic">${mL(S.mode)} · ${S.rounds} rounds</div>
         </div>
         <div style="display:flex;gap:8px;width:100%">
           <button class="btn-wood" onclick="playAgain()" style="flex:1;text-align:center;font-size:12px">Rematch</button>
@@ -1229,13 +1236,15 @@ function render(){
 // ─── MODALS ───
 function rulesModal(){return `<div class="modal-overlay" onclick="hideRules()"><div class="wood-frame modal" onclick="event.stopPropagation()"><div class="panel" style="padding:18px 14px">
   <div style="font-family:'Almendra',serif;font-size:20px;color:var(--wood-dark);text-align:center">How To Play</div><div class="gold-line" style="width:36px"></div>
-  <div style="font-family:'Lora',serif;font-size:12px;line-height:1.6;color:var(--ink)">
-    <p style="margin-bottom:5px"><b style="color:var(--yellow-card)">🎵 Sing-Off:</b> 5s to sing a song with the word. Teams alternate. 60s round.</p>
-    <p style="margin-bottom:5px"><b style="color:var(--red-card)">🎭 Act:</b> 1 word + gestures. Can't say the word! 30s.</p>
-    <p style="margin-bottom:5px"><b style="color:var(--blue-card)">💬 Explain:</b> Describe freely. Can't say the word! 30s.</p>
-    <p style="margin-bottom:5px"><b style="color:var(--wood)">🎲 Mix:</b> All three modes alternate each round.</p>
-    <p style="margin-bottom:5px"><b style="color:var(--felt-green)">Difficulty:</b> Easy (1pt) or Challenge (2pts) per card.</p>
-    <p><b style="color:var(--red-card)">⚠ Penalty:</b> Say the word → opponent gets the point!</p>
+  <div style="font-family:'Lora',serif;font-size:12px;line-height:1.7;color:var(--ink)">
+    <p style="margin-bottom:6px"><b>1. Pick teams</b> — Name your two teams and choose a describer for each.</p>
+    <p style="margin-bottom:6px"><b style="color:var(--yellow-card)">🎵 Sing-Off (120s round):</b> A word appears. The first team has <b>10 seconds</b> to start singing a Christian song containing that word. If they sing, the other team must then sing a different song with the same word within 10s. If a team fails, the opponent scores. The next word appears automatically — no breaks!</p>
+    <p style="margin-bottom:6px"><b style="color:var(--red-card)">🎭 Act It Out (60s):</b> Describe using <b>only 1 word + gestures</b>. You may NOT say the word on the card! Your team guesses.</p>
+    <p style="margin-bottom:6px"><b style="color:var(--blue-card)">💬 Explain (60s):</b> Describe the word <b>any way you like</b> — sentences, clues, definitions. Just don't say the actual word!</p>
+    <p style="margin-bottom:6px"><b style="color:var(--wood)">🏆 Championship:</b> Play Sing-Off, Act It Out, and Explain in one epic match! You choose how many rounds of each mode. All scores are <b>added together</b> — the team with the highest combined total wins the Championship!</p>
+    <p style="margin-bottom:6px"><b style="color:var(--felt-green)">Easy vs Challenge:</b> Each card has two words. Easy = 1pt, Challenge = 2pts. You can switch difficulty before each card.</p>
+    <p style="margin-bottom:6px"><b style="color:var(--red-card)">⚠ Penalty:</b> If the describer says the word, tap Penalty — the opposing team gets the point!</p>
+    <p><b style="color:var(--wood-light)">⏭ Skips:</b> Each team gets <b>2 skips</b> per turn.</p>
   </div>
   <button class="btn-gold" onclick="hideRules()" style="margin-top:8px;width:100%;text-align:center">Got It!</button>
 </div></div></div>`}
@@ -1244,12 +1253,28 @@ function aboutModal(){return `<div class="modal-overlay" onclick="S.showAbout=fa
   <div style="font-family:'Almendra',serif;font-size:20px;color:var(--wood-dark)">About</div><div class="gold-line" style="width:36px"></div>
   <div style="font-family:'Lora',serif;font-size:12px;line-height:1.6;color:var(--ink)">
     <p style="margin-bottom:6px"><b>Logo's Living</b> v${APP_VERSION}</p>
-    <p style="margin-bottom:6px">A digital Christian party game for church groups, youth ministries, and family game nights. 150 cards across Sing-Off, Act It Out, and Explain modes with biblical and SDA theology content.</p>
+    <p style="margin-bottom:6px">A digital Christian party game for church groups, youth ministries, and family game nights. 150+ cards across Sing-Off, Act It Out, Explain, and Championship modes with biblical and denominational content.</p>
     <p style="margin-bottom:6px;font-size:11px;color:var(--wood-light);font-style:italic">All game data is stored locally on your device only. No data is collected or sent externally.</p>
-    <p style="margin-bottom:6px"><b style="color:var(--gold-dark)">Feedback & Suggestions:</b></p>
-    <p style="margin-bottom:6px;font-size:11px">We'd love to hear from you! Tap below to send us your ideas, report issues, or suggest new card words.</p>
   </div>
-  <button class="btn-gold" onclick="S.showAbout=false;render()" style="margin-top:6px;width:100%;text-align:center">Close</button>
+  <div style="text-align:left;margin:8px 0">
+    <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:var(--gold-dark);text-transform:uppercase;margin-bottom:6px;text-align:center">Unlock Codes</div>
+    <div style="background:var(--parchment-dark);padding:10px;border-radius:6px;border:1px solid var(--parchment-deep)">
+      <div style="font-family:'Lora',serif;font-size:11px;color:var(--ink);line-height:1.8">
+        <div style="margin-bottom:6px"><b style="color:var(--gold)">⭐ Full Edition (all 150 base cards):</b></div>
+        <div style="font-family:monospace;font-size:10px;color:var(--wood);word-break:break-all;margin-bottom:8px">LOGOS2026 · LIVINGWORD · FULLGAME50 · ADVENT144 · BLESSED777 · PSALM2334 · JOHN316GO · FAITHFULL · REDEEMED1 · GRACE4ALL</div>
+        <div style="margin-bottom:4px"><b style="color:var(--gold)">Denomination Packs (50 cards each):</b></div>
+        <div style="font-family:monospace;font-size:10px;color:var(--wood);line-height:2">
+          ⛪ SDA: <b>SDAPACK26</b> or <b>ADVENTIST</b><br>
+          ✝️ Catholic: <b>CATHPACK26</b> or <b>CATHOLIC1</b><br>
+          💧 Baptist: <b>BAPTPACK26</b> or <b>BAPTIST01</b><br>
+          ❤️ Methodist: <b>METHPACK26</b> or <b>METHODIST</b><br>
+          🔥 Pentecostal: <b>PENTPACK26</b> or <b>PENTECOST</b>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);font-style:italic;margin-top:4px">Enter codes via the 🔓 Unlock button on the home screen.</div>
+  <button class="btn-gold" onclick="S.showAbout=false;render()" style="margin-top:8px;width:100%;text-align:center">Close</button>
 </div></div></div>`}
 
 function exitModal(){return `<div class="modal-overlay" onclick="cancelExit()"><div class="wood-frame" style="max-width:300px;width:100%" onclick="event.stopPropagation()"><div class="panel" style="padding:18px 14px;text-align:center">
@@ -1260,9 +1285,9 @@ function exitModal(){return `<div class="modal-overlay" onclick="cancelExit()"><
 
 function tutorialModal(){
   const steps=[
-    {icon:'👥',title:'Split Into Teams',text:'Divide into Team A and Team B. Each team picks a describer.'},
-    {icon:'🎴',title:'Choose Your Mode',text:'Sing, Act, Explain, or Mix. Each has different rules!'},
-    {icon:'⏳',title:'Beat the Timer',text:'Tap to reveal. 30s for Act/Explain, 60s for Sing-Off.'},
+    {icon:'👥',title:'Name Your Teams',text:'Choose your team names and pick a describer for each team.'},
+    {icon:'🎴',title:'Choose Your Mode',text:'Sing-Off, Act It Out, Explain, or Championship (all three combined!)'},
+    {icon:'⏳',title:'Beat the Timer',text:'60s for Act & Explain. 120s for Sing-Off with 10s per song.'},
     {icon:'⚡',title:'Easy or Challenge',text:'Each card has two words. Easy = 1pt, Challenge = 2pts.'},
   ];const s=steps[S.tutStep]||steps[0];
   return `<div class="modal-overlay"><div class="wood-frame modal" onclick="event.stopPropagation()"><div class="panel" style="padding:0;overflow:hidden">
