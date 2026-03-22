@@ -6,9 +6,9 @@
 <meta name="theme-color" content="#2C1810">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="description" content="Logo's Living — The Christian Party Game">
+<meta name="description" content="Fellowship Face-Off — The Great Christian Multiplayer Game">
 <meta name="mobile-web-app-capable" content="yes">
-<title>Logo's Living</title>
+<title>Fellowship Face-Off</title>
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -125,7 +125,7 @@ button{font-family:inherit;outline:none;border:none;background:none;cursor:point
 .def-card{width:100%;max-width:340px;animation:cardFlip .4s ease-out}
 .def-close{position:absolute;top:8px;right:8px;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--wood);color:var(--parchment);font-size:16px;font-weight:700;box-shadow:0 2px 6px rgba(0,0,0,.3);z-index:2}
 
-/* Word list for Logo's Learning */
+/* Word list for Faith Library */
 .word-grid{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;padding:8px 0}
 .word-chip{display:inline-flex;align-items:center;gap:4px;padding:6px 10px;border-radius:4px;font-family:'Lora',serif;font-size:12px;border:1px solid var(--parchment-deep);background:var(--parchment);cursor:pointer;transition:all .15s;min-height:36px}
 .word-chip:active{transform:scale(.95);background:var(--parchment-dark)}
@@ -627,7 +627,7 @@ function disconnectSync(){
   S.roomCode=null;S.role='host';S.teamView=null;
 }
 
-// ─── ALL WORDS for Logo's Learning ───
+// ─── ALL WORDS for Faith Library ───
 let _allWordsCache=null;
 function getAllWords(){
   if(_allWordsCache)return _allWordsCache;
@@ -901,8 +901,8 @@ function installHTML(){if(!deferP)return '';return `<div class="install-banner">
 function shareResult(){
   const w=S.sA>S.sB?'A':S.sB>S.sA?'B':'Tie';
   const t=w==='Tie'?`It's a tie! ${S.sA}-${S.sB}`:`Team ${w} won ${Math.max(S.sA,S.sB)}-${Math.min(S.sA,S.sB)}!`;
-  const msg=`🏆 Logo's Living — ${mL(S.mode)}\n${t}\n${S.rounds} rounds\nPlay: ${location.href}`;
-  if(navigator.share)navigator.share({title:"Logo's Living",text:msg}).catch(()=>{});
+  const msg=`🏆 Fellowship Face-Off — ${mL(S.mode)}\n${t}\n${S.rounds} rounds\nPlay: ${location.href}`;
+  if(navigator.share)navigator.share({title:"Fellowship Face-Off",text:msg}).catch(()=>{});
   else if(navigator.clipboard)navigator.clipboard.writeText(msg).then(()=>alert('Copied!'));
 }
 
@@ -931,7 +931,7 @@ function render(){
         // Waiting for host to start
         h=`<div class="screen" style="animation:fadeIn .5s"><div class="content" style="gap:16px;text-align:center">
           <div class="wood-frame" style="width:100%"><div class="panel" style="padding:24px 16px">
-            <div style="font-family:'Almendra',serif;font-size:28px;color:var(--wood-dark)">Logo's Living</div>
+            <div style="font-family:'Almendra',serif;font-size:28px;color:var(--wood-dark)">Fellowship Face-Off</div>
             <div class="gold-line" style="width:40px"></div>
             <div style="font-family:'Cinzel',serif;font-size:14px;color:${myTeam==='A'?'var(--team-a)':'var(--team-b)'};letter-spacing:2px">${myTeam==='A'?'⚔️':'🛡️'} TEAM ${myTeam} DISPLAY</div>
             <div style="font-family:'Lora',serif;font-size:12px;color:var(--wood-light);margin-top:8px;font-style:italic">Connected to room <b style="color:var(--gold)">${S.roomCode}</b></div>
@@ -1020,9 +1020,9 @@ function render(){
       const cardCount=pro?50:20;
       h=`<div class="screen" style="animation:fadeIn .6s"><div class="content" style="gap:10px">
         <div class="wood-frame" style="width:100%;animation:slideUp .5s"><div class="panel" style="padding:22px 14px;text-align:center">
-          <div style="font-family:'Almendra',serif;font-size:clamp(32px,9vw,48px);color:var(--wood-dark);line-height:1;text-shadow:0 2px 0 rgba(200,150,62,.3)">Logo's Living</div>
+          <div style="font-family:'Almendra',serif;font-size:clamp(32px,9vw,48px);color:var(--wood-dark);line-height:1;text-shadow:0 2px 0 rgba(200,150,62,.3)">Fellowship Face-Off</div>
           <div class="gold-line" style="width:50px"></div>
-          <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:4px;color:var(--wood-light);text-transform:uppercase">The Christian Party Game</div>
+          <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:4px;color:var(--wood-light);text-transform:uppercase">The Great Christian Multiplayer Game</div>
           ${pro?`<div style="display:inline-block;margin-top:6px;padding:2px 10px;border-radius:3px;background:linear-gradient(135deg,var(--gold-light),var(--gold));font-family:'Cinzel',serif;font-size:8px;font-weight:700;color:var(--wood-dark);letter-spacing:2px">⭐ FULL EDITION</div>`
             :`<div style="font-family:'Lora',serif;font-size:10px;color:var(--parchment-deep);margin-top:4px;font-style:italic">${cardCount} of 50 cards this week</div>`}
           ${st.total>0?`<div style="font-family:'Lora',serif;font-size:10px;color:var(--parchment-deep);margin-top:2px;font-style:italic">${st.total} game${st.total>1?'s':''} played</div>`:''}
@@ -1037,10 +1037,10 @@ function render(){
           <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);margin-top:1px;font-style:italic">${g.s}${!pro?` · ${cardCount} cards`:''}</div>
         </button>`).join('')}
 
-        <!-- Logo's Learning -->
+        <!-- Faith Library -->
         <button onclick="pushState();S.showLearning=true;render()" class="game-card" style="width:100%;padding:14px 12px 14px 16px;background:linear-gradient(135deg,#E8E0D0,#D8CDB8);animation:slideUp .5s ease-out .42s both;text-align:center;border-left:6px solid var(--gold-dark)">
           <div class="card-border"></div><div style="font-size:26px;margin-bottom:2px">📚</div>
-          <div style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--ink);letter-spacing:2px">Logo's Learning</div>
+          <div style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--ink);letter-spacing:2px">Faith Library</div>
           <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);margin-top:1px;font-style:italic">${pro?'Explore all 300 words & definitions':'🔒 Full dictionary in Full Edition'}</div>
         </button>
 
@@ -1312,7 +1312,7 @@ function rulesModal(){return `<div class="modal-overlay" onclick="hideRules()"><
 function aboutModal(){return `<div class="modal-overlay" onclick="S.showAbout=false;render()"><div class="wood-frame modal" onclick="event.stopPropagation()"><div class="panel" style="padding:18px 14px;text-align:center">
   <div style="font-family:'Almendra',serif;font-size:20px;color:var(--wood-dark)">About</div><div class="gold-line" style="width:36px"></div>
   <div style="font-family:'Lora',serif;font-size:12px;line-height:1.6;color:var(--ink)">
-    <p style="margin-bottom:6px"><b>Logo's Living</b> v${APP_VERSION}</p>
+    <p style="margin-bottom:6px"><b>Fellowship Face-Off</b> v${APP_VERSION}</p>
     <p style="margin-bottom:6px">A digital Christian party game for church groups, youth ministries, and family game nights. 150+ cards across Sing-Off, Act It Out, Explain, and Championship modes with biblical and denominational content.</p>
     <p style="margin-bottom:6px;font-size:11px;color:var(--wood-light);font-style:italic">All game data is stored locally on your device only. No data is collected or sent externally.</p>
   </div>
@@ -1363,7 +1363,7 @@ function tutorialModal(){
 function learningModal(){
   const words=getAllWords();
   return `<div class="modal-overlay" onclick="S.showLearning=false;render()"><div class="wood-frame modal" onclick="event.stopPropagation()"><div class="panel" style="padding:16px 12px">
-    <div style="font-family:'Almendra',serif;font-size:20px;color:var(--wood-dark);text-align:center">Logo's Learning</div>
+    <div style="font-family:'Almendra',serif;font-size:20px;color:var(--wood-dark);text-align:center">Faith Library</div>
     <div class="gold-line" style="width:40px"></div>
     <div style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);text-align:center;font-style:italic;margin-bottom:8px">${words.length} words — tap ❓ for definitions</div>
     <div class="scroll-content">
@@ -1459,7 +1459,7 @@ function requestFreeModal(){
     <div style="font-family:'Almendra',serif;font-size:18px;color:var(--wood-dark)">Request Free Access</div>
     <div class="gold-line" style="width:36px"></div>
     <div style="font-family:'Lora',serif;font-size:12px;color:var(--wood-light);line-height:1.5;font-style:italic;margin-bottom:10px">
-      If you're using Logo's Living for ministry, youth group, or church education, you may qualify for free access. Please share your details below.
+      If you're using Fellowship Face-Off for ministry, youth group, or church education, you may qualify for free access. Please share your details below.
     </div>
     <div style="text-align:left;display:flex;flex-direction:column;gap:8px;margin-bottom:10px">
       <input id="reqName" type="text" placeholder="Your Name" style="width:100%;font-family:'Lora',serif;font-size:13px;padding:10px;border:2px solid var(--parchment-deep);border-radius:6px;background:var(--parchment-dark);color:var(--ink);outline:none">
@@ -1487,9 +1487,9 @@ function submitFreeRequest(){
   if(!name||!contact){alert('Please enter your name and contact details.');return}
   if(!reason){alert('Please explain why you need free access.');return}
   // Compose message for sharing via native share or clipboard
-  const msg=`Logo's Living — Free Access Request\n\nName: ${name}\nContact: ${contact}\nChurch: ${church}\nPack: ${pack||'Not specified'}\nReason: ${reason}`;
+  const msg=`Fellowship Face-Off — Free Access Request\n\nName: ${name}\nContact: ${contact}\nChurch: ${church}\nPack: ${pack||'Not specified'}\nReason: ${reason}`;
   if(navigator.share){
-    navigator.share({title:"Logo's Living — Free Access Request",text:msg}).then(()=>{
+    navigator.share({title:"Fellowship Face-Off — Free Access Request",text:msg}).then(()=>{
       S.showRequestFree=false;render();
       alert('Request sent! We\'ll review and get back to you with an unlock code.');
     }).catch(()=>{
