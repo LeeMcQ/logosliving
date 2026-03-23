@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#2C1810">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -28,29 +28,49 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow-x:hidden}
+/* Felt texture background with noise grain */
 body{font-family:'Lora',Georgia,serif;background:var(--felt-green);color:var(--ink);
-background-image:radial-gradient(ellipse at 30% 20%,rgba(27,77,46,.9),transparent 60%),radial-gradient(ellipse at 70% 80%,rgba(15,46,26,.9),transparent 60%)}
+background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),radial-gradient(ellipse at 30% 20%,rgba(27,77,46,.9),transparent 60%),radial-gradient(ellipse at 70% 80%,rgba(15,46,26,.9),transparent 60%)}
 button{font-family:inherit;outline:none;border:none;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent;min-height:44px}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes fadeOut{from{opacity:1}to{opacity:0}}
 @keyframes slideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 @keyframes slideIn{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
-@keyframes cardFlip{from{transform:perspective(800px) rotateY(90deg);opacity:0}to{transform:perspective(800px) rotateY(0);opacity:1}}
+@keyframes cardFlip3D{0%{transform:perspective(800px) rotateY(90deg);opacity:0}40%{transform:perspective(800px) rotateY(-8deg);opacity:1}70%{transform:perspective(800px) rotateY(3deg)}100%{transform:perspective(800px) rotateY(0);opacity:1}}
 @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
-@keyframes confetti{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+@keyframes winShake{0%,100%{transform:translateX(0)}10%{transform:translateX(-3px) rotate(-.5deg)}20%{transform:translateX(3px) rotate(.5deg)}30%{transform:translateX(-2px)}40%{transform:translateX(2px)}50%{transform:translateX(0)}}
+@keyframes confetti{0%{transform:translateY(0) rotate(0) translateX(0);opacity:1}100%{transform:translateY(100vh) rotate(720deg) translateX(var(--drift,20px));opacity:0}}
 @keyframes glow{0%,100%{text-shadow:0 0 8px rgba(200,150,62,.4)}50%{text-shadow:0 0 20px rgba(200,150,62,.8),0 0 40px rgba(200,150,62,.3)}}
 @keyframes breathe{0%,100%{opacity:.4}50%{opacity:.9}}
 @keyframes countPulse{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
-@keyframes scoreFloat{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(-40px) scale(1.5)}}
+@keyframes scoreFloat{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(-50px) scale(2)}}
+@keyframes scoreBurst{0%{transform:scale(0);opacity:0}50%{transform:scale(1.3);opacity:1}100%{transform:scale(1);opacity:1}}
 @keyframes stampIn{from{transform:scale(2) rotate(-12deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
 @keyframes cdPop{0%{transform:scale(2.5);opacity:0}40%{transform:scale(.9);opacity:1}100%{transform:scale(1);opacity:1}}
 @keyframes singPulse{0%,100%{box-shadow:0 0 0 0 rgba(200,150,62,.4)}50%{box-shadow:0 0 0 12px rgba(200,150,62,0)}}
 @keyframes correctStamp{0%{transform:scale(0) rotate(-20deg);opacity:0}60%{transform:scale(1.15) rotate(3deg);opacity:1}100%{transform:scale(1) rotate(0);opacity:1}}
+@keyframes slideLeft{from{opacity:0;transform:translateX(-30px)}to{opacity:1;transform:translateX(0)}}
+@keyframes slideRight{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+@keyframes glowPulseGreen{0%,100%{box-shadow:0 0 8px rgba(45,123,45,.3)}50%{box-shadow:0 0 20px rgba(45,123,45,.6),0 0 40px rgba(45,123,45,.2)}}
+@keyframes glowPulseRed{0%,100%{box-shadow:0 0 4px rgba(200,50,50,.2)}50%{box-shadow:0 0 16px rgba(200,50,50,.5),0 0 30px rgba(200,50,50,.15)}}
+@keyframes glowPulseTeamA{0%,100%{box-shadow:0 0 6px rgba(43,108,176,.2)}50%{box-shadow:0 0 18px rgba(43,108,176,.5)}}
+@keyframes glowPulseTeamB{0%,100%{box-shadow:0 0 6px rgba(197,48,48,.2)}50%{box-shadow:0 0 18px rgba(197,48,48,.5)}}
+@keyframes sparkle{0%{transform:scale(0) rotate(0);opacity:1}100%{transform:scale(1.5) rotate(90deg);opacity:0}}
+@keyframes timerRingShrink{from{stroke-dashoffset:0}to{stroke-dashoffset:283}}
 
-.screen{min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 10px;position:relative}
+/* Screen transition wrapper */
+.screen{min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:env(safe-area-inset-top,10px) env(safe-area-inset-right,10px) env(safe-area-inset-bottom,10px) env(safe-area-inset-left,10px);position:relative}
 .content{z-index:1;display:flex;flex-direction:column;align-items:center;width:100%;max-width:400px}
-.panel{background:var(--parchment);border-radius:6px;position:relative;box-shadow:0 2px 8px rgba(0,0,0,.3),inset 0 0 20px rgba(139,94,52,.12);border:2px solid var(--parchment-deep);contain:content}
+/* Parchment texture on panels */
+.panel{background:var(--parchment);border-radius:6px;position:relative;box-shadow:0 2px 8px rgba(0,0,0,.3),inset 0 0 20px rgba(139,94,52,.12);border:2px solid var(--parchment-deep);contain:content;
+background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23p)' opacity='0.03'/%3E%3C/svg%3E")}
 .wood-frame{background:linear-gradient(145deg,var(--wood-light),var(--wood),var(--wood-dark));border-radius:8px;padding:5px;box-shadow:0 4px 16px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.1)}
 .gold-line{height:2px;background:linear-gradient(90deg,transparent,var(--gold),var(--gold-light),var(--gold),transparent);margin:6px auto;opacity:.7}
+/* Gold ornamental corners */
+.gold-corners{position:relative}
+.gold-corners::before,.gold-corners::after{content:'';position:absolute;width:16px;height:16px;border-color:var(--gold);border-style:solid;opacity:.5;pointer-events:none;z-index:2}
+.gold-corners::before{top:6px;left:6px;border-width:2px 0 0 2px;border-radius:2px 0 0 0}
+.gold-corners::after{bottom:6px;right:6px;border-width:0 2px 2px 0;border-radius:0 0 2px 0}
 .scores{display:flex;gap:10px;justify-content:center;width:100%}
 .score-box{flex:1;border-radius:4px;text-align:center;padding:10px 6px;transition:all .3s;contain:content}
 .score-label{font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin-bottom:2px;font-weight:700}
@@ -61,9 +81,12 @@ button{font-family:inherit;outline:none;border:none;background:none;cursor:point
 .scores-compact .sc-label{font-size:10px;letter-spacing:1px;opacity:.8}
 .scores-compact .sc-num{font-size:22px}
 .scores-compact .sc-div{font-family:'Almendra',serif;font-size:12px;color:var(--gold);opacity:.5}
-/* Big card for gameplay */
-.big-card{width:100%;padding:30px 16px 24px;border-radius:12px;text-align:center;position:relative;border-left-width:8px;border-left-style:solid;box-shadow:0 8px 24px rgba(0,0,0,.45)}
+/* Big card for gameplay — textured */
+.big-card{width:100%;padding:30px 16px 24px;border-radius:12px;text-align:center;position:relative;border-left-width:8px;border-left-style:solid;box-shadow:0 8px 24px rgba(0,0,0,.45);
+background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='c'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23c)' opacity='0.035'/%3E%3C/svg%3E")}
 .big-word{font-family:'Almendra',serif;font-weight:700;padding:18px 4px;line-height:1.05;color:var(--ink);text-shadow:0 2px 0 rgba(200,150,62,.18);word-wrap:break-word;overflow-wrap:break-word}
+/* Mode badge on gameplay card */
+.mode-badge{position:absolute;top:8px;left:12px;width:28px;height:28px;border-radius:6px;object-fit:cover;opacity:.7;z-index:2;box-shadow:0 1px 4px rgba(0,0,0,.3)}
 @media(max-width:340px){.sc-num{font-size:18px!important}}
 
 /* ─── LANDSCAPE MODE ─── */
@@ -89,13 +112,14 @@ button{font-family:inherit;outline:none;border:none;background:none;cursor:point
   /* Home screen in landscape */
   .ls-home-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%}
 }
-.game-card{border-radius:8px;position:relative;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.35);contain:content}
+.game-card{border-radius:8px;position:relative;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.35);contain:content;transition:transform .1s}
+.game-card:active{transform:scale(.98)}
 .card-border{position:absolute;inset:4px;border:1px solid rgba(200,150,62,.3);border-radius:4px;pointer-events:none;z-index:1}
-.btn-wood{padding:14px 20px;border-radius:6px;font-family:'Cinzel',serif;font-weight:700;font-size:14px;background:linear-gradient(180deg,var(--wood-light),var(--wood));color:var(--parchment);letter-spacing:1px;box-shadow:0 3px 8px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.15),inset 0 -2px 0 rgba(0,0,0,.2);text-shadow:0 1px 2px rgba(0,0,0,.4);transition:all .12s;border:1px solid var(--wood-dark);min-height:48px}
-.btn-wood:active{transform:translateY(2px);box-shadow:0 1px 3px rgba(0,0,0,.3)}
-.btn-gold{padding:14px 20px;border-radius:6px;font-family:'Cinzel',serif;font-weight:700;font-size:14px;background:linear-gradient(180deg,var(--gold-light),var(--gold),var(--gold-dark));color:var(--wood-dark);letter-spacing:1px;box-shadow:0 3px 8px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.3);text-shadow:0 1px 0 rgba(255,255,255,.2);transition:all .12s;border:1px solid var(--gold-dark);min-height:48px}
-.btn-gold:active{transform:translateY(2px)}
-.btn-correct{width:100%;padding:18px;font-size:18px;background:linear-gradient(180deg,#2D7B2D,#1B5D1B);border-color:#0F3E0F;text-align:center;letter-spacing:2px;min-height:60px}
+.btn-wood{padding:14px 20px;border-radius:6px;font-family:'Cinzel',serif;font-weight:700;font-size:14px;background:linear-gradient(180deg,var(--wood-light),var(--wood));color:var(--parchment);letter-spacing:1px;box-shadow:0 3px 8px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.15),inset 0 -2px 0 rgba(0,0,0,.2);text-shadow:0 1px 2px rgba(0,0,0,.4);transition:all .1s;border:1px solid var(--wood-dark);min-height:48px}
+.btn-wood:active{transform:translateY(2px) scale(.97);box-shadow:0 1px 3px rgba(0,0,0,.3);filter:brightness(.9)}
+.btn-gold{padding:14px 20px;border-radius:6px;font-family:'Cinzel',serif;font-weight:700;font-size:14px;background:linear-gradient(180deg,var(--gold-light),var(--gold),var(--gold-dark));color:var(--wood-dark);letter-spacing:1px;box-shadow:0 3px 8px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.3);text-shadow:0 1px 0 rgba(255,255,255,.2);transition:all .1s;border:1px solid var(--gold-dark);min-height:48px}
+.btn-gold:active{transform:translateY(2px) scale(.97);filter:brightness(.92)}
+.btn-correct{width:100%;padding:18px;font-size:18px;background:linear-gradient(180deg,#2D7B2D,#1B5D1B);border-color:#0F3E0F;text-align:center;letter-spacing:2px;min-height:60px;animation:glowPulseGreen 2s ease-in-out infinite}
 .modal-overlay{position:fixed;inset:0;background:rgba(15,10,5,.88);z-index:100;display:flex;align-items:center;justify-content:center;padding:14px;animation:fadeIn .3s}
 .modal{border-radius:8px;max-width:400px;width:100%;max-height:85vh;overflow-y:auto}
 .confetti-piece{position:fixed;z-index:2;will-change:transform;animation:confetti var(--dur) linear var(--delay) both}
@@ -146,7 +170,7 @@ button{font-family:inherit;outline:none;border:none;background:none;cursor:point
 <div id="app"></div>
 <script>
 'use strict';
-const APP_VERSION='8.0';
+const APP_VERSION='9.0';
 
 // ─── CARDS WITH DEFINITIONS ───
 // Format: [easy_word, challenge_word, easy_def, challenge_def]
@@ -225,112 +249,264 @@ const SING=[
 ["Hallelujah","Freedom","Hebrew exclamation meaning 'Praise the Lord!' — the highest praise","Liberation from bondage, sin, and death through Christ's redemptive work"],
 ["Presence","Fortress","Being in the same place as someone; God's manifest nearness to us","A fortified place; God as our strong defence and impenetrable refuge"],
 ["Near","Stronghold","Close in distance or relationship; God draws near to those who seek Him","A place of security and survival; God as our stronghold in times of distress"]
-];
+,
+["Presence","Fortress","Being near to God; His manifest nearness surrounding and comforting us in all circumstances","A fortified place of strong defence; God is our mighty fortress and sure refuge in every storm of life"]];
 
 const ACT=[
-["Angel","Woman touches garment","A heavenly messenger created by God to serve and deliver His messages","The woman with the issue of blood who was healed by touching Jesus' robe (Mark 5)"],
-["Prayer","Walls of Jericho fall","Communication with God; talking, listening, and communing with the Creator","When Israel marched around Jericho for seven days and the walls collapsed (Joshua 6)"],
-["Baptism","Moses parts the sea","Immersion in water symbolising death to sin and resurrection to new life","When God parted the Red Sea through Moses so Israel could escape Egypt (Exodus 14)"],
-["Shepherd","David slays Goliath","A keeper of sheep; Jesus is called the Good Shepherd who lays down His life","The young shepherd boy who defeated the Philistine giant with a stone and sling (1 Samuel 17)"],
-["Noah","Elijah calls fire from heaven","The man God chose to build the ark and save his family from the flood","When the prophet Elijah challenged the prophets of Baal and fire fell from God (1 Kings 18)"],
-["Cross","Daniel in the lions' den","The wooden cross where Jesus was crucified for the sins of the world","When Daniel was thrown to the lions for praying, but God shut the lions' mouths (Daniel 6)"],
-["Dove","Jonah swallowed by whale","A symbol of the Holy Spirit and peace; descended on Jesus at His baptism","When the prophet Jonah was swallowed by a great fish for three days (Jonah 1-2)"],
-["Crown","Peter walks on water","A symbol of royal authority; the crown of thorns placed on Jesus","When Peter stepped out of the boat and walked on water toward Jesus (Matthew 14)"],
-["Worship","Samson pushes pillars","Reverent honour and adoration directed to God alone","When the strongman Samson pushed apart the pillars of the Philistine temple (Judges 16)"],
-["Fishing","Three Hebrew boys in fire","Jesus called His disciples to be 'fishers of men' (Matthew 4:19)","Shadrach, Meshach, and Abednego survived Nebuchadnezzar's fiery furnace (Daniel 3)"],
-["Healing","Turn stone to bread","Jesus' ministry included healing the sick as a sign of God's kingdom","Satan's first temptation of Jesus in the wilderness (Matthew 4:3)"],
-["Fasting","Feeding five thousand","Abstaining from food for spiritual focus and dependence on God","When Jesus miraculously multiplied five loaves and two fish to feed a multitude (John 6)"],
-["Singing","Writing on the wall","Praising God through song; a key form of worship and witness","When mysterious fingers wrote on Belshazzar's palace wall, interpreted by Daniel (Daniel 5)"],
-["Prophet","Holy Communion","A spokesperson for God who delivers divine messages and warnings","The Lord's Supper service with bread and wine remembering Christ's sacrifice"],
-["Garden","Joshua stops the sun","The Garden of Eden; also Gethsemane where Jesus prayed before the cross","When God made the sun stand still during Israel's battle at Gibeon (Joshua 10)"],
-["Temple","Burning bush","A place of worship; Solomon's temple in Jerusalem; the body as God's temple","When God spoke to Moses through a bush that burned but was not consumed (Exodus 3)"],
-["Servant","Walking through Red Sea","One who serves others; Jesus came as a servant (Philippians 2:7)","When Israel walked on dry ground through the parted Red Sea waters (Exodus 14)"],
-["Lion","Jesus washes disciples' feet","Jesus is the Lion of the tribe of Judah (Revelation 5:5)","An act of humble service Jesus performed before the Last Supper (John 13)"],
-["Trumpet","Lazarus rises from tomb","An instrument announcing God's presence and end-time events","When Jesus called Lazarus back to life after four days in the grave (John 11)"],
-["Offering","Jacob wrestles the angel","A gift presented to God in worship; a sacrifice of dedication","When Jacob wrestled with a divine being all night and was renamed Israel (Genesis 32)"],
-["Harvest","Balaam's donkey speaks","The gathering of crops; symbolises the ingathering of souls at the end","When God opened the mouth of Balaam's donkey to speak a warning (Numbers 22)"],
-["Sword","Jesus calms the storm","The Word of God described as the sword of the Spirit (Ephesians 6:17)","When Jesus rebuked the wind and waves and they obeyed Him (Mark 4)"],
-["Praise","Paul and Silas in prison","Expressing admiration and gratitude to God through words and actions","When Paul and Silas sang hymns at midnight in prison and were freed by an earthquake (Acts 16)"],
-["Bible","Abraham sacrifices Isaac","The Holy Scriptures; God's written Word and guide for life","When God tested Abraham by asking him to offer his son Isaac (Genesis 22)"],
-["Church","Water turns to wine","The body of believers; the community of Christ's followers","Jesus' first miracle at the wedding in Cana, turning water into wine (John 2)"],
-["Miracle","Joseph's coat of many colors","A supernatural act of God that defies natural law","The special garment Jacob gave to his favourite son Joseph (Genesis 37)"],
-["Chariot","Tower of Babel","A vehicle of war or transport; Elijah was taken up in a chariot of fire","When people tried to build a tower to heaven and God confused their languages (Genesis 11)"],
-["Ark","Naaman dips in Jordan","Noah's ark or the Ark of the Covenant containing the Ten Commandments","When the Syrian commander was healed of leprosy by washing in the Jordan River (2 Kings 5)"],
-["Pillar","Jesus overturns tables","A supporting column; the pillar of cloud and fire that guided Israel","When Jesus drove out the money changers from the temple (Matthew 21)"],
-["Disciple","Blind man receives sight","A follower and student of Jesus; the twelve apostles","When Jesus healed a man born blind, demonstrating His divine power (John 9)"],
-["Sabbath","Fiery serpent on a pole","The seventh-day rest established at Creation; kept from Friday sunset to Saturday sunset","When Moses lifted up a bronze serpent to heal those bitten by snakes (Numbers 21)"],
-["Tithe","Widow's oil multiplied","Returning one-tenth of income to God as an act of faithful stewardship","When Elisha miraculously multiplied a poor widow's jar of oil (2 Kings 4)"],
-["Elder","Philip carried by Spirit","A mature leader in the church responsible for spiritual oversight","When the Holy Spirit transported Philip after he baptised the Ethiopian (Acts 8)"],
-["Parable","Good Samaritan","A short story Jesus told to teach spiritual truths","Jesus' parable about a Samaritan who helped a wounded stranger (Luke 10)"],
-["Manna","Prodigal son returns","Bread from heaven provided by God during Israel's wilderness journey","Jesus' parable about a wayward son who returns home to his father's embrace (Luke 15)"],
-["Candle","Jesus rides a donkey","A light source; symbolising believers shining in darkness (Matthew 5:14-16)","Jesus' triumphal entry into Jerusalem fulfilling Zechariah's prophecy (Matthew 21)"],
-["Throne","Stoning of Stephen","The seat of God's authority and rule in heaven","When the first Christian martyr Stephen was killed for his faith (Acts 7)"],
-["Armor","Road to Emmaus","The full armor of God described in Ephesians 6 for spiritual warfare","When the risen Jesus walked unrecognised with two disciples (Luke 24)"],
-["Shield","Ruth gleans the field","The shield of faith that extinguishes the devil's fiery darts (Ephesians 6:16)","When Ruth gathered leftover grain in Boaz's field, showing her loyalty (Ruth 2)"],
-["Scroll","Esther approaches the king","A rolled document; the scroll of life in Revelation","When Queen Esther risked her life to save her people from Haman's plot (Esther 4-5)"],
-["Altar","Creation of Adam","A raised structure for offering sacrifices and worship to God","When God formed the first man from the dust of the ground (Genesis 2:7)"],
-["Robe","Jesus in Gethsemane","A garment of honour; the robe of righteousness Christ provides","When Jesus prayed in agony in the garden before His arrest (Luke 22)"],
-["Staff","Aaron's rod that budded","A walking stick; Moses' staff used in miracles; symbol of authority","When Aaron's staff miraculously sprouted, budded, and produced almonds (Numbers 17)"],
-["Vineyard","Wedding at Cana","A grape farm; used by Jesus to represent God's people and kingdom","The wedding feast where Jesus performed His first miracle of turning water to wine (John 2)"],
-["Sheep","Lost coin found","Followers of Jesus; He knows each one by name (John 10:27)","Jesus' parable about a woman who searches diligently for one lost coin (Luke 15)"],
-["Whale","Elijah fed by ravens","The great sea creature that swallowed Jonah for three days","When God sent ravens to bring food to the prophet Elijah by the brook (1 Kings 17)"],
-["Rainbow","Dry bones come alive","God's sign of His covenant promise to never flood the earth again","Ezekiel's vision of a valley of dry bones that God restored to life (Ezekiel 37)"],
-["Rock","Jesus tempted on mountain","Christ the solid Rock; the rock Moses struck that gave water","Satan's temptation offering Jesus all kingdoms if He would worship him (Matthew 4)"],
-["Lamp","Ten virgins","A light for guidance; God's Word is a lamp to our feet (Psalm 119:105)","Jesus' parable about ten bridesmaids, five prepared and five not (Matthew 25)"],
-["Bread","Zacchaeus in the tree","Jesus as the Bread of Life who sustains our spiritual hunger","The short tax collector who climbed a sycamore tree to see Jesus (Luke 19)"]
-];
+["Adam","Garden of Eden","The first human created by God from the dust of the ground","The paradise God created for Adam and Eve with the tree of life"],
+["Eve","Serpent","The first woman, created from Adam's rib; mother of all living","The crafty creature Satan used to tempt Eve to eat the forbidden fruit"],
+["Noah","Ark","The man God chose to build a vessel and save his family from the flood","The massive boat God told Noah to build to survive the worldwide flood"],
+["Flood","Abraham","God's judgment that covered the earth with water in Noah's time","Father of faith who left his homeland when God called him"],
+["Isaac","Sacrifice","The promised son of Abraham and Sarah, born in their old age","Giving up something valuable to God; Abraham offering Isaac on the altar"],
+["Jacob","Ladder","Isaac's son who wrestled with God and became Israel","The stairway to heaven Jacob saw in a dream with angels ascending and descending"],
+["Joseph","Coat","Jacob's favourite son who was sold into slavery but became ruler of Egypt","The special garment of many colours Jacob gave to his son Joseph"],
+["Moses","Bush","The leader God chose to deliver Israel from slavery in Egypt","The burning bush through which God spoke to Moses on Mount Horeb"],
+["Pharaoh","Plague","The king of Egypt who refused to let the Israelites go free","The devastating judgments God sent upon Egypt to free His people"],
+["Sea","Staff","The Red Sea that God parted for Israel to cross on dry ground","Moses' rod that God used to perform mighty miracles and signs"],
+["Tablet","Manna","The stone tablets on which God wrote the Ten Commandments","The bread from heaven God provided daily for Israel in the wilderness"],
+["David","Goliath","Israel's greatest king who killed a giant as a shepherd boy","The massive Philistine warrior who defied Israel's army for forty days"],
+["Sling","Crown","The simple weapon David used to defeat the giant Goliath","A symbol of royal authority placed on a king's head"],
+["Solomon","Temple","David's son, the wisest king who ever lived","The magnificent house of worship Solomon built for God in Jerusalem"],
+["Elijah","Fire","The bold prophet who challenged the prophets of Baal","The flames God sent from heaven to consume Elijah's sacrifice on Mount Carmel"],
+["Chariot","Jonah","The fiery chariot that took Elijah up to heaven in a whirlwind","The reluctant prophet who tried to run from God and was swallowed by a great fish"],
+["Whale","Daniel","The great sea creature that swallowed Jonah for three days","The faithful prophet who survived the lions' den in Babylon"],
+["Lion","Esther","A powerful beast; Daniel was thrown into a den of lions","The brave Jewish queen who risked her life to save her people"],
+["Queen","Cross","A female monarch; Esther became queen of Persia","The wooden instrument on which Jesus was crucified for humanity's sins"],
+["Jesus","Manger","The Son of God, Saviour of the world, born in Bethlehem","The feeding trough where baby Jesus was laid after His birth"],
+["Star","Shepherd","The bright light that guided the wise men to baby Jesus","A keeper of sheep; the first to hear the news of Jesus' birth"],
+["Lamb","Camel","Jesus as the Lamb of God who takes away the sin of the world","The large animal the wise men rode across the desert to find Jesus"],
+["Donkey","Miracle","The humble animal Jesus rode into Jerusalem on Palm Sunday","A supernatural act of God that defies natural law"],
+["Heal","Pray","To restore health; Jesus healed the blind, lame, and sick","To communicate with God through words, thoughts, and listening"],
+["Baptize","Peter","To immerse in water as a sign of faith and new life in Christ","A fisherman who became a bold leader of the early church"],
+["Fish","Bread","Jesus called His disciples to be fishers of men","Jesus as the Bread of Life who feeds our spiritual hunger"],
+["Wine","Tomb","Jesus turned water into wine at the wedding in Cana","The sealed cave where Jesus' body was laid after crucifixion"],
+["Rise","Angel","To come back to life; Jesus rose from the dead on the third day","A heavenly messenger sent by God to deliver messages and protect"],
+["Mary","Gabriel","The mother of Jesus, chosen by God to bear the Messiah","The archangel who announced to Mary that she would bear God's Son"],
+["John","Dove","The beloved disciple who wrote a Gospel and Revelation","A bird symbolising the Holy Spirit; descended on Jesus at His baptism"],
+["Satan","Tempt","The adversary of God; the fallen angel who opposes all good","To entice someone to do wrong; Satan tempted Jesus in the wilderness"],
+["Judas","Kiss","The disciple who betrayed Jesus for thirty pieces of silver","The sign Judas used to identify Jesus to the soldiers in the garden"],
+["Pilate","Whip","The Roman governor who sentenced Jesus to crucifixion","The instrument used to flog Jesus before His crucifixion"],
+["Nail","Thorn","The iron spikes driven through Jesus' hands and feet on the cross","The sharp plant woven into a crown and placed on Jesus' head"],
+["Paul","Ship","The former persecutor who became the greatest missionary apostle","The vessel Paul sailed on during his missionary journeys and shipwreck"],
+["Snake","Prison","The venomous creature that bit Paul on Malta but did not harm him","The place where Paul and Silas were chained for preaching the gospel"],
+["Chain","Silas","Metal bonds used to restrain prisoners; Paul was chained for Christ","Paul's companion who sang hymns with him at midnight in prison"],
+["Sing","Ruth","To praise God through music and song","The loyal Moabite woman who followed Naomi and married Boaz"],
+["Boaz","Harvest","The wealthy landowner who redeemed and married Ruth","The gathering of crops; Ruth gleaned in the fields during harvest"],
+["Samson","Hair","The judge with supernatural strength given by God","The source of Samson's strength; Delilah had it cut off"],
+["Delilah","Jawbone","The woman who deceived Samson and discovered his secret","The bone of a donkey Samson used to defeat a thousand Philistines"],
+["Gideon","Fleece","The judge who defeated the Midianites with just 300 men","The wool Gideon used to test God's will with dew and dryness"],
+["Torch","Joshua","A burning flame; Gideon's men carried torches inside clay jars","Moses' successor who led Israel across the Jordan into the Promised Land"],
+["Trumpet","Wall","The instrument blown at the battle of Jericho","The massive fortification of Jericho that collapsed when Israel shouted"],
+["Jericho","Rahab","The fortified city whose walls fell after Israel marched around it","The woman who hid the Israelite spies and was saved when Jericho fell"],
+["Rope","Caleb","The cord Rahab hung from her window as a sign of protection","One of two faithful spies who trusted God to give Israel the land"],
+["Giant","Miriam","An enormous person; the Nephilim and Goliath were giants","Moses' sister, a prophetess who led Israel in song after crossing the Red Sea"],
+["Dance","Aaron","Joyful bodily movement in worship; Miriam and David both danced","Moses' brother, Israel's first high priest who made priestly garments"],
+["Rod","Eden","Aaron's staff that miraculously budded, bloomed, and produced almonds","The garden paradise God created as the first home for humanity"],
+["Tree","Fruit","The tree of life and the tree of knowledge in the Garden of Eden","The forbidden food from the tree of knowledge that Adam and Eve ate"],
+["Cain","Abel","The firstborn son of Adam and Eve who murdered his brother","Adam and Eve's second son, a shepherd whose offering pleased God"],
+["Tower","Babel","A tall structure people built trying to reach heaven","The place where God confused human language to stop the tower project"],
+["Sarah","Laugh","Abraham's wife who bore Isaac in old age; her name means princess","Sarah's reaction when she heard she would have a baby at age 90"],
+["Rebekah","Veil","Isaac's wife who was chosen at a well; mother of Jacob and Esau","A cloth covering for the face; Rebekah covered herself when meeting Isaac"],
+["Esau","Hunt","Jacob's twin brother who sold his birthright for a bowl of stew","To pursue and catch wild animals for food; Esau was a skilled hunter"],
+["Leah","Rachel","Jacob's first wife; mother of six sons including Judah","Jacob's beloved wife; he worked fourteen years to marry her"],
+["Well","Benjamin","A water source; Jacob met Rachel at a well","Jacob's youngest son; Joseph's only full brother"],
+["Cup","Egypt","Joseph's silver cup hidden in Benjamin's sack as a test","The ancient land where the Israelites were enslaved for 400 years"],
+["Sinai","Mountain","The mountain where God gave Moses the Ten Commandments","A high landform; God often met His people on mountains"],
+["Command","Worship","An order from God; the Ten Commandments are God's instructions","To honour and adore God with reverence and devotion"],
+["Idol","Calf","A false god or image that people worship instead of the true God","The golden statue the Israelites made while Moses was on Sinai"],
+["Repent","Faith","To turn away from sin and turn toward God with a changed heart","Complete trust and confidence in God and His promises"],
+["Love","Hope","God's unconditional care for humanity; the greatest commandment","Confident expectation in God's promises, especially Christ's return"],
+["Grace","Glory","God's unmerited favour and kindness shown to sinners","The visible splendour and radiance of God's magnificent presence"],
+["Heaven","Throne","The dwelling place of God; the eternal home of the redeemed","The seat of God's authority and rule over all creation"],
+["Sword","Shield","The Word of God described as the sword of the Spirit","The shield of faith that extinguishes the enemy's fiery darts"],
+["Armor","Helmet","The full armor of God described in Ephesians 6 for spiritual battle","The helmet of salvation that protects the mind and thoughts"],
+["Scroll","Write","A rolled document; the scroll of life in Revelation","To put words on paper; God's Word was written by inspired authors"],
+["Read","Prophet","To study Scripture; blessed is the one who reads Revelation","A spokesperson for God who delivers divine messages and warnings"],
+["Dream","Interpret","A vision during sleep; God spoke through dreams to Joseph and Daniel","To explain the meaning; Joseph and Daniel interpreted dreams from God"],
+["Wise","King","Having good judgment; the wise men followed the star to Jesus","A sovereign ruler; Jesus Christ is King of Kings"],
+["Servant","Slave","One who serves others; Jesus came as a servant to all","A person in bondage; Israel was enslaved in Egypt for 400 years"],
+["Free","Redeem","Released from bondage through Christ's sacrifice","To buy back; Jesus redeemed us from slavery to sin with His blood"],
+["Blood","Passover","The blood of Jesus shed for forgiveness; the blood on the doorposts","The night God passed over Israelite homes marked with lamb's blood"],
+["Door","Exodus","Jesus said 'I am the door' — the only way to the Father","The departure of Israel from Egypt under Moses' leadership"],
+["Wander","Pillar","To roam without direction; Israel wandered 40 years in the wilderness","A column of cloud by day and fire by night that guided Israel"],
+["Cloud","Rock","God led Israel with a pillar of cloud during the day","The rock Moses struck that brought water in the desert"],
+["Water","Quail","Living water Jesus offers; water from the rock in the wilderness","The birds God sent to feed Israel with meat in the desert"],
+["Commandment","Tabernacle","A divine instruction from God; the Ten Commandments","The portable tent of worship Israel carried through the wilderness"],
+["Tent","Priest","A temporary shelter; the tabernacle was God's tent among His people","A minister who offers sacrifices and intercedes between God and people"],
+["Levite","Offering","A member of the priestly tribe of Levi who served in the tabernacle","A gift presented to God in worship and dedication"],
+["Altar","Smoke","A raised structure for sacrifices and worship","The rising vapour from burnt offerings ascending toward heaven"],
+["Bless","Curse","To speak God's favour and goodness over someone","To invoke harm or misfortune; the opposite of blessing"],
+["Victory","Battle","Triumph over enemies; God gives victory to His people","A fight or conflict; the Lord fights our battles for us"],
+["Shout","Fall","A loud cry; Israel shouted and Jericho's walls fell","To collapse or come down; the walls of Jericho fell flat"],
+["Ascend","Spirit","To go up; Jesus ascended to heaven before the disciples' eyes","The Holy Spirit, the third person of the Godhead, our Comforter"],
+["Wind","Flame","A rushing mighty wind filled the room at Pentecost","Tongues of fire that appeared over each believer at Pentecost"],
+["Tongue","Gift","Languages; at Pentecost everyone heard in their own tongue","A spiritual ability given by the Holy Spirit for serving others"],
+["Church","Disciple","The body of believers; the community of Christ's followers","A follower and student of Jesus who learns and obeys His teachings"],
+["Apostle","Martyr","One sent out with authority; the twelve chosen by Jesus","A person who dies for their faith; Stephen was the first Christian martyr"],
+["Eternal","Amen","Lasting forever; eternal life is God's gift through Jesus Christ","A word meaning 'so be it' used to affirm prayers and declarations"]
+,
+["Murder","Tower","The act of unlawfully taking a life; Cain committed the first murder against Abel","A tall structure built for defence or observation; the Tower of Babel reached toward heaven"],
+["Babel","Sarah","The place where God confused human languages to stop a tower reaching heaven","Abraham's wife who bore Isaac in old age; her name means princess and she laughed at God's promise"],
+["Laugh","Rebekah","Sarah's joyful reaction when told she would bear a child at ninety years old","Isaac's wife chosen at a well by Abraham's servant; mother of twins Jacob and Esau"],
+["Veil","Benjamin","A cloth face covering worn by women; Rebekah veiled herself when she first met Isaac","Jacob's youngest and most beloved son; Joseph's only full brother from the same mother Rachel"],
+["Cup","Egypt","Joseph's silver cup hidden in Benjamin's sack as a test of his brothers' character","The ancient land of pyramids where Israel was enslaved for four hundred years under cruel Pharaoh"],
+["Sinai","Commandment","The holy mountain in the desert where God spoke to Moses from fire and smoke","A divine instruction from God; the Ten Commandments are the foundation of God's moral law"],
+["Idol","Calf","A false god or carved image that people worship instead of the one true living God","The golden statue the impatient Israelites made from melted jewelry while Moses was on Mount Sinai"],
+["Passover","Exodus","The night God's angel passed over Israelite homes marked with lamb's blood on the doorposts","The dramatic departure of over two million Israelites from Egypt under Moses' courageous leadership"],
+["Wander","Pillar","To roam without clear direction; Israel wandered forty years in the wilderness as punishment for unbelief","A column of cloud by day and blazing fire by night that guided and protected Israel through the desert"]];
 
 const EXPLAIN=[
-["Sarah","Babylon","Abraham's wife; mother of Isaac; her name means 'princess'","An ancient empire; in Revelation, symbolises false religious systems opposing God"],
-["Bethlehem","Hosea","The town where Jesus was born, fulfilling Micah's prophecy","An Old Testament prophet commanded to love his unfaithful wife as God loves Israel"],
-["Moses","Justification","The great leader who delivered Israel from Egypt and received the Ten Commandments","Being declared righteous before God through faith in Jesus, not by works"],
-["Adam","Sanctification","The first human created by God; through him sin entered the world","The ongoing process of becoming holy through the work of the Holy Spirit"],
-["Eve","Glorification","The first woman, created from Adam's rib; mother of all living","The final transformation of believers at Christ's return to immortal, perfect beings"],
-["Abraham","Investigative Judgment","Father of faith; God's covenant partner; ancestor of Israel","SDA doctrine: A pre-Advent judgment in heaven reviewing the lives of professed believers since 1844"],
-["David","State of the Dead","Israel's greatest king; a man after God's own heart; ancestor of Jesus","SDA belief that the dead sleep unconsciously until the resurrection, not in heaven or hell"],
-["Daniel","Great Controversy","A prophet in Babylon who interpreted dreams and survived the lions' den","SDA teaching about the cosmic battle between Christ and Satan over God's character and law"],
-["Ruth","Sanctuary Doctrine","A Moabite woman whose loyalty led her to become an ancestor of Jesus","SDA teaching that Christ ministers in a heavenly sanctuary, applying His sacrifice for believers"],
-["Esther","Spirit of Prophecy","A Jewish queen who saved her people from destruction in Persia","SDA belief that the gift of prophecy was manifest in the ministry of Ellen G. White"],
-["Joseph","Remnant Church","Jacob's son sold into slavery who became ruler of Egypt; also Jesus' earthly father","SDA understanding of being God's end-time faithful church keeping His commandments"],
-["Peter","Second Coming","A fisherman who became a leading apostle; denied Jesus but was restored","The visible, literal, personal return of Jesus Christ to earth to take His people home"],
-["Paul","Health Message","A former persecutor of Christians who became the greatest missionary apostle","SDA emphasis on healthful living: vegetarian diet, temperance, and caring for the body temple"],
-["Mary","Three Angels' Messages","The mother of Jesus; chosen by God to bear the Messiah","Three proclamations in Revelation 14 calling the world to worship God, leave Babylon, and avoid the mark"],
-["Luke","Mark of the Beast","A physician and companion of Paul who wrote a Gospel and the book of Acts","A symbol of allegiance to a false system of worship in opposition to God's Sabbath (Revelation 13)"],
-["John","Seal of God","The beloved disciple who wrote a Gospel, three epistles, and Revelation","A mark of God's ownership on His faithful people; linked to Sabbath observance in SDA theology"],
-["Matthew","Heavenly Sanctuary","A tax collector who became an apostle and wrote the first Gospel","The temple in heaven where Christ ministers as our High Priest (Hebrews 8-9)"],
-["Mark","1844","The author of the second Gospel; accompanied Paul and Barnabas","The year SDAs believe the investigative judgment began in the heavenly sanctuary (Daniel 8:14)"],
-["Timothy","Remnant","Paul's young protégé in ministry; recipient of two pastoral epistles","The faithful last-day people who keep God's commandments and have the testimony of Jesus"],
-["Titus","Reformation","A Greek convert who became a leader in Crete; recipient of Paul's letter","A movement to restore biblical truth; historically the Protestant Reformation of the 16th century"],
-["Solomon","Millennium","David's son; wisest king of Israel; built the first temple","The 1,000-year period after Christ's return when saints are in heaven and earth is desolate (Revelation 20)"],
-["Samson","New Jerusalem","An Israelite judge with supernatural strength from God (Judges 13-16)","The holy city that descends from heaven to earth after the millennium (Revelation 21)"],
-["Gideon","Laodicea","A judge who defeated the Midianites with just 300 men (Judges 7)","The seventh church in Revelation; represents the last-day lukewarm church needing revival"],
-["Joshua","Righteousness by Faith","Moses' successor who led Israel into the Promised Land","The teaching that we are made right with God through trusting in Christ, not our own efforts"],
-["Nehemiah","Sabbath Keeping","The cupbearer who rebuilt Jerusalem's walls after the Babylonian exile","Observing the seventh-day Sabbath (Saturday) as a day of rest and worship as the Bible commands"],
-["Isaiah","Tithing","A major Old Testament prophet who foretold the Messiah's birth and suffering","Returning 10% of one's income to God through the church for the support of ministry"],
-["Jeremiah","Stewardship","The weeping prophet who warned Judah before the Babylonian captivity","The responsible management of all God has entrusted to us: time, health, resources, and abilities"],
-["Ezekiel","Adventism","A prophet in Babylonian exile who saw visions of God's glory and future restoration","The worldwide movement expecting Christ's soon return; the Seventh-day Adventist Church"],
-["Elijah","Prophecy of Daniel 2","A bold prophet who confronted Baal worship; taken to heaven without dying","Nebuchadnezzar's dream of a great statue representing successive world empires until God's kingdom"],
-["Elisha","70 Weeks","Elijah's successor who received a double portion of his spirit","Daniel's time prophecy (Daniel 9:24-27) pointing to the Messiah's arrival and ministry"],
-["Noah","2300 Day Prophecy","Built the ark and warned the world before the flood; a preacher of righteousness","The longest time prophecy in Daniel 8:14 pointing to 1844 and the cleansing of the sanctuary"],
-["Jacob","Clean and Unclean Foods","Isaac's son who wrestled with God; father of the twelve tribes of Israel","Biblical dietary laws in Leviticus 11 distinguishing foods God designed for human consumption"],
-["Rachel","Temperance","Jacob's beloved wife; mother of Joseph and Benjamin","Self-control and moderation in all things; abstaining from harmful substances"],
-["Leah","Christian Education","Jacob's first wife; mother of six sons including Judah","Education that integrates faith with learning; SDA schools and universities worldwide"],
-["Miriam","Ellen White","Moses' sister; a prophetess who led Israel in worship after the Red Sea crossing","Co-founder of the SDA Church; believed to have the prophetic gift; authored many books"],
-["Deborah","Camp Meeting","A judge and prophetess in Israel who led the nation to victory (Judges 4-5)","An SDA tradition of multi-day outdoor worship gatherings for spiritual renewal"],
-["Hannah","Pathfinders","Samuel's mother who prayed fervently for a child and dedicated him to God","The SDA youth organisation similar to Scouts, focused on spiritual growth and outdoor skills"],
-["Naomi","Dorcas Society","Ruth's mother-in-law who guided her toward redemption and a new life","An SDA women's ministry focused on community service and helping those in need"],
-["Priscilla","General Conference","A leader in the early church who taught alongside her husband Aquila","The highest administrative body of the worldwide Seventh-day Adventist Church"],
-["Lydia","Colporteur","A seller of purple cloth; the first European convert (Acts 16)","A literature evangelist who distributes Christian books and publications door to door"],
-["Philemon","Advent Hope","A Christian slave owner Paul wrote to about receiving back his runaway slave Onesimus","The blessed hope of Christ's imminent, visible, literal return to earth"],
-["Barnabas","Law and Grace","An encouraging apostle who mentored Paul and Mark; his name means 'Son of Encouragement'","The relationship between God's moral law (Ten Commandments) and His saving grace"],
-["Stephen","Foot Washing","The first Christian martyr, stoned for his bold witness (Acts 7)","An ordinance of humility practised before Communion, following Jesus' example (John 13)"],
-["Caleb","Communion Service","One of two faithful spies who trusted God to give Israel the Promised Land","The Lord's Supper service including foot washing, bread, and grape juice"],
-["Aaron","Ordination","Moses' brother; Israel's first high priest","The formal setting apart of individuals for ministry through prayer and laying on of hands"],
-["Jonah","Evangelism","A reluctant prophet who was swallowed by a great fish before preaching to Nineveh","Sharing the good news of Jesus Christ and His saving power with the world"],
-["Job","Revelation Seminar","A righteous man tested by suffering who maintained faith in God","A series of Bible study presentations focusing on the prophecies of Revelation"],
-["Lot","Vegetarianism","Abraham's nephew rescued from Sodom's destruction (Genesis 19)","A plant-based diet advocated by SDAs based on God's original diet in Eden (Genesis 1:29)"],
-["Enoch","Translation","A man who walked so closely with God that God took him to heaven alive","Being taken to heaven without experiencing death, as with Enoch and Elijah"],
-["Methuselah","Longevity","The longest-lived person in the Bible at 969 years (Genesis 5:27)","Long life; SDAs are studied for their longer-than-average lifespans due to health practices"]
+["Adam","Garden of Eden","The first human God created from dust, father of all humanity","The paradise with the tree of life where God placed Adam and Eve"],
+["Eve","Burning Bush","The first woman created from Adam's rib, mother of all living","The bush on fire but not consumed where God spoke to Moses (Exodus 3)"],
+["Noah","Red Sea","The righteous man who built the ark and survived the great flood","The body of water God parted so Israel could escape Egypt on dry ground"],
+["Ark","Ten Commandments","The massive boat God instructed Noah to build for the flood","The moral law God wrote on stone tablets and gave to Moses on Sinai"],
+["Abraham","Golden Calf","The father of faith who left his homeland when God called him","The idol the Israelites made from gold jewelry while Moses was on the mountain"],
+["Isaac","Jericho Walls","Abraham's promised son, born when his parents were very old","The fortified walls that collapsed when Israel marched and shouted"],
+["Jacob","Sling and Stone","Isaac's son who wrestled with God and fathered the twelve tribes","The simple weapon young David used to defeat the giant Goliath"],
+["Joseph","Coat of Many Colors","The dreamer sold into slavery who rose to rule Egypt","The special multicoloured garment Jacob gave to his favourite son Joseph"],
+["Moses","Manger","The leader who delivered Israel from Egypt and received God's law","The animal feeding trough where baby Jesus was laid in Bethlehem"],
+["Pharaoh","Star of Bethlehem","The Egyptian king who enslaved Israel and refused to let them go","The bright heavenly light that guided the wise men to find baby Jesus"],
+["David","Last Supper","Israel's greatest king, a shepherd boy who killed a giant","The final meal Jesus shared with His disciples before His crucifixion"],
+["Goliath","Good Samaritan","The massive Philistine champion defeated by young David","The man in Jesus' parable who helped a wounded stranger on the road"],
+["Solomon","Prodigal Son","The wisest king who built the first temple in Jerusalem","The wayward son in Jesus' parable who wasted his inheritance then returned home"],
+["Jesus","Tower of Babel","The Son of God who came to save the world from sin","The tower humans built trying to reach heaven before God confused their languages"],
+["Mary","Cain and Abel","The mother of Jesus, chosen by God to bear the Messiah","The first two sons of Adam and Eve; one murdered the other out of jealousy"],
+["Angel","Sarah","A heavenly being created by God to serve as messenger and protector","Abraham's wife who laughed when told she would bear a son in old age"],
+["Shepherd","Ruth","One who tends and protects sheep; Jesus is the Good Shepherd","The loyal Moabite woman who followed her mother-in-law Naomi to Bethlehem"],
+["Donkey","Boaz","The humble animal; Balaam's donkey spoke; Jesus rode one into Jerusalem","The wealthy landowner who married Ruth and became an ancestor of Jesus"],
+["Lamb","Samson","A young sheep; Jesus is the Lamb of God who takes away sin","The Israelite judge with supernatural strength that came from his uncut hair"],
+["Cross","Delilah","The instrument of Jesus' death; the central symbol of Christianity","The Philistine woman who seduced Samson and discovered the secret of his strength"],
+["Tomb","Gideon","The sealed cave where Jesus was buried and from which He rose","The judge who defeated the Midianites with only 300 men using torches and jars"],
+["Peter","Joshua","The fisherman apostle who denied Jesus three times then led the church","Moses' successor who led Israel into the Promised Land and conquered Jericho"],
+["Judas","Rahab","The disciple who betrayed Jesus for thirty silver coins","The woman in Jericho who hid Israelite spies and was saved when the city fell"],
+["Pilate","Miriam","The Roman governor who sentenced Jesus to death despite finding no guilt","Moses' sister, a prophetess who led women in celebration after crossing the Red Sea"],
+["Paul","Aaron","The former persecutor of Christians who became the greatest apostle","Moses' brother who served as Israel's first high priest and spokesman"],
+["Jonah","Elijah","The prophet who ran from God and was swallowed by a great fish","The bold prophet who confronted 450 prophets of Baal and called fire from heaven"],
+["Whale","Elisha","The great sea creature that swallowed Jonah for three days and nights","Elijah's successor who received a double portion of his mentor's spirit"],
+["Daniel","John the Baptist","The prophet in Babylon who survived the lions' den and interpreted dreams","The prophet who prepared the way for Jesus and baptized Him in the Jordan"],
+["Lion","Jordan River","A powerful beast; Daniel was thrown to lions; Jesus is the Lion of Judah","The river where Jesus was baptized and Israel crossed into the Promised Land"],
+["Esther","Mount Sinai","The Jewish queen who risked her life to save her people from Haman's plot","The mountain where God gave Moses the Ten Commandments amid thunder and fire"],
+["Queen","Bethlehem","A female monarch; Esther became queen of the Persian Empire","The small town where Jesus was born, fulfilling the prophecy of Micah"],
+["Camel","Jerusalem","A large desert animal; the wise men traveled by camel to find Jesus","The holy city where the temple stood and where Jesus was crucified and rose"],
+["Fish and Loaves","Nazareth","The five loaves and two fish Jesus multiplied to feed 5,000 people","The town in Galilee where Jesus grew up as a carpenter's son"],
+["Walking on Water","Golgotha","When Jesus walked across the sea and Peter briefly joined Him","The hill outside Jerusalem, also called Calvary, where Jesus was crucified"],
+["Lazarus","Heaven","The man Jesus raised from the dead after four days in the tomb","The eternal dwelling place of God where believers will live forever"],
+["Martha","Hell","Lazarus' sister who served Jesus and confessed Him as the Messiah","The place of eternal separation from God and punishment for the wicked"],
+["Zacchaeus","Satan","The short tax collector who climbed a tree to see Jesus","The fallen angel and adversary of God who tempts humanity to sin"],
+["Nicodemus","Gabriel","The Pharisee who came to Jesus at night and learned about being born again","The archangel who announced Jesus' birth to Mary and John's birth to Zechariah"],
+["Thomas","Dove","The apostle who doubted Jesus' resurrection until he saw the nail marks","The bird symbolizing the Holy Spirit that descended on Jesus at His baptism"],
+["Andrew","Pharaoh's Dreams","Peter's brother, one of the first disciples called by Jesus","The visions of seven fat and seven thin cows that Joseph interpreted in Egypt"],
+["James","Joseph's Cup","One of Jesus' inner circle of three disciples; brother of John","The silver cup Joseph hid in Benjamin's sack to test his brothers"],
+["John","Jacob's Ladder","The beloved disciple who wrote a Gospel, three letters, and Revelation","The stairway to heaven Jacob saw in a dream with angels going up and down"],
+["Matthew","Isaac's Sacrifice","A tax collector who became an apostle and wrote the first Gospel","When God tested Abraham by asking him to offer his son on Mount Moriah"],
+["Mark","Passover Lamb","The author of the second Gospel who traveled with Paul and Barnabas","The unblemished lamb whose blood on doorposts saved Israel from the angel of death"],
+["Luke","Manna","A physician who wrote a Gospel and Acts; Paul's traveling companion","The miraculous bread from heaven God provided each morning in the wilderness"],
+["Timothy","Quail","Paul's young protégé who became a pastor; received two letters from Paul","The birds God sent in abundance to give Israel meat in the desert"],
+["Silas","Staff of Moses","Paul's companion who sang hymns in prison and was freed by an earthquake","The rod God empowered to perform miracles: parting the sea, striking the rock"],
+["Barnabas","Plagues of Egypt","The encouraging apostle who mentored Paul; his name means Son of Encouragement","The ten devastating judgments God sent on Egypt to free the Israelites"],
+["Lydia","Exodus","A seller of purple cloth who became the first European convert to Christianity","The departure of the Israelites from Egypt after 400 years of slavery"],
+["Priscilla","Promised Land","A leader in the early church who taught alongside her husband Aquila","Canaan, the land flowing with milk and honey God promised to Abraham's descendants"],
+["Aquila","Ark of the Covenant","Priscilla's husband; together they were tentmakers and church leaders","The gold-covered chest containing the Ten Commandments, kept in the Most Holy Place"],
+["Faith","Tabernacle","Complete trust in God and His promises even when we cannot see","The portable tent of worship Israel carried through the wilderness"],
+["Hope","Temple","Confident expectation in God's promises, especially eternal life","The magnificent house of worship Solomon built for God in Jerusalem"],
+["Love","Altar","The greatest virtue; God's unconditional care for all humanity","A raised structure where sacrifices and offerings were presented to God"],
+["Grace","Priest","God's unmerited favour; a free gift we cannot earn","A minister who offers sacrifices and stands between God and the people"],
+["Mercy","Levite","Compassion shown to someone who deserves punishment","A member of the tribe of Levi dedicated to service in God's tabernacle"],
+["Repentance","Prophet","Turning away from sin and turning toward God with a changed heart","A spokesperson called by God to deliver divine messages and warnings"],
+["Baptism","King","Immersion in water symbolizing death to sin and new life in Christ","A sovereign ruler; David and Solomon were kings; Jesus is King of Kings"],
+["Miracle","Servant","A supernatural act of God that defies natural explanation","One who serves others humbly; Jesus came not to be served but to serve"],
+["Prayer","Widow","Communicating with God through words, praise, and listening","A woman whose husband has died; God cares especially for widows"],
+["Worship","Orphan","Honouring God with reverence, praise, and devoted living","A child without parents; God is a father to the fatherless"],
+["Sacrifice","Offering","Giving up something valuable for God or others","A gift presented to God in worship, gratitude, or dedication"],
+["Blessing","Curse","God's favour and goodness poured out on someone","An invocation of harm; the opposite of God's blessing"],
+["Victory","Defeat","Triumph through God's power over sin, death, and enemies","Loss in battle; Israel experienced defeat when they disobeyed God"],
+["Battle","Shout","A fight or conflict; the Lord fights battles for His people","A loud cry of praise or war; Israel shouted and Jericho's walls fell"],
+["Spirit","Wind","The Holy Spirit, third person of the Godhead and our Comforter","A symbol of the Spirit's movement; a mighty wind came at Pentecost"],
+["Flame","Tongue","Fire symbolizing God's presence and purification","Languages; at Pentecost the disciples spoke in many tongues"],
+["Gift","Church","A spiritual ability given by the Holy Spirit for ministry","The body of believers gathered in Jesus' name for worship and mission"],
+["Disciple","Apostle","A follower who learns from Jesus and obeys His teachings","One sent with authority by Christ to spread the gospel to all nations"],
+["Martyr","Crown","A person who dies for their faith; Stephen was the first","The crown of life promised to those who remain faithful until death"],
+["Eternal Life","Amen","Life without end given by God through faith in Jesus Christ","A Hebrew word meaning so be it, used to affirm truth and prayer"],
+["Cain","Abel","Adam's firstborn who murdered his brother out of jealousy","The second son of Adam whose sacrifice pleased God"],
+["Seth","Enoch","Adam's third son born after Abel's death; ancestor of Noah","A man who walked so closely with God that God took him to heaven alive"],
+["Methuselah","Lot","The longest-lived person in the Bible at 969 years","Abraham's nephew who was rescued from the destruction of Sodom"],
+["Sodom","Gomorrah","The wicked city God destroyed with fire and brimstone","The city destroyed alongside Sodom for its great wickedness"],
+["Ishmael","Hagar","Abraham's son through Hagar; father of twelve princes","Sarah's Egyptian servant who bore Ishmael to Abraham"],
+["Rebekah","Esau","Isaac's wife chosen at a well; mother of Jacob and Esau","Jacob's twin brother who sold his birthright for a bowl of stew"],
+["Leah","Rachel","Jacob's first wife; mother of six sons including Judah","Jacob's beloved wife for whom he worked fourteen years"],
+["Benjamin","Judah","Jacob's youngest and most beloved son; Joseph's full brother","Jacob's son whose tribe produced David and eventually Jesus"],
+["Caleb","Deborah","The faithful spy who trusted God to give Israel the Promised Land","A judge and prophetess who led Israel to military victory"],
+["Naomi","Hannah","Ruth's mother-in-law who guided her toward redemption","Samuel's mother who prayed fervently for a child and dedicated him to God"],
+["Samuel","Saul","The prophet who anointed Israel's first two kings","Israel's first king who started well but ended in disobedience"],
+["Jonathan","Bathsheba","Saul's son and David's closest friend; a loyal and brave warrior","The woman David sinfully took; she later became Solomon's mother"],
+["Shadrach","Nebuchadnezzar","One of three Hebrews who survived the fiery furnace in Babylon","The Babylonian king who built a golden image and threw three Hebrews into fire"],
+["Ezra","Nehemiah","The priest and scribe who led spiritual reform after the exile","The cupbearer who rebuilt Jerusalem's walls after the Babylonian exile"],
+["Mordecai","Haman","Esther's cousin who uncovered a plot against the king","The villain who plotted to destroy all the Jews in the Persian Empire"],
+["Job","Jeremiah","The righteous man tested by suffering who maintained faith in God","The weeping prophet who warned Judah before the Babylonian captivity"],
+["Isaiah","Ezekiel","The prophet who foretold the Messiah's birth and suffering","The prophet in exile who saw visions of God's glory and dry bones coming alive"],
+["Hosea","Simeon","A prophet commanded to love his unfaithful wife as God loves Israel","The devout old man who held baby Jesus in the temple and praised God"],
+["Anna","Herod","The elderly prophetess who recognized baby Jesus in the temple","The paranoid king who tried to kill baby Jesus by slaughtering infants"],
+["Magi","Barabbas","The wise men from the East who brought gifts to baby Jesus","The criminal released instead of Jesus by Pilate at the crowd's demand"],
+["Simon of Cyrene","Mary Magdalene","The man forced to carry Jesus' cross on the way to Golgotha","A devoted follower of Jesus who was the first to see the risen Lord"],
+["Emmaus Road","Pentecost","Where the risen Jesus walked unrecognized with two disciples","The day the Holy Spirit was poured out on believers with wind and fire"],
+["Cornelius","Stephen","The first Gentile convert, a Roman centurion who feared God","The first Christian martyr, stoned for his bold testimony about Jesus"],
+["Dorcas","Phoebe","A generous woman Peter raised from the dead, known for her charity","A deaconess commended by Paul for her service to the church"],
+["Apollos","Philemon","An eloquent preacher taught more accurately by Priscilla and Aquila","A Christian slave owner Paul wrote to about receiving back his slave Onesimus"],
+["Onesimus","Patmos","The runaway slave Paul sent back to Philemon as a brother in Christ","The island where John was exiled and received the vision of Revelation"],
+["Ephesus","Rome","A major city where Paul ministered and one of the seven churches of Revelation","The capital of the empire where Paul was imprisoned and eventually martyred"],
+["Damascus","Antioch","The city where Paul was blinded by Jesus' light and converted","The city where believers were first called Christians and missions began"],
+["Corinth","Thessalonica","The Greek city where Paul founded a church and wrote about love in 1 Corinthians","The city where Paul preached and later wrote letters about Christ's return"]
+,
+["Hosea","Joel","A prophet God commanded to marry an unfaithful wife to illustrate His enduring love for wayward Israel","An Old Testament prophet who foretold the outpouring of the Holy Spirit and the coming day of the Lord"],
+["Amos","Obadiah","A shepherd-prophet from Tekoa who warned Israel about social injustice and coming divine judgment","The shortest Old Testament book; a prophet who declared judgment against Edom for opposing God's people"],
+["Micah","Nahum","A prophet who foretold that the Messiah would be born in the small town of Bethlehem","A prophet who proclaimed God's coming judgment against the wicked and violent city of Nineveh"],
+["Habakkuk","Zephaniah","A prophet who questioned God about injustice and learned that the righteous shall live by faith","A prophet who warned of the approaching day of the Lord and called Judah to repentance"],
+["Haggai","Zechariah","A prophet who urged the returned exiles to stop neglecting God's temple and finish rebuilding it","A prophet of restoration whose visions pointed to the Messiah's coming and His future kingdom"],
+["Malachi","Simeon","The last Old Testament prophet who called Israel to honour God with faithful tithes and pure worship","A devout old man in Jerusalem who held baby Jesus in the temple and praised God for salvation"],
+["Anna","Herod","An elderly prophetess who fasted and prayed daily in the temple and recognized Jesus as the Messiah","The paranoid king of Judea who ordered the massacre of infants in Bethlehem trying to kill baby Jesus"],
+["Magi","Barabbas","The wise men from eastern lands who followed a star and brought gold, frankincense, and myrrh to Jesus","The convicted criminal and insurrectionist whom Pilate released instead of Jesus at the crowd's demand"],
+["Simon of Cyrene","Mary Magdalene","An African man from Cyrene forced by Roman soldiers to carry Jesus' heavy cross to Golgotha","A devoted follower freed from seven demons who became the first person to see the risen Christ"],
+["Emmaus Road","Pentecost","The road where the risen Jesus walked and talked with two disciples who did not recognize Him","The day fifty days after Passover when the Holy Spirit was poured out with wind, fire, and tongues"],
+["Cornelius","Stephen","A Roman centurion and God-fearer who became the first Gentile to receive the Holy Spirit and baptism","The first Christian martyr who was stoned to death for boldly proclaiming Jesus before the Jewish council"],
+["Dorcas","Phoebe","A generous woman in Joppa known for her charitable works whom the apostle Peter raised from the dead","A deaconess from Cenchreae whom Paul commended as a faithful servant and patron of many believers"],
+["Apollos","Philemon","An eloquent and learned preacher from Alexandria whom Priscilla and Aquila taught more accurately","A wealthy Christian slave owner in Colossae to whom Paul wrote asking him to forgive his runaway slave"],
+["Onesimus","Patmos","A runaway slave who met Paul in prison, became a believer, and was sent back to his master as a brother","A small rocky island in the Aegean Sea where the apostle John was exiled and received the book of Revelation"],
+["Ephesus","Rome","A major ancient city in Asia Minor where Paul ministered for two years and one of the seven churches","The capital of the mighty Roman Empire where Paul was imprisoned and where many early Christians were martyred"],
+["Damascus","Antioch","The ancient Syrian city where Saul was blinded by a light from heaven and converted to follow Christ","The city in Syria where believers were first called Christians and the first missionary journeys were launched"],
+["Corinth","Thessalonica","A wealthy Greek port city where Paul founded a church and wrote his famous chapter on love","A city in Macedonia where Paul preached and later wrote two letters about Christ's return and living holy lives"],
+["Promised Land","Canaan","The territory God swore to give to Abraham's descendants, flowing with milk and honey","The ancient name for the land between the Jordan River and the Mediterranean Sea given to Israel by God"],
+["Ark of the Covenant","Tabernacle","The gold-covered sacred chest containing the Ten Commandments, Aaron's rod, and a jar of manna","The portable tent of meeting that served as God's dwelling place among Israel during their wilderness journey"],
+["Widow","Orphan","A woman whose husband has died; God commands special care for widows in both testaments","A child who has lost both parents; God calls Himself a father to the fatherless and defender of orphans"],
+["Sacrifice","Offering","The act of giving up something precious to God; Christ's death was the ultimate and final sacrifice","A gift voluntarily presented to God in worship, thanksgiving, or dedication as an act of faithful devotion"],
+["Blessing","Curse","God's favour, protection, and goodness poured out generously upon those who walk in His ways","A declaration of harm or misfortune; the opposite of blessing, often the consequence of disobedience"],
+["Victory","Defeat","Triumphant success through God's mighty power over sin, death, Satan, and all spiritual enemies","Failure or loss in battle; Israel experienced crushing defeat whenever they turned away from God in disobedience"],
+["Battle","Shout","A conflict or fight against enemies; Scripture declares that the Lord fights our battles on our behalf","A loud triumphant cry of praise or war; when Israel shouted at Jericho the massive walls collapsed completely"],
+["Spirit","Wind","The Holy Spirit, the third person of the Godhead who convicts, comforts, guides, and empowers believers","A powerful symbol of the Spirit's movement; a mighty rushing wind filled the room at the Pentecost outpouring"],
+["Flame","Tongue","Fire symbolizing God's holy presence, purifying power, and the consuming nature of His divine glory","Languages and speech; at Pentecost the disciples miraculously spoke in many tongues understood by all nations"],
+["Gift","Church","A supernatural spiritual ability given by the Holy Spirit to each believer for building up the body of Christ","The worldwide community of believers united in Christ for worship, fellowship, mission, and mutual encouragement"],
+["Disciple","Apostle","A committed follower and student of Jesus who learns His teachings and applies them to daily life","One specifically chosen and sent out with Christ's authority to establish churches and spread the gospel worldwide"],
+["Martyr","Crown","A courageous person who suffers death rather than deny their faith; Stephen was the first Christian martyr","The crown of life, righteousness, and glory promised by God to all who remain faithful until the very end"],
+["Eternal Life","Amen","Everlasting life without end, freely given by God through genuine faith in Jesus Christ as Lord and Saviour","A solemn Hebrew word meaning 'so be it' or 'truly,' used to affirm the truth of prayers and declarations"],
+["Cain","Abel","Adam's firstborn son who became jealous of his brother and committed the world's first terrible murder","The second son of Adam and Eve, a faithful shepherd whose sincere sacrifice pleased God and provoked Cain's envy"],
+["Seth","Enoch","Adam and Eve's third son, born after Abel's death, through whose line the godly descendants continued","A remarkably righteous man who walked so closely with God for 365 years that God took him to heaven without dying"],
+["Methuselah","Lot","The oldest person recorded in Scripture, living to the remarkable age of 969 years before the great flood","Abraham's nephew who chose to live near wicked Sodom and was rescued by angels before God destroyed the cities"],
+["Sodom","Gomorrah","An infamously wicked city on the plain that God destroyed with fire and burning sulfur from heaven","The twin city destroyed alongside Sodom as divine judgment for extreme wickedness and moral depravity"],
+["Ishmael","Hagar","Abraham's firstborn son through Hagar the Egyptian; he became the father of twelve princes and a great nation","Sarah's Egyptian maidservant who bore Ishmael to Abraham and was twice sent away into the harsh wilderness"],
+["Rebekah","Esau","Isaac's wife, chosen by God at a well through Abraham's servant; a resourceful mother of twins Jacob and Esau","Jacob's hairy twin brother, a skilled hunter who impulsively sold his precious birthright for a single bowl of stew"],
+["Leah","Rachel","Jacob's first wife whom he married through Laban's deception; mother of six sons including Judah, ancestor of Jesus","Jacob's deeply beloved wife for whom he gladly worked fourteen years; mother of Joseph and Benjamin"],
+["Benjamin","Judah","Jacob's youngest and most treasured son, born to Rachel who tragically died giving him life","Jacob's fourth son whose tribe became the royal line, producing King David and ultimately Jesus the Messiah"],
+["Caleb","Deborah","One of only two faithful Israelite spies who trusted God completely and eventually inherited the Promised Land","A courageous judge and prophetess who led Israel to a decisive military victory over the Canaanite general Sisera"],
+["Naomi","Hannah","Ruth's devoted mother-in-law who guided her from grief to redemption and became grandmother to King David's line","The deeply devout mother of the prophet Samuel who prayed with such fervour that Eli thought she was drunk"],
+["Samuel","Saul","The last judge and first major prophet of Israel who anointed both Saul and David as kings over God's people","Israel's first king, tall and impressive, who started his reign well but ended in tragic disobedience and rejection"],
+["Jonathan","Bathsheba","King Saul's brave and loyal son who formed a legendary friendship covenant with David despite his father's jealousy","The woman King David sinfully took after seeing her bathing; she later became the mother of wise King Solomon"],
+["Shadrach","Nebuchadnezzar","One of three courageous Hebrew young men who refused to worship a golden idol and survived a blazing furnace","The powerful Babylonian emperor who conquered Jerusalem, built a massive golden statue, and later acknowledged God's sovereignty"],
+["Ezra","Nehemiah","A devoted priest and skilled scribe who led spiritual reform and restored Scripture reading after the Babylonian exile","The bold cupbearer to the Persian king who returned to Jerusalem and led the remarkable rebuilding of its broken walls"],
+["Mordecai","Haman","Queen Esther's wise and faithful cousin who uncovered an assassination plot and helped save the entire Jewish people","The arrogant and vengeful Persian official who plotted the complete genocide of all Jews throughout the empire"],
+["Job","Jeremiah","A wealthy and righteous man whom God allowed Satan to test with devastating suffering yet who maintained steadfast faith","The weeping prophet who courageously warned stubborn Judah for forty years before the Babylonian captivity destroyed Jerusalem"],
+["Isaiah","Ezekiel","The greatest messianic prophet who foretold Christ's virgin birth, suffering servant ministry, and glorious future kingdom","A prophet exiled to Babylon who received extraordinary visions of God's throne, the valley of dry bones, and the future temple"],
+["Jonah's Prayer","Habakkuk","The desperate prayer Jonah cried from inside the great fish, repenting of his rebellion and praising God's salvation","A bold prophet who honestly questioned God about injustice and received the foundational truth that the righteous live by faith"],
+["Zephaniah","Haggai","A royal prophet who warned of the approaching terrible day of the Lord and called all of Judah to urgent repentance","A post-exile prophet who challenged the returned Jewish community to prioritize rebuilding God's neglected temple over their own homes"],
+["Malachi","Revelation","The final Old Testament prophet who called Israel to honour God with faithful tithes and pure hearts before the Messiah comes","The last book of the Bible written by John on Patmos, unveiling the dramatic end-time events and the ultimate triumph of God's eternal kingdom"]
 ];
 
 // ─── STATE ───
@@ -359,6 +535,11 @@ let S={
   champPhaseRound:0, // current round within phase
   champTotalA:0,champTotalB:0, // running totals across all phases
   champScores:[], // [{phase:'sing',sA:x,sB:y},...]
+  // v9: New features
+  showSolo:false, // solo practice mode
+  soloMode:null, // which mode in solo
+  soloCi:0, // solo card index
+  soloRevealed:false,
 };
 let tid=null,singTid=null,singRTid=null,cdTid=null;
 let actx=null,deferP=null,wakeLock=null;
@@ -540,9 +721,11 @@ function unlockPro(code){
   return false;
 }
 function getWeekNumber(){const d=new Date(),j=new Date(d.getFullYear(),0,1);return Math.ceil(((d-j)/86400000+j.getDay()+1)/7)}
-function getWeeklyCards(full){
+// Free tier limits per mode
+function freeLimit(m){return m==='sing'?30:m==='act'?40:50}
+function getWeeklyCards(full,mode){
   if(isPro())return full;
-  const week=getWeekNumber(),n=full.length,count=Math.min(20,n),idx=[];
+  const week=getWeekNumber(),n=full.length,count=Math.min(freeLimit(mode||'explain'),n),idx=[];
   let seed=week*7+13;
   for(let i=0;i<n;i++)idx.push(i);
   for(let i=n-1;i>0;i--){seed=(seed*1103515245+12345)&0x7fffffff;const j=seed%(i+1);[idx[i],idx[j]]=[idx[j],idx[i]]}
@@ -552,9 +735,8 @@ function getWeeklyCards(full){
 function gc(m){
   const base=m==='sing'?SING:m==='act'?ACT:EXPLAIN;
   let full=[...base];
-  // Add unlocked denomination pack cards
   DENOM_PACKS.forEach(p=>{if(p.unlocked){full=full.concat(p.cards)}});
-  return getWeeklyCards(full);
+  return getWeeklyCards(full,m);
 }
 
 // ─── MULTI-DEVICE SYNC ───
@@ -678,7 +860,7 @@ window.addEventListener('popstate',()=>{
   if(S.showTutorial){S.showTutorial=false;render();return}
   if(S.showLearning){S.showLearning=false;render();return}
   if(S.showExit){S.showExit=false;render();return}
-  if(['card-front','card-reveal','sing-play','sing-reveal','summary','countdown'].includes(S.screen)){confirmExit();return}
+  if(['card-front','card-reveal','sing-play','sing-reveal','summary','countdown','cards-exhausted'].includes(S.screen)){confirmExit();return}
   if(S.screen==='setup'){S.screen='home';render();return}
   if(S.screen==='gameover'){S.screen='home';S.mode=null;render();return}
 });
@@ -703,14 +885,14 @@ function debounced(fn){const now=Date.now();if(now-lastAction<400)return;lastAct
 
 // ─── UTILS ───
 function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
-function gc(m){const full=m==='sing'?SING:m==='act'?ACT:EXPLAIN;return getWeeklyCards(full)}
 function mColHex(m){return m==='sing'?'#C89632':m==='act'?'#B83232':'#2B5C8B'}
 function mBg(m){return m==='sing'?'linear-gradient(135deg,#F8EDD0,#E8D5A0)':m==='act'?'linear-gradient(135deg,#F5D0D0,#E8B8B8)':'linear-gradient(135deg,#D0DCF5,#B8CCE8)'}
 function mCardBg(m){return m==='sing'?'#E8D5A0':m==='act'?'#E8B8B8':'#B8CCE8'}
 function mL(m){return m==='sing'?'Sing-Off':m==='act'?'Act It Out':m==='explain'?'Explain':'Championship'}
 function mI(m){return m==='sing'?'🎵':m==='act'?'🎭':m==='explain'?'💬':'🏆'}
+function mImg(m){return m==='sing'?'mode-sing.png':m==='act'?'mode-act.png':m==='explain'?'mode-explain.png':'mode-champ.png'}
 function mD(m){return m==='sing'?'Sing a Christian song with this word':m==='act'?'1 word & gestures only':'Describe any way you like'}
-function getActiveMode(){return S.mode==='mix'?S.mixModes[S.champPhase%3]:S.mode}
+function getActiveMode(){return S.mode==='mix'?S.mixModes[S.champPhase]||'sing':S.mode}
 function tN(t){return t==='A'?S.nameA:S.nameB} // team name helper
 function tIcon(t){return t==='A'?'⚔️':'🛡️'}
 function wordSize(len){return len>20?32:len>14?42:len>8?54:64}
@@ -764,7 +946,7 @@ function startSingRound(){
   singRTid=setInterval(()=>{
     if(S.paused)return;
     S.singRoundTime--;
-    const el=document.getElementById('singRoundT');if(el)el.textContent=S.singRoundTime+'s left';
+    const el=document.getElementById('singRoundT');if(el)el.textContent=S.singRoundTime;
     if(S.singRoundTime<=0){clearInterval(singRTid);singRTid=null;clearInterval(singTid);singTid=null;beep('timesup');releaseWake();S.screen='summary';render()}
   },1000);
   startSingCardTimer();render();
@@ -807,8 +989,14 @@ function togglePause(){S.paused=!S.paused;render()}
 function nextC(){
   const used=getUsed();
   used.add(S.ci);
+  const deck=S.cards;
+  // Check if all cards in current deck have been used
+  if(used.size>=deck.length&&!isPro()){
+    // Free user has exhausted their weekly cards - show upgrade prompt
+    clearAllTimers();releaseWake();
+    S.screen='cards-exhausted';render();return;
+  }
   let next=S.ci+1;
-  const deck=gc(getActiveMode());
   let attempts=0;
   while(used.has(next)&&attempts<deck.length){next=(next+1)%deck.length;attempts++}
   if(attempts>=deck.length){used.clear();next=(S.ci+1)%deck.length}
@@ -831,18 +1019,22 @@ function compactBar(type){
   const timerVal=isSing?S.singRoundTime:S.time;
   const timerId=isSing?'singRoundT':'timerNum';
   const urg=isSing?(S.singRoundTime<=15):(S.time<=5&&S.time>0);
+  const maxTime=isSing?120:60;
+  const pct=Math.max(0,timerVal/maxTime);
+  const dashOffset=Math.round(283*(1-pct));
   const aActive=S.team==='A';
   const nA=S.nameA.length>8?S.nameA.slice(0,7)+'…':S.nameA;
   const nB=S.nameB.length>8?S.nameB.slice(0,7)+'…':S.nameB;
   return `<div style="display:flex;align-items:stretch;gap:3px;width:100%">
-    <div class="panel" style="flex:1;display:flex;align-items:center;justify-content:center;gap:4px;padding:4px 6px;background:${aActive||isSing?'linear-gradient(135deg,#D5E0F5,#C0D0E8)':'var(--parchment)'};border:2px solid ${aActive||isSing?'var(--team-a)':'var(--parchment-deep)'}">
+    <div class="panel" style="flex:1;display:flex;align-items:center;justify-content:center;gap:4px;padding:4px 6px;background:${aActive||isSing?'linear-gradient(135deg,#D5E0F5,#C0D0E8)':'var(--parchment)'};border:2px solid ${aActive||isSing?'var(--team-a)':'var(--parchment-deep)'};${aActive&&!isSing?'animation:glowPulseTeamA 2s ease-in-out infinite':''}">
       <span style="font-family:'Cinzel',serif;font-size:8px;font-weight:700;color:var(--team-a)">${nA}</span>
       <span class="sc-num" style="font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:${aActive||isSing?'var(--ink)':'var(--parchment-deep)'};line-height:1">${S.sA}</span>
     </div>
-    <div style="display:flex;align-items:center;justify-content:center;padding:2px 6px;background:var(--wood-dark);border-radius:6px;min-width:48px">
-      <span id="${timerId}" style="font-family:'Cinzel',serif;font-size:${urg?26:22}px;font-weight:900;color:${urg?'#FF4444':'var(--gold-light)'};line-height:1;${urg?'animation:countPulse .5s ease-in-out infinite':''}">${timerVal}</span>
+    <div style="display:flex;align-items:center;justify-content:center;padding:2px 4px;background:var(--wood-dark);border-radius:6px;min-width:52px;position:relative;${urg?'animation:glowPulseRed 1s ease-in-out infinite':''}">
+      <svg width="44" height="44" style="position:absolute;transform:rotate(-90deg)"><circle cx="22" cy="22" r="18" fill="none" stroke="rgba(200,150,62,.15)" stroke-width="3"/><circle cx="22" cy="22" r="18" fill="none" stroke="${urg?'#FF4444':'var(--gold-light)'}" stroke-width="3" stroke-dasharray="283" stroke-dashoffset="${dashOffset}" stroke-linecap="round" style="transition:stroke-dashoffset 1s linear"/></svg>
+      <span id="${timerId}" style="font-family:'Cinzel',serif;font-size:${urg?22:18}px;font-weight:900;color:${urg?'#FF4444':'var(--gold-light)'};line-height:1;z-index:1;${urg?'animation:countPulse .5s ease-in-out infinite':''}">${timerVal}</span>
     </div>
-    <div class="panel" style="flex:1;display:flex;align-items:center;justify-content:center;gap:4px;padding:4px 6px;background:${!aActive||isSing?'linear-gradient(135deg,#F5D5D5,#E8C0C0)':'var(--parchment)'};border:2px solid ${!aActive||isSing?'var(--team-b)':'var(--parchment-deep)'}">
+    <div class="panel" style="flex:1;display:flex;align-items:center;justify-content:center;gap:4px;padding:4px 6px;background:${!aActive||isSing?'linear-gradient(135deg,#F5D5D5,#E8C0C0)':'var(--parchment)'};border:2px solid ${!aActive||isSing?'var(--team-b)':'var(--parchment-deep)'};${!aActive&&!isSing?'animation:glowPulseTeamB 2s ease-in-out infinite':''}">
       <span style="font-family:'Cinzel',serif;font-size:8px;font-weight:700;color:var(--team-b)">${nB}</span>
       <span class="sc-num" style="font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:${!aActive||isSing?'var(--ink)':'var(--parchment-deep)'};line-height:1">${S.sB}</span>
     </div>
@@ -915,7 +1107,7 @@ function render(){
     const app=document.getElementById('app');
     const am=getActiveMode();
     const cw=getCurWord();
-    const inGame=['card-front','card-reveal','sing-play','sing-reveal','countdown','summary'].includes(S.screen);
+    const inGame=['card-front','card-reveal','sing-play','sing-reveal','countdown','summary','cards-exhausted'].includes(S.screen);
     let h='';
 
     // ─── TEAM DISPLAY MODE (spectator device) ───
@@ -1017,42 +1209,57 @@ function render(){
     if(S.screen==='home'){
       const st=getStats();
       const pro=isPro();
-      const cardCount=pro?50:20;
+      const singCount=gc('sing').length;const actCount=gc('act').length;const explainCount=gc('explain').length;
+      const totalBase=SING.length+ACT.length+EXPLAIN.length;
+      const totalFree=singCount+actCount+explainCount;
       h=`<div class="screen" style="animation:fadeIn .6s"><div class="content" style="gap:10px">
-        <div class="wood-frame" style="width:100%;animation:slideUp .5s"><div class="panel" style="padding:22px 14px;text-align:center">
+        <div class="wood-frame" style="width:100%;animation:slideUp .5s"><div class="panel gold-corners" style="padding:22px 14px;text-align:center">
           <div style="font-family:'Almendra',serif;font-size:clamp(32px,9vw,48px);color:var(--wood-dark);line-height:1;text-shadow:0 2px 0 rgba(200,150,62,.3)">Fellowship Face-Off</div>
           <div class="gold-line" style="width:50px"></div>
           <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:4px;color:var(--wood-light);text-transform:uppercase">The Great Christian Multiplayer Game</div>
           ${pro?`<div style="display:inline-block;margin-top:6px;padding:2px 10px;border-radius:3px;background:linear-gradient(135deg,var(--gold-light),var(--gold));font-family:'Cinzel',serif;font-size:8px;font-weight:700;color:var(--wood-dark);letter-spacing:2px">⭐ FULL EDITION</div>`
-            :`<div style="font-family:'Lora',serif;font-size:10px;color:var(--parchment-deep);margin-top:4px;font-style:italic">${cardCount} of 50 cards this week</div>`}
+            :`<div style="font-family:'Lora',serif;font-size:10px;color:var(--parchment-deep);margin-top:4px;font-style:italic">${totalFree} of ${totalBase} cards this week</div>`}
           ${st.total>0?`<div style="font-family:'Lora',serif;font-size:10px;color:var(--parchment-deep);margin-top:2px;font-style:italic">${st.total} game${st.total>1?'s':''} played</div>`:''}
         </div></div>
-        ${[{m:'sing',i:'🎵',t:'Sing-Off',s:'Teams alternate singing',c:'#C89632',d:'.1s'},
-           {m:'act',i:'🎭',t:'Act It Out',s:'1 word & gestures only',c:'#B83232',d:'.18s'},
-           {m:'explain',i:'💬',t:'Explain',s:'Describe any way you like',c:'#2B5C8B',d:'.26s'},
-           {m:'mix',i:'🏆',t:'Championship',s:'Sing + Act + Explain combined',c:'#8B5E34',d:'.34s'}
-        ].map(g=>`<button onclick="ensureAudio();selectMode('${g.m}')" class="game-card" style="width:100%;padding:14px 12px 14px 16px;background:${g.m==='mix'?'linear-gradient(135deg,#F0E8D0,#E0D0B0)':mBg(g.m)};animation:slideUp .5s ease-out ${g.d} both;text-align:center;border-left:6px solid ${g.c}">
-          <div class="card-border"></div><div style="font-size:26px;margin-bottom:2px">${g.i}</div>
-          <div style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--ink);letter-spacing:2px">${g.t}</div>
-          <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);margin-top:1px;font-style:italic">${g.s}${!pro?` · ${cardCount} cards`:''}</div>
+        ${[{m:'sing',img:'mode-sing.png',t:'Sing-Off',s:'Teams alternate singing',c:'#C89632',d:'.1s',cnt:singCount,full:SING.length},
+           {m:'act',img:'mode-act.png',t:'Act It Out',s:'1 word & gestures only',c:'#B83232',d:'.18s',cnt:actCount,full:ACT.length},
+           {m:'explain',img:'mode-explain.png',t:'Explain',s:'Describe any way you like',c:'#2B5C8B',d:'.26s',cnt:explainCount,full:EXPLAIN.length},
+           {m:'mix',img:'mode-champ.png',t:'Championship',s:'Sing + Act + Explain combined',c:'#8B5E34',d:'.34s',cnt:totalFree,full:totalBase}
+        ].map(g=>`<button onclick="ensureAudio();selectMode('${g.m}')" class="game-card" style="width:100%;padding:0;background:${g.m==='mix'?'linear-gradient(135deg,#F0E8D0,#E0D0B0)':mBg(g.m)};animation:slideUp .5s ease-out ${g.d} both;border-left:6px solid ${g.c};display:flex;align-items:center;overflow:hidden">
+          <div style="flex:1;padding:12px 8px 12px 12px;text-align:left">
+            <div style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--ink);letter-spacing:2px">${g.t}</div>
+            <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);margin-top:2px;font-style:italic">${g.s} · ${pro?g.full:g.cnt} cards</div>
+          </div>
+          <img src="${g.img}" alt="${g.t}" style="width:70px;height:70px;object-fit:cover;border-radius:6px;margin:6px 8px 6px 0">
         </button>`).join('')}
 
         <!-- Faith Library -->
-        <button onclick="pushState();S.showLearning=true;render()" class="game-card" style="width:100%;padding:14px 12px 14px 16px;background:linear-gradient(135deg,#E8E0D0,#D8CDB8);animation:slideUp .5s ease-out .42s both;text-align:center;border-left:6px solid var(--gold-dark)">
-          <div class="card-border"></div><div style="font-size:26px;margin-bottom:2px">📚</div>
-          <div style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--ink);letter-spacing:2px">Faith Library</div>
-          <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);margin-top:1px;font-style:italic">${pro?'Explore all 300 words & definitions':'🔒 Full dictionary in Full Edition'}</div>
+        <button onclick="pushState();S.showLearning=true;render()" class="game-card" style="width:100%;padding:0;background:linear-gradient(135deg,#E8E0D0,#D8CDB8);animation:slideUp .5s ease-out .42s both;border-left:6px solid var(--gold-dark);display:flex;align-items:center;overflow:hidden">
+          <div style="flex:1;padding:12px 8px 12px 12px;text-align:left">
+            <div style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--ink);letter-spacing:2px">Faith Library</div>
+            <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);margin-top:2px;font-style:italic">Explore all words & definitions</div>
+          </div>
+          <img src="mode-library.png" alt="Faith Library" style="width:70px;height:70px;object-fit:cover;border-radius:6px;margin:6px 8px 6px 0">
         </button>
 
-        ${!pro?`<!-- Unlock Full Edition -->
-        <button onclick="pushState();S.showUnlock=true;render()" class="btn-gold" style="width:100%;text-align:center;font-size:14px;animation:slideUp .5s ease-out .5s both;letter-spacing:2px">🔓 Unlock Full Edition</button>`:''}
-
-        <div style="display:flex;gap:6px;margin-top:4px;flex-wrap:wrap;justify-content:center">
-          <button onclick="pushState();showRules()" style="padding:6px 14px;border-radius:6px;border:1px solid var(--gold);background:rgba(200,150,62,.08);color:var(--gold-light);font-family:'Cinzel',serif;font-size:10px;min-height:40px">📖 Rules</button>
-          <button onclick="pushState();S.showAbout=true;render()" style="padding:6px 14px;border-radius:6px;border:1px solid var(--gold);background:rgba(200,150,62,.08);color:var(--gold-light);font-family:'Cinzel',serif;font-size:10px;min-height:40px">ℹ️ About</button>
-          <button onclick="showTutorial()" style="padding:6px 14px;border-radius:6px;border:1px solid var(--gold);background:rgba(200,150,62,.08);color:var(--gold-light);font-family:'Cinzel',serif;font-size:10px;min-height:40px">🎓 Learn</button>
+        <!-- Solo Practice -->
+        <div class="panel" style="width:100%;padding:10px;animation:slideUp .5s ease-out .48s both">
+          <div style="font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--ink);text-align:center;letter-spacing:2px;margin-bottom:6px">🎯 Solo Practice</div>
+          <div style="display:flex;gap:4px;justify-content:center">
+            ${['sing','act','explain'].map(m=>`<button onclick="startSolo('${m}')" style="flex:1;padding:6px 4px;border-radius:4px;border:2px solid ${mColHex(m)};background:transparent;text-align:center;min-height:36px">
+              <div style="font-size:14px">${mI(m)}</div>
+              <div style="font-family:'Cinzel',serif;font-size:8px;color:${mColHex(m)};font-weight:700">${m==='sing'?'Sing':m==='act'?'Act':'Explain'}</div>
+            </button>`).join('')}
+          </div>
         </div>
-        <!-- Join Game -->
+
+        ${!pro?`<button onclick="pushState();S.showUnlock=true;render()" class="btn-gold" style="width:100%;text-align:center;font-size:14px;animation:slideUp .5s ease-out .5s both;letter-spacing:2px">🔓 Unlock Full Edition</button>`:''}
+
+        <div style="display:flex;gap:6px;margin-top:2px;flex-wrap:wrap;justify-content:center">
+          <button onclick="pushState();showRules()" style="padding:6px 12px;border-radius:6px;border:1px solid var(--gold);background:rgba(200,150,62,.08);color:var(--gold-light);font-family:'Cinzel',serif;font-size:10px;min-height:38px">📖 Rules</button>
+          <button onclick="pushState();S.showAbout=true;render()" style="padding:6px 12px;border-radius:6px;border:1px solid var(--gold);background:rgba(200,150,62,.08);color:var(--gold-light);font-family:'Cinzel',serif;font-size:10px;min-height:38px">ℹ️ About</button>
+          <button onclick="showTutorial()" style="padding:6px 12px;border-radius:6px;border:1px solid var(--gold);background:rgba(200,150,62,.08);color:var(--gold-light);font-family:'Cinzel',serif;font-size:10px;min-height:38px">🎓 Learn</button>
+        </div>
         <button onclick="pushState();S.showJoin=true;render()" class="btn-wood" style="width:100%;text-align:center;font-size:13px;margin-top:2px;background:linear-gradient(180deg,#3A6B3A,#1B4D1B);border-color:#0F2E0F">📲 Join Team Display</button>
         <div style="font-size:8px;color:rgba(200,150,62,.25);text-align:center">v${APP_VERSION}</div>
       </div>${installHTML()}</div>`;
@@ -1083,6 +1290,7 @@ function render(){
               <input id="nameBInput" type="text" value="${S.nameB}" maxlength="15" onchange="S.nameB=this.value||'Team B'" style="width:100%;text-align:center;font-family:'Cinzel',serif;font-size:12px;font-weight:700;padding:6px;border:2px solid var(--team-b);border-radius:4px;background:var(--parchment-dark);color:var(--team-b);outline:none">
             </div>
           </div>
+
         </div>
         <!-- Difficulty -->
         <div class="panel" style="width:100%;padding:8px">
@@ -1131,8 +1339,9 @@ function render(){
         ${topBar()}
         <div style="padding:4px 14px;border-radius:4px;background:${tBg};border:2px solid ${tc}">
           <span style="font-family:'Cinzel',serif;font-size:12px;font-weight:700;letter-spacing:2px;color:${tc}">${tIcon(S.team)} ${tN(S.team)}'s Turn${champInfo}</span></div>
-        <button onclick="revealCard()" class="game-card" style="width:100%;max-width:260px;aspect-ratio:3/4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:${mCardBg(cm)};border-left:8px solid ${mColHex(cm)};animation:cardFlip .5s ease-out">
-          <div class="card-border"></div><span style="font-size:44px">${mI(cm)}</span>
+        <button onclick="revealCard()" class="game-card gold-corners" style="width:100%;max-width:260px;aspect-ratio:3/4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:${mCardBg(cm)};border-left:8px solid ${mColHex(cm)};animation:cardFlip3D .6s ease-out">
+          <div class="card-border"></div>
+          <img src="${mImg(cm)}" alt="${mL(cm)}" style="width:80px;height:80px;border-radius:10px">
           <span style="font-family:'Cinzel',serif;font-size:17px;font-weight:700;color:var(--ink);letter-spacing:2px">${mL(cm)}</span>
           <span style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);font-style:italic;animation:breathe 2s ease-in-out infinite">Tap to reveal</span>
         </button>
@@ -1149,7 +1358,8 @@ function render(){
         </div>
         <div style="display:flex;gap:${ls?'6px':'0'};width:100%;${ls?'flex-direction:row;flex:1;min-height:0':'flex-direction:column;gap:5px'}">
           <div class="${ls?'ls-card-area':''}${ls?'':'" style="width:100%'}">
-            <div class="big-card game-card" style="background:${mBg(cm)};border-left-color:${mColHex(cm)};animation:slideIn .3s;${ls?'height:100%':'flex:1;min-height:200px'};display:flex;flex-direction:column;align-items:center;justify-content:center">
+            <div class="big-card game-card gold-corners" style="background:${mBg(cm)};border-left-color:${mColHex(cm)};animation:cardFlip3D .5s;${ls?'height:100%':'flex:1;min-height:200px'};display:flex;flex-direction:column;align-items:center;justify-content:center">
+              <img src="${mImg(cm)}" class="mode-badge" alt="">
               <div style="font-family:'Cinzel',serif;font-size:${ls?'9px':'10px'};letter-spacing:2px;text-transform:uppercase;color:${mColHex(cm)};font-weight:700;opacity:.8">${mD(cm)}</div>
               <div class="gold-line" style="width:${ls?'40px':'60px'}"></div>
               <div class="big-word" style="font-size:${ls?'clamp(32px,7vw,52px)':fs+'px'}">${cw}</div>
@@ -1178,7 +1388,8 @@ function render(){
         <div class="ls-score-bar" style="width:100%">${compactBar('sing')}</div>
         <div style="display:flex;gap:${ls?'6px':'0'};width:100%;${ls?'flex-direction:row;flex:1;min-height:0':'flex-direction:column;gap:4px'}">
           <div class="${ls?'ls-card-area':''}${ls?'':'" style="width:100%'}">
-            <div class="big-card game-card" style="background:${mBg('sing')};border-left-color:${mColHex('sing')};${ls?'height:100%':'min-height:140px'};display:flex;flex-direction:column;align-items:center;justify-content:center">
+            <div class="big-card game-card gold-corners" style="background:${mBg('sing')};border-left-color:${mColHex('sing')};${ls?'height:100%':'min-height:140px'};display:flex;flex-direction:column;align-items:center;justify-content:center">
+              <img src="mode-sing.png" class="mode-badge" alt="">
               <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--yellow-deep);font-weight:700;opacity:.8">Sing a song with</div>
               <div class="big-word" style="font-size:${ls?'clamp(24px,6vw,44px)':fs2+'px'}">${cw2}</div>
               ${diffToggle()}
@@ -1199,6 +1410,35 @@ function render(){
             <button onclick="singSkipCard()" style="font-family:'Lora',serif;font-size:11px;color:var(--gold);text-decoration:underline;min-height:${ls?'28px':'36px'}">Skip word</button>
           </div>
         </div>
+      </div></div>`;
+    }
+
+    else if(S.screen==='cards-exhausted'){
+      const am=getActiveMode();const limit=freeLimit(am);
+      h=`<div class="screen" style="animation:fadeIn .5s"><div class="content" style="gap:14px;text-align:center">
+        <div class="wood-frame" style="width:100%"><div class="panel" style="padding:24px 16px">
+          <div style="font-size:48px;margin-bottom:8px">🔒</div>
+          <div style="font-family:'Almendra',serif;font-size:22px;color:var(--wood-dark)">Cards Used Up!</div>
+          <div class="gold-line" style="width:40px"></div>
+          <div style="font-family:'Lora',serif;font-size:13px;color:var(--ink);line-height:1.6;margin-top:8px">
+            You've played through all <b>${limit} free ${mL(am)} cards</b> for this week.
+          </div>
+          <div style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);font-style:italic;margin-top:6px">
+            New cards will be available next week, or unlock <b>Pro</b> for endless play with all cards!
+          </div>
+        </div></div>
+        <img src="${mImg(am)}" alt="${mL(am)}" style="width:80px;height:80px;border-radius:12px">
+        <div class="panel" style="width:100%;padding:12px;text-align:left">
+          <div style="font-family:'Lora',serif;font-size:12px;color:var(--ink);line-height:1.7">
+            ✅ <b>Pro unlocks:</b> All ${SING.length + ACT.length + EXPLAIN.length} base cards<br>
+            ✅ Endless play — cards reshuffle, never run out<br>
+            ✅ No weekly limits on any mode<br>
+            ✅ Denomination packs available
+          </div>
+        </div>
+        <button class="btn-gold" onclick="S.screen='home';S.showUnlock=true;render()" style="width:100%;font-size:15px;letter-spacing:2px;padding:14px">🔓 Unlock Pro</button>
+        <button class="btn-wood" onclick="endTurn()" style="width:100%;text-align:center">Continue with Score</button>
+        <button onclick="resetGame()" style="font-family:'Lora',serif;font-size:12px;color:var(--gold);text-decoration:underline;min-height:36px">← Back to Home</button>
       </div></div>`;
     }
 
@@ -1233,9 +1473,9 @@ function render(){
       const totalA=isChamp?S.champTotalA:S.sA;
       const totalB=isChamp?S.champTotalB:S.sB;
       const w=totalA>totalB?'A':totalB>totalA?'B':null;const wc=w==='A'?'var(--team-a)':w==='B'?'var(--team-b)':'var(--gold)';const wcH=w==='A'?'#2B6CB0':w==='B'?'#C53030':'#C8963E';
-      const cc=Math.min(15,25);let conf='';if(w)for(let i=0;i<cc;i++){conf+=`<div class="confetti-piece" style="left:${Math.random()*100}%;top:-${Math.random()*20}%;width:${5+Math.random()*5}px;height:${5+Math.random()*5}px;background:${[wcH,'#C8963E','#1B4D2E','#E8B44A','#F5E6C8'][Math.floor(Math.random()*5)]};border-radius:${Math.random()>.5?'50%':'1px'};--dur:${2+Math.random()*3}s;--delay:${Math.random()*2}s"></div>`}
+      const cc=25;let conf='';if(w)for(let i=0;i<cc;i++){const shapes=['50%','2px','0'];const drift=(-30+Math.random()*60)+'px';conf+=`<div class="confetti-piece" style="left:${Math.random()*100}%;top:-${Math.random()*20}%;width:${4+Math.random()*8}px;height:${4+Math.random()*8}px;background:${[wcH,'#C8963E','#1B4D2E','#E8B44A','#F5E6C8','#FFD700','#FF6B6B'][Math.floor(Math.random()*7)]};border-radius:${shapes[Math.floor(Math.random()*3)]};--dur:${2+Math.random()*4}s;--delay:${Math.random()*2.5}s;--drift:${drift}"></div>`}
       h=`<div class="screen" style="animation:fadeIn .5s">${conf}<div class="content" style="gap:10px;z-index:3">
-        <div class="wood-frame" style="width:100%;animation:stampIn .5s"><div class="panel" style="padding:20px 14px;text-align:center">
+        <div class="wood-frame" style="width:100%;animation:stampIn .5s,winShake .6s ease-in-out .5s"><div class="panel" style="padding:20px 14px;text-align:center">
           ${isChamp?`<div style="font-size:60px;margin-bottom:4px">🏆</div>
           <div style="font-family:'Almendra',serif;font-size:26px;color:${wc};letter-spacing:2px;animation:glow 2s ease-in-out infinite">${w?tN(w)+' wins the Championship!':"Championship Tie!"}</div>
           <div style="font-family:'Cinzel',serif;font-size:16px;color:var(--ink);margin-top:6px;font-weight:700">${totalA} — ${totalB}</div>`
@@ -1265,11 +1505,41 @@ function render(){
         <div class="panel" style="padding:6px 12px;text-align:center">
           <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);font-style:italic">${mL(S.mode)} · ${S.rounds} rounds</div>
         </div>
-        <div style="display:flex;gap:8px;width:100%">
-          <button class="btn-wood" onclick="playAgain()" style="flex:1;text-align:center;font-size:12px">Rematch</button>
-          <button class="btn-gold" onclick="shareResult()" style="flex:1;text-align:center;font-size:12px">📤 Share</button>
+        <div style="display:flex;gap:6px;width:100%">
+          <button class="btn-wood" onclick="playAgain()" style="flex:1;text-align:center;font-size:11px">Rematch</button>
+          <button class="btn-gold" onclick="shareScoreCard()" style="flex:1;text-align:center;font-size:11px">📤 Share</button>
+          <button class="btn-wood" onclick="shareToWhatsApp('🏆 Fellowship Face-Off! '+tN(totalA>totalB?'A':'B')+' won '+Math.max(totalA,totalB)+'-'+Math.min(totalA,totalB)+'! Download: '+location.href)" style="flex:1;text-align:center;font-size:11px;background:linear-gradient(180deg,#25D366,#128C7E);border-color:#075E54">💬 WhatsApp</button>
         </div>
         <button onclick="resetGame()" style="font-family:'Lora',serif;font-size:12px;color:var(--gold);text-decoration:underline;min-height:40px">← New Game</button>
+      </div></div>`;
+    }
+
+    // Solo Practice Mode
+    if(S.showSolo){
+      const deck=S.cards;const card=deck[S.soloCi];
+      const word=card?card[S.cardDiff==='easy'?0:1]:'';
+      const def=card?card[S.cardDiff==='easy'?2:3]:'';
+      const fs=wordSize(word.length);
+      h=`<div class="screen" style="animation:slideRight .3s"><div class="content" style="gap:8px">
+        <div class="top-bar">
+          <span style="font-family:'Cinzel',serif;font-size:11px;color:var(--gold-light);letter-spacing:2px">🎯 SOLO · ${mL(S.soloMode)}</span>
+          <div style="display:flex;gap:4px">
+            <span style="font-family:'Lora',serif;font-size:10px;color:var(--gold);padding:8px">${S.soloCi+1}/${deck.length}</span>
+            <button class="top-bar-btn" onclick="soloExit()">✕</button>
+          </div>
+        </div>
+        <div class="big-card game-card" style="background:${mBg(S.soloMode)};border-left-color:${mColHex(S.soloMode)};flex:1;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center">
+          <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:${mColHex(S.soloMode)};font-weight:700;opacity:.8">${S.cardDiff==='easy'?'Easy':'Challenge'}</div>
+          <div class="gold-line" style="width:50px"></div>
+          <div class="big-word" style="font-size:${fs}px">${word}</div>
+          ${S.soloRevealed?`<div class="gold-line" style="width:50px"></div>
+          <div style="font-family:'Lora',serif;font-size:12px;color:var(--wood-light);line-height:1.5;font-style:italic;padding:8px 12px;text-align:center;max-width:320px">${def}</div>`:''}
+        </div>
+        <div style="display:flex;gap:6px;width:100%">
+          <button onclick="S.cardDiff=S.cardDiff==='easy'?'challenge':'easy';render()" class="btn-wood" style="flex:1;text-align:center;font-size:11px">${S.cardDiff==='easy'?'⬆ Challenge':'⬇ Easy'}</button>
+          ${!S.soloRevealed?`<button onclick="soloReveal()" class="btn-gold" style="flex:2;text-align:center;font-size:13px">👁 Show Definition</button>`
+            :`<button onclick="soloNext()" class="btn-gold" style="flex:2;text-align:center;font-size:13px">Next Word →</button>`}
+        </div>
       </div></div>`;
     }
 
@@ -1362,20 +1632,37 @@ function tutorialModal(){
 
 function learningModal(){
   const words=getAllWords();
-  return `<div class="modal-overlay" onclick="S.showLearning=false;render()"><div class="wood-frame modal" onclick="event.stopPropagation()"><div class="panel" style="padding:16px 12px">
-    <div style="font-family:'Almendra',serif;font-size:20px;color:var(--wood-dark);text-align:center">Faith Library</div>
+  const letters=[...new Set(words.map(w=>w.word[0].toUpperCase()))].sort();
+  return `<div class="modal-overlay" onclick="S.showLearning=false;render()"><div class="wood-frame modal" style="max-width:420px" onclick="event.stopPropagation()"><div class="panel" style="padding:14px 10px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+      <img src="mode-library.png" alt="" style="width:40px;height:40px;border-radius:6px">
+      <div style="flex:1">
+        <div style="font-family:'Almendra',serif;font-size:18px;color:var(--wood-dark)">Faith Library</div>
+        <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);font-style:italic">${words.length} words with definitions</div>
+      </div>
+    </div>
     <div class="gold-line" style="width:40px"></div>
-    <div style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);text-align:center;font-style:italic;margin-bottom:8px">${words.length} words — tap ❓ for definitions</div>
-    <div class="scroll-content">
+    <!-- Search bar -->
+    <div style="margin-bottom:6px">
+      <input id="libSearch" type="text" placeholder="🔍 Search words..." oninput="filterLibrary()" style="width:100%;font-family:'Lora',serif;font-size:13px;padding:8px 12px;border:2px solid var(--parchment-deep);border-radius:6px;background:var(--parchment-dark);color:var(--ink);outline:none">
+    </div>
+    <!-- A-Z filter -->
+    <div id="libAZ" style="display:flex;flex-wrap:wrap;gap:2px;justify-content:center;margin-bottom:6px">
+      <button onclick="filterLibrary('ALL')" style="padding:2px 6px;border-radius:3px;font-family:'Cinzel',serif;font-size:9px;font-weight:700;background:var(--gold);color:var(--wood-dark);border:1px solid var(--gold-dark);min-height:24px">ALL</button>
+      ${letters.map(l=>`<button onclick="filterLibrary('${l}')" style="padding:2px 5px;border-radius:3px;font-family:'Cinzel',serif;font-size:9px;font-weight:700;background:var(--parchment);color:var(--ink);border:1px solid var(--parchment-deep);min-height:24px">${l}</button>`).join('')}
+    </div>
+    <!-- Word list -->
+    <div id="libWords" class="scroll-content" style="max-height:50vh">
       <div class="word-grid">${words.map(w=>{
-        const mc=w.mode==='sing'?'var(--yellow-card)':w.mode==='act'?'var(--red-card)':'var(--blue-card)';
-        return `<button class="word-chip" onclick="event.stopPropagation();openDef('${w.word.replace(/'/g,"\\'")}','${(w.def||'').replace(/'/g,"\\'")}')">
+        const mc=w.mode==='sing'?'#C89632':w.mode==='act'?'#B83232':'#2B5C8B';
+        return `<button class="word-chip" data-word="${w.word}" onclick="event.stopPropagation();openDef('${w.word.replace(/'/g,"\\'")}','${(w.def||'').replace(/'/g,"\\'")}')">
+          <span style="width:4px;height:100%;background:${mc};border-radius:2px;flex-shrink:0"></span>
           <span style="color:var(--ink);font-size:11px">${w.word}</span>
           <span class="q">?</span>
         </button>`;
       }).join('')}</div>
     </div>
-    <button class="btn-gold" onclick="S.showLearning=false;render()" style="margin-top:10px;width:100%;text-align:center">Close</button>
+    <button class="btn-gold" onclick="S.showLearning=false;render()" style="margin-top:8px;width:100%;text-align:center">Close</button>
   </div></div></div>`;
 }
 
@@ -1534,6 +1821,24 @@ function showTutorial(){pushState();S.showTutorial=true;S.tutStep=0;render()}
 function openDef(w,d){pushState();S.defWord=w;S.defDef=d;render()}
 function closeDef(){S.defWord=null;S.defDef=null;render()}
 
+// Faith Library filter
+function filterLibrary(letter){
+  const search=document.getElementById('libSearch');
+  const chips=document.querySelectorAll('#libWords .word-chip');
+  const query=letter&&letter!=='ALL'?null:(search?search.value.trim().toLowerCase():'');
+  chips.forEach(c=>{
+    const word=c.getAttribute('data-word')||'';
+    if(letter&&letter!=='ALL'){
+      c.style.display=word[0].toUpperCase()===letter?'':'none';
+    } else if(query){
+      c.style.display=word.toLowerCase().includes(query)?'':'none';
+    } else {
+      c.style.display='';
+    }
+  });
+  if(letter&&search)search.value='';
+}
+
 function saveTeamNames(){
   const a=document.getElementById('nameAInput');const b=document.getElementById('nameBInput');
   if(a&&a.value.trim())S.nameA=a.value.trim();
@@ -1591,7 +1896,31 @@ function penaltyCard(){
 }
 
 function animScore(txt,color,left){
-  setTimeout(()=>{const el=document.getElementById('scoreAnim');if(el){el.style.display='block';el.style.left=left;el.style.transform='translateX(-50%)';el.textContent=txt;el.style.color=color;el.style.animation='none';el.offsetHeight;el.style.animation='scoreFloat .8s ease-out forwards';setTimeout(()=>{if(el)el.style.display='none'},800)}},50);
+  setTimeout(()=>{
+    const el=document.getElementById('scoreAnim');
+    if(el){
+      el.style.display='block';el.style.left=left;el.style.transform='translateX(-50%)';
+      el.textContent=txt;el.style.color=color;el.style.fontSize='32px';
+      el.style.animation='none';el.offsetHeight;
+      el.style.animation='scoreBurst .3s ease-out forwards, scoreFloat 1s ease-out .2s forwards';
+      setTimeout(()=>{if(el)el.style.display='none'},1200);
+    }
+    // Sparkle particles on correct
+    if(txt.includes('+')){spawnSparkles(left)}
+  },50);
+}
+function spawnSparkles(left){
+  const container=document.getElementById('scoreAnim');if(!container)return;
+  const parent=container.parentElement;if(!parent)return;
+  for(let i=0;i<6;i++){
+    const s=document.createElement('div');
+    const angle=(i/6)*360;const rad=angle*Math.PI/180;
+    const x=Math.cos(rad)*30;const y=Math.sin(rad)*30;
+    s.style.cssText=`position:absolute;top:40%;left:${left};width:6px;height:6px;background:var(--gold-light);border-radius:50%;z-index:6;pointer-events:none;transform:translate(-50%,-50%);animation:sparkle .5s ease-out ${i*0.05}s forwards`;
+    s.style.setProperty('--tx',x+'px');s.style.setProperty('--ty',y+'px');
+    parent.appendChild(s);
+    setTimeout(()=>s.remove(),600);
+  }
 }
 
 function endTurn(){
@@ -1636,10 +1965,83 @@ function resetGame(){clearAllTimers();releaseWake();disconnectSync();S.paused=fa
 async function installApp(){if(deferP){deferP.prompt();await deferP.userChoice;deferP=null;render()}}
 function dismissInstall(){deferP=null;render()}
 
+// ─── v9: SOLO PRACTICE MODE ───
+function startSolo(mode){
+  S.showSolo=true;S.soloMode=mode;S.soloCi=0;S.soloRevealed=false;
+  const deck=gc(mode);S.cards=shuffle(deck);
+  pushState();render();
+}
+function soloNext(){
+  S.soloCi=(S.soloCi+1)%S.cards.length;S.soloRevealed=false;render();
+}
+function soloReveal(){S.soloRevealed=true;render()}
+function soloExit(){S.showSolo=false;S.soloMode=null;S.screen='home';render()}
+
+// ─── v9: WHATSAPP SHARE ───
+function shareToWhatsApp(text){
+  const url='https://wa.me/?text='+encodeURIComponent(text);
+  window.open(url,'_blank');
+}
+
+// ─── v9: SCORE CARD IMAGE ───
+function generateScoreCard(){
+  try{
+    const c=document.createElement('canvas');c.width=600;c.height=400;
+    const x=c.getContext('2d');
+    // Background
+    x.fillStyle='#1B4D2E';x.fillRect(0,0,600,400);
+    x.fillStyle='#F5E6C8';x.roundRect(20,20,560,360,12);x.fill();
+    // Title
+    x.fillStyle='#3B2210';x.font='bold 28px serif';x.textAlign='center';
+    x.fillText('Fellowship Face-Off',300,65);
+    x.font='italic 14px serif';x.fillStyle='#8B5E34';
+    x.fillText('The Great Christian Multiplayer Game',300,88);
+    // Scores
+    const isChamp=S.mode==='mix';
+    const tA=isChamp?S.champTotalA:S.sA;const tB=isChamp?S.champTotalB:S.sB;
+    const w=tA>tB?'A':tB>tA?'B':null;
+    // Team A
+    x.fillStyle='#2B6CB0';x.font='bold 18px serif';x.textAlign='center';
+    x.fillText(S.nameA,170,140);
+    x.font='bold 60px serif';x.fillText(String(tA),170,210);
+    // VS
+    x.fillStyle='#C8963E';x.font='bold 20px serif';x.fillText('VS',300,185);
+    // Team B
+    x.fillStyle='#C53030';x.font='bold 18px serif';
+    x.fillText(S.nameB,430,140);
+    x.font='bold 60px serif';x.fillText(String(tB),430,210);
+    // Winner
+    if(w){x.fillStyle='#C8963E';x.font='bold 22px serif';x.fillText('🏆 '+(w==='A'?S.nameA:S.nameB)+' Wins!',300,270)}
+    else{x.fillStyle='#C8963E';x.font='bold 22px serif';x.fillText("It's a Tie!",300,270)}
+    // Mode + rounds
+    x.font='italic 14px serif';x.fillStyle='#5C3A1E';
+    x.fillText(mL(S.mode)+' · '+S.rounds+' rounds',300,300);
+    // Footer
+    x.font='12px serif';x.fillStyle='#8B5E34';
+    x.fillText('Download: Fellowship Face-Off',300,370);
+    return c.toDataURL('image/png');
+  }catch(e){return null}
+}
+
+function shareScoreCard(){
+  const dataUrl=generateScoreCard();
+  if(!dataUrl)return shareResult(); // fallback to text
+  // Try native share with image
+  try{
+    fetch(dataUrl).then(r=>r.blob()).then(blob=>{
+      const file=new File([blob],'fellowship-faceoff-score.png',{type:'image/png'});
+      if(navigator.canShare&&navigator.canShare({files:[file]})){
+        navigator.share({files:[file],title:'Fellowship Face-Off',text:'Check out our game results! 🏆'}).catch(()=>shareResult());
+      } else { shareResult() }
+    }).catch(()=>shareResult());
+  }catch(e){shareResult()}
+}
+
 // ─── INIT ───
 checkUnlock();
 localStorage.setItem('ll_opens',String((parseInt(localStorage.getItem('ll_opens')||'0'))+1));
 if(!localStorage.getItem('ll_seen')){localStorage.setItem('ll_seen','1');S.showTutorial=true;S.tutStep=0}
+
 
 // Orientation detection
 let isLandscape=false;
@@ -1681,6 +2083,16 @@ if('serviceWorker'in navigator){
         }
       });
     });
+    // Request push notification permission after 3rd open
+    const opens=parseInt(localStorage.getItem('ll_opens')||'0');
+    if(opens>=3&&'Notification'in window&&Notification.permission==='default'){
+      setTimeout(()=>{Notification.requestPermission().then(p=>{
+        if(p==='granted'&&reg.active){
+          // Schedule weekly reminder via SW
+          try{reg.showNotification('Fellowship Face-Off',{body:'New cards are ready! Come play this weeks words.',icon:'icon-192.png',badge:'icon-192.png',tag:'weekly'})}catch(e){}
+        }
+      })},5000);
+    }
   }).catch(()=>{});
 }
 
