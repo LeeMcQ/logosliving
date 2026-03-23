@@ -1,7 +1,7 @@
 {
-  "name": "Logo's Living — The Christian Party Game",
-  "short_name": "Logo's Living",
-  "description": "Sing, Act, or Explain biblical words. A fun group game for church, youth, and family!",
+  "name": "Fellowship Face-Off",
+  "short_name": "Fellowship Face-Off",
+  "description": "The Great Christian Multiplayer Game — Sing, Act, or Explain biblical words with your team!",
   "start_url": "./index.html",
   "display": "standalone",
   "orientation": "portrait",
