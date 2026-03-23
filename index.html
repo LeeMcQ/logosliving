@@ -6,7 +6,18 @@
 <meta name="theme-color" content="#2C1810">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="description" content="Fellowship Face-Off — The Great Christian Multiplayer Game">
+<meta name="description" content="Fellowship Face-Off — The Great Christian Multiplayer Game. Sing, Act, Explain — 900 words of biblical fun for every denomination.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' wss://free.blr1.piesocket.com; img-src 'self' data: blob:">
+<meta property="og:title" content="Fellowship Face-Off">
+<meta property="og:description" content="The Great Christian Multiplayer Game — Sing, Act, Explain with 900 biblical words! Free for church groups, youth ministries, and family game nights.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="icon-512.png">
+<meta property="og:image:width" content="512">
+<meta property="og:image:height" content="512">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Fellowship Face-Off">
+<meta name="twitter:description" content="The Great Christian Multiplayer Game — 900 biblical words across Sing-Off, Act It Out, and Explain modes!">
+<meta name="twitter:image" content="icon-512.png">
 <meta name="mobile-web-app-capable" content="yes">
 <title>Fellowship Face-Off</title>
 <link rel="manifest" href="manifest.json">
@@ -893,7 +904,9 @@ function mI(m){return m==='sing'?'🎵':m==='act'?'🎭':m==='explain'?'💬':'�
 function mImg(m){return m==='sing'?'mode-sing.png':m==='act'?'mode-act.png':m==='explain'?'mode-explain.png':'mode-champ.png'}
 function mD(m){return m==='sing'?'Sing a Christian song with this word':m==='act'?'1 word & gestures only':'Describe any way you like'}
 function getActiveMode(){return S.mode==='mix'?S.mixModes[S.champPhase]||'sing':S.mode}
-function tN(t){return t==='A'?S.nameA:S.nameB} // team name helper
+// Sanitize user input to prevent XSS
+function sanitize(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
+function tN(t){return sanitize(t==='A'?S.nameA:S.nameB)} // team name helper
 function tIcon(t){return t==='A'?'⚔️':'🛡️'}
 function wordSize(len){return len>20?32:len>14?42:len>8?54:64}
 function clearAllTimers(){clearInterval(tid);clearInterval(singTid);clearInterval(singRTid);clearInterval(cdTid);tid=null;singTid=null;singRTid=null;cdTid=null;S.cdActive=false}
@@ -1508,7 +1521,7 @@ function render(){
         <div style="display:flex;gap:6px;width:100%">
           <button class="btn-wood" onclick="playAgain()" style="flex:1;text-align:center;font-size:11px">Rematch</button>
           <button class="btn-gold" onclick="shareScoreCard()" style="flex:1;text-align:center;font-size:11px">📤 Share</button>
-          <button class="btn-wood" onclick="shareToWhatsApp('🏆 Fellowship Face-Off! '+tN(totalA>totalB?'A':'B')+' won '+Math.max(totalA,totalB)+'-'+Math.min(totalA,totalB)+'! Download: '+location.href)" style="flex:1;text-align:center;font-size:11px;background:linear-gradient(180deg,#25D366,#128C7E);border-color:#075E54">💬 WhatsApp</button>
+          <button class="btn-wood" onclick="shareToWhatsApp('🏆 *Fellowship Face-Off Results*\n\n'+tN(totalA>totalB?'A':'B')+' won '+Math.max(totalA,totalB)+'-'+Math.min(totalA,totalB)+' in '+mL(S.mode)+'!\n\n🎵 Can YOUR team beat this score?\n👉 Download: '+location.href)" style="flex:1;text-align:center;font-size:11px;background:linear-gradient(180deg,#25D366,#128C7E);border-color:#075E54">💬 WhatsApp</button>
         </div>
         <button onclick="resetGame()" style="font-family:'Lora',serif;font-size:12px;color:var(--gold);text-decoration:underline;min-height:40px">← New Game</button>
       </div></div>`;
@@ -1797,14 +1810,24 @@ function copyAndConfirm(msg){
   }
 }
 
+let unlockAttempts=0;let unlockLockout=0;
 function tryUnlock(){
+  // Rate limit: max 5 attempts per 60 seconds
+  const now=Date.now();
+  if(now<unlockLockout){
+    const secs=Math.ceil((unlockLockout-now)/1000);
+    alert('Too many attempts. Please wait '+secs+' seconds.');return;
+  }
   const input=document.getElementById('unlockCodeInput');
   const code=input?input.value.trim():'';
   if(!code)return;
   if(unlockPro(code)){
+    unlockAttempts=0;
     S.showUnlock=false;render();
     setTimeout(()=>{alert('🎉 Unlocked successfully! Enjoy your new content.')},100);
   } else {
+    unlockAttempts++;
+    if(unlockAttempts>=5){unlockLockout=now+60000;unlockAttempts=0}
     const err=document.getElementById('unlockError');
     if(err)err.style.display='block';
   }
@@ -1986,39 +2009,78 @@ function shareToWhatsApp(text){
 // ─── v9: SCORE CARD IMAGE ───
 function generateScoreCard(){
   try{
-    const c=document.createElement('canvas');c.width=600;c.height=400;
+    const c=document.createElement('canvas');c.width=1080;c.height=1080;
     const x=c.getContext('2d');
-    // Background
-    x.fillStyle='#1B4D2E';x.fillRect(0,0,600,400);
-    x.fillStyle='#F5E6C8';x.roundRect(20,20,560,360,12);x.fill();
+    // Green felt background
+    x.fillStyle='#1B4D2E';x.fillRect(0,0,1080,1080);
+    // Parchment card
+    x.fillStyle='#F5E6C8';x.beginPath();x.roundRect(60,60,960,960,24);x.fill();
+    // Wood border
+    x.strokeStyle='#5C3A1E';x.lineWidth=6;x.beginPath();x.roundRect(60,60,960,960,24);x.stroke();
+    // Gold inner border
+    x.strokeStyle='#C8963E';x.lineWidth=2;x.beginPath();x.roundRect(80,80,920,920,18);x.stroke();
+    // Gold corner ornaments
+    const corners=[[95,95],[985,95],[95,985],[985,985]];
+    x.strokeStyle='#C8963E';x.lineWidth=3;
+    corners.forEach(([cx,cy],i)=>{
+      x.beginPath();
+      if(i===0){x.moveTo(cx,cy+20);x.lineTo(cx,cy);x.lineTo(cx+20,cy)}
+      if(i===1){x.moveTo(cx-20,cy);x.lineTo(cx,cy);x.lineTo(cx,cy+20)}
+      if(i===2){x.moveTo(cx,cy-20);x.lineTo(cx,cy);x.lineTo(cx+20,cy)}
+      if(i===3){x.moveTo(cx-20,cy);x.lineTo(cx,cy);x.lineTo(cx,cy-20)}
+      x.stroke();
+    });
     // Title
-    x.fillStyle='#3B2210';x.font='bold 28px serif';x.textAlign='center';
-    x.fillText('Fellowship Face-Off',300,65);
-    x.font='italic 14px serif';x.fillStyle='#8B5E34';
-    x.fillText('The Great Christian Multiplayer Game',300,88);
+    x.fillStyle='#3B2210';x.font='bold 52px serif';x.textAlign='center';
+    x.fillText('Fellowship Face-Off',540,160);
+    // Gold divider
+    const grd=x.createLinearGradient(240,180,840,180);
+    grd.addColorStop(0,'transparent');grd.addColorStop(0.3,'#C8963E');grd.addColorStop(0.5,'#E8B84A');grd.addColorStop(0.7,'#C8963E');grd.addColorStop(1,'transparent');
+    x.strokeStyle=grd;x.lineWidth=3;x.beginPath();x.moveTo(240,185);x.lineTo(840,185);x.stroke();
+    // Subtitle
+    x.font='italic 22px serif';x.fillStyle='#8B5E34';
+    x.fillText('The Great Christian Multiplayer Game',540,220);
     // Scores
     const isChamp=S.mode==='mix';
     const tA=isChamp?S.champTotalA:S.sA;const tB=isChamp?S.champTotalB:S.sB;
     const w=tA>tB?'A':tB>tA?'B':null;
-    // Team A
-    x.fillStyle='#2B6CB0';x.font='bold 18px serif';x.textAlign='center';
-    x.fillText(S.nameA,170,140);
-    x.font='bold 60px serif';x.fillText(String(tA),170,210);
-    // VS
-    x.fillStyle='#C8963E';x.font='bold 20px serif';x.fillText('VS',300,185);
-    // Team B
-    x.fillStyle='#C53030';x.font='bold 18px serif';
-    x.fillText(S.nameB,430,140);
-    x.font='bold 60px serif';x.fillText(String(tB),430,210);
-    // Winner
-    if(w){x.fillStyle='#C8963E';x.font='bold 22px serif';x.fillText('🏆 '+(w==='A'?S.nameA:S.nameB)+' Wins!',300,270)}
-    else{x.fillStyle='#C8963E';x.font='bold 22px serif';x.fillText("It's a Tie!",300,270)}
+    // Team A panel
+    x.fillStyle='rgba(43,108,176,.1)';x.beginPath();x.roundRect(120,270,380,280,16);x.fill();
+    x.strokeStyle='#2B6CB0';x.lineWidth=3;x.beginPath();x.roundRect(120,270,380,280,16);x.stroke();
+    x.fillStyle='#2B6CB0';x.font='bold 28px serif';x.fillText(sanitize(S.nameA),310,320);
+    x.font='bold 120px serif';x.fillText(String(tA),310,440);
+    // Team B panel
+    x.fillStyle='rgba(197,48,48,.1)';x.beginPath();x.roundRect(580,270,380,280,16);x.fill();
+    x.strokeStyle='#C53030';x.lineWidth=3;x.beginPath();x.roundRect(580,270,380,280,16);x.stroke();
+    x.fillStyle='#C53030';x.font='bold 28px serif';x.fillText(sanitize(S.nameB),770,320);
+    x.font='bold 120px serif';x.fillText(String(tB),770,440);
+    // VS circle
+    x.fillStyle='#3B2210';x.beginPath();x.arc(540,400,36,0,Math.PI*2);x.fill();
+    x.fillStyle='#C8963E';x.font='bold 28px serif';x.fillText('VS',540,410);
+    // Winner banner
+    x.fillStyle='#C8963E';x.beginPath();x.roundRect(200,590,680,70,12);x.fill();
+    x.fillStyle='#3B2210';x.font='bold 32px serif';
+    x.fillText(w?('🏆 '+sanitize(w==='A'?S.nameA:S.nameB)+' Wins!'):"It's a Tie!",540,638);
     // Mode + rounds
-    x.font='italic 14px serif';x.fillStyle='#5C3A1E';
-    x.fillText(mL(S.mode)+' · '+S.rounds+' rounds',300,300);
-    // Footer
-    x.font='12px serif';x.fillStyle='#8B5E34';
-    x.fillText('Download: Fellowship Face-Off',300,370);
+    x.font='italic 22px serif';x.fillStyle='#5C3A1E';
+    x.fillText(mL(S.mode)+' · '+S.rounds+' rounds',540,710);
+    // Championship breakdown
+    if(isChamp&&S.champScores.length){
+      let cy=760;
+      S.champScores.forEach(sc=>{
+        const icon=sc.phase==='sing'?'Sing-Off':sc.phase==='act'?'Act It Out':'Explain';
+        x.font='18px serif';x.fillStyle='#5C3A1E';x.textAlign='left';
+        x.fillText(icon,200,cy);
+        x.textAlign='right';x.fillText(sc.sA+' — '+sc.sB,880,cy);
+        cy+=35;
+      });
+      x.textAlign='center';
+    }
+    // Footer with CTA
+    x.font='bold 20px serif';x.fillStyle='#1B4D2E';
+    x.fillText('Can you beat this score? Download Fellowship Face-Off!',540,980);
+    x.font='16px serif';x.fillStyle='#8B5E34';
+    x.fillText(location.href,540,1010);
     return c.toDataURL('image/png');
   }catch(e){return null}
 }
