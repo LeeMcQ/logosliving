@@ -717,17 +717,29 @@ function isPro(){return S.isPro}
 function checkUnlock(){
   try{
     if(localStorage.getItem('ll_pro')==='1')S.isPro=true;
-    // Load denomination packs
-    DENOM_PACKS.forEach(p=>{p.unlocked=localStorage.getItem('ll_dp_'+p.id)==='1'});
+    // Load denomination packs — unlocked + active state
+    DENOM_PACKS.forEach(p=>{
+      p.unlocked=localStorage.getItem('ll_dp_'+p.id)==='1';
+      // Active defaults to true when unlocked, but can be toggled off
+      const activeKey='ll_dp_active_'+p.id;
+      const stored=localStorage.getItem(activeKey);
+      p.active=p.unlocked?(stored===null?true:stored==='1'):false;
+    });
   }catch(e){}
+}
+function toggleDenomPack(id){
+  const p=DENOM_PACKS.find(x=>x.id===id);
+  if(!p||!p.unlocked)return;
+  p.active=!p.active;
+  try{localStorage.setItem('ll_dp_active_'+id,p.active?'1':'0')}catch(e){}
+  render();
 }
 function unlockPro(code){
   const c=code.trim().toUpperCase();
   if(VALID_CODES.includes(c)){
     S.isPro=true;try{localStorage.setItem('ll_pro','1')}catch(e){}return true}
-  // Check denomination pack codes
   for(const p of DENOM_PACKS){
-    if(p.codes.includes(c)){p.unlocked=true;try{localStorage.setItem('ll_dp_'+p.id,'1')}catch(e){}return true}
+    if(p.codes.includes(c)){p.unlocked=true;p.active=true;try{localStorage.setItem('ll_dp_'+p.id,'1');localStorage.setItem('ll_dp_active_'+p.id,'1')}catch(e){}return true}
   }
   return false;
 }
@@ -742,11 +754,11 @@ function getWeeklyCards(full,mode){
   for(let i=n-1;i>0;i--){seed=(seed*1103515245+12345)&0x7fffffff;const j=seed%(i+1);[idx[i],idx[j]]=[idx[j],idx[i]]}
   return idx.slice(0,count).sort((a,b)=>a-b).map(i=>full[i]);
 }
-// Get cards for a mode, including unlocked denomination cards
+// Get cards for a mode, including active denomination cards
 function gc(m){
   const base=m==='sing'?SING:m==='act'?ACT:EXPLAIN;
   let full=[...base];
-  DENOM_PACKS.forEach(p=>{if(p.unlocked){full=full.concat(p.cards)}});
+  DENOM_PACKS.forEach(p=>{if(p.active){full=full.concat(p.cards)}});
   return getWeeklyCards(full,m);
 }
 
@@ -1075,6 +1087,7 @@ function defCardHTML(word,def){
         <div style="font-family:'Almendra',serif;font-size:28px;color:var(--ink);margin-bottom:4px">${word}</div>
         <div class="gold-line" style="width:40px"></div>
         <div style="font-family:'Lora',serif;font-size:13px;color:var(--wood-light);line-height:1.6;font-style:italic;margin-top:8px">${def||'Definition coming soon.'}</div>
+        <button onclick="shareWord('${word.replace(/'/g,"\\'")}','${(def||'').replace(/'/g,"\\'")}')" style="margin-top:12px;padding:6px 16px;border-radius:6px;border:1px solid #25D366;background:rgba(37,211,102,.08);color:#25D366;font-family:'Cinzel',serif;font-size:10px;min-height:34px">📤 Share Word</button>
       </div>
     </div></div>
   </div></div>`;
@@ -1109,6 +1122,21 @@ function shareResult(){
   const msg=`🏆 Fellowship Face-Off — ${mL(S.mode)}\n${t}\n${S.rounds} rounds\nPlay: ${location.href}`;
   if(navigator.share)navigator.share({title:"Fellowship Face-Off",text:msg}).catch(()=>{});
   else if(navigator.clipboard)navigator.clipboard.writeText(msg).then(()=>alert('Copied!'));
+}
+
+// Universal app share — used throughout the game
+function shareApp(){
+  const msg='🎵 *Fellowship Face-Off* — The Great Christian Multiplayer Game!\n\n🎭 Sing, Act & Explain biblical words with your team.\n📖 900 words across 5 denominations.\n🏆 Championship mode for the ultimate face-off!\n\n👉 Free to play: '+location.href;
+  if(navigator.share){
+    navigator.share({title:'Fellowship Face-Off',text:msg,url:location.href}).catch(()=>{});
+  } else {
+    shareToWhatsApp(msg);
+  }
+}
+function shareWord(word,def){
+  const msg='📖 *Word of the Day* from Fellowship Face-Off:\n\n✨ *'+word+'*\n'+def+'\n\n🎵 Test your Bible knowledge! '+location.href;
+  if(navigator.share){navigator.share({title:'Fellowship Face-Off — '+word,text:msg}).catch(()=>{})}
+  else{shareToWhatsApp(msg)}
 }
 
 // ─── RENDER ───
@@ -1227,7 +1255,8 @@ function render(){
       const totalFree=singCount+actCount+explainCount;
       h=`<div class="screen" style="animation:fadeIn .6s"><div class="content" style="gap:10px">
         <div class="wood-frame" style="width:100%;animation:slideUp .5s"><div class="panel gold-corners" style="padding:22px 14px;text-align:center">
-          <div style="font-family:'Almendra',serif;font-size:clamp(32px,9vw,48px);color:var(--wood-dark);line-height:1;text-shadow:0 2px 0 rgba(200,150,62,.3)">Fellowship Face-Off</div>
+          <img src="icon-192.png" alt="" style="width:64px;height:64px;border-radius:14px;margin-bottom:6px;box-shadow:0 4px 12px rgba(0,0,0,.3)">
+          <div style="font-family:'Almendra',serif;font-size:clamp(28px,8vw,42px);color:var(--wood-dark);line-height:1;text-shadow:0 2px 0 rgba(200,150,62,.3)">Fellowship Face-Off</div>
           <div class="gold-line" style="width:50px"></div>
           <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:4px;color:var(--wood-light);text-transform:uppercase">The Great Christian Multiplayer Game</div>
           ${pro?`<div style="display:inline-block;margin-top:6px;padding:2px 10px;border-radius:3px;background:linear-gradient(135deg,var(--gold-light),var(--gold));font-family:'Cinzel',serif;font-size:8px;font-weight:700;color:var(--wood-dark);letter-spacing:2px">⭐ FULL EDITION</div>`
@@ -1272,6 +1301,7 @@ function render(){
           <button onclick="pushState();showRules()" style="padding:6px 12px;border-radius:6px;border:1px solid var(--gold);background:rgba(200,150,62,.08);color:var(--gold-light);font-family:'Cinzel',serif;font-size:10px;min-height:38px">📖 Rules</button>
           <button onclick="pushState();S.showAbout=true;render()" style="padding:6px 12px;border-radius:6px;border:1px solid var(--gold);background:rgba(200,150,62,.08);color:var(--gold-light);font-family:'Cinzel',serif;font-size:10px;min-height:38px">ℹ️ About</button>
           <button onclick="showTutorial()" style="padding:6px 12px;border-radius:6px;border:1px solid var(--gold);background:rgba(200,150,62,.08);color:var(--gold-light);font-family:'Cinzel',serif;font-size:10px;min-height:38px">🎓 Learn</button>
+          <button onclick="shareApp()" style="padding:6px 12px;border-radius:6px;border:1px solid #25D366;background:rgba(37,211,102,.1);color:#25D366;font-family:'Cinzel',serif;font-size:10px;min-height:38px">📤 Share</button>
         </div>
         <button onclick="pushState();S.showJoin=true;render()" class="btn-wood" style="width:100%;text-align:center;font-size:13px;margin-top:2px;background:linear-gradient(180deg,#3A6B3A,#1B4D1B);border-color:#0F2E0F">📲 Join Team Display</button>
         <div style="font-size:8px;color:rgba(200,150,62,.25);text-align:center">v${APP_VERSION}</div>
@@ -1335,6 +1365,7 @@ function render(){
           <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;color:var(--wood-light);text-transform:uppercase;margin-bottom:4px;text-align:center">Rounds</div>
           <div style="display:flex;gap:6px;justify-content:center">${[3,5,7,10].map(n=>`<button onclick="setRounds(${n})" style="width:42px;height:42px;border-radius:50%;font-family:'Cinzel',serif;font-size:15px;font-weight:700;border:2px solid ${S.rounds===n?'var(--gold)':'var(--parchment-deep)'};background:${S.rounds===n?'var(--gold)':'transparent'};color:${S.rounds===n?'var(--wood-dark)':'var(--parchment-deep)'}">${n}</button>`).join('')}</div>
         </div>`}
+        <button onclick="shareApp()" style="width:100%;padding:8px;border-radius:6px;border:1px solid #25D366;background:rgba(37,211,102,.08);color:#25D366;font-family:'Cinzel',serif;font-size:11px;min-height:38px;letter-spacing:1px">📲 Invite Friends to Play</button>
         <button class="btn-gold" onclick="saveTeamNames();startGame()" style="width:100%;padding:14px;font-size:17px;letter-spacing:3px">⚜ BEGIN ⚜</button>
       </div></div>`;
     }
@@ -1476,8 +1507,11 @@ function render(){
         <div class="wood-frame" style="width:100%"><div style="padding:4px">${scores()}</div></div>
         <div style="font-family:'Lora',serif;font-size:12px;color:var(--gold-light);text-align:center;font-style:italic">
           ${S.team==='A'?nextTeamName+' up next!':S.round>=S.rounds?'Final scores!':'Round '+(S.round+1)+' next!'}</div>
-        <button class="btn-gold" onclick="endTurn()" style="width:100%;max-width:280px;padding:14px;font-size:15px;letter-spacing:2px">
-          ${S.team==='A'?nextTeamName+" →":S.round>=S.rounds?"Results →":"Next Round →"}</button>
+        <div style="display:flex;gap:6px;width:100%;max-width:280px">
+          <button class="btn-gold" onclick="endTurn()" style="flex:3;padding:14px;font-size:15px;letter-spacing:2px;text-align:center">
+            ${S.team==='A'?nextTeamName+" →":S.round>=S.rounds?"Results →":"Next Round →"}</button>
+          <button onclick="shareApp()" style="flex:1;padding:8px;border-radius:6px;border:1px solid #25D366;background:rgba(37,211,102,.1);color:#25D366;font-size:16px;min-height:48px">📤</button>
+        </div>
       </div></div>`;
     }
 
@@ -1529,31 +1563,51 @@ function render(){
 
     // Solo Practice Mode
     if(S.showSolo){
-      const deck=S.cards;const card=deck[S.soloCi];
-      const word=card?card[S.cardDiff==='easy'?0:1]:'';
-      const def=card?card[S.cardDiff==='easy'?2:3]:'';
-      const fs=wordSize(word.length);
-      h=`<div class="screen" style="animation:slideRight .3s"><div class="content" style="gap:8px">
-        <div class="top-bar">
-          <span style="font-family:'Cinzel',serif;font-size:11px;color:var(--gold-light);letter-spacing:2px">🎯 SOLO · ${mL(S.soloMode)}</span>
-          <div style="display:flex;gap:4px">
-            <span style="font-family:'Lora',serif;font-size:10px;color:var(--gold);padding:8px">${S.soloCi+1}/${deck.length}</span>
-            <button class="top-bar-btn" onclick="soloExit()">✕</button>
+      if(S.soloLimit){
+        // Free solo limit reached
+        h=`<div class="screen" style="animation:fadeIn .5s"><div class="content" style="gap:14px;text-align:center">
+          <div class="wood-frame" style="width:100%"><div class="panel" style="padding:24px 16px">
+            <div style="font-size:48px;margin-bottom:8px">🔒</div>
+            <div style="font-family:'Almendra',serif;font-size:22px;color:var(--wood-dark)">Solo Limit Reached!</div>
+            <div class="gold-line" style="width:40px"></div>
+            <div style="font-family:'Lora',serif;font-size:13px;color:var(--ink);line-height:1.6;margin-top:8px">
+              You've practiced all <b>${S.cards.length} free ${mL(S.soloMode)} words</b> available this week.
+            </div>
+            <div style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);font-style:italic;margin-top:6px">
+              Unlock Pro for unlimited solo practice with all ${SING.length+ACT.length+EXPLAIN.length} cards!
+            </div>
+          </div></div>
+          <button class="btn-gold" onclick="soloExit();S.showUnlock=true;render()" style="width:100%;font-size:15px;letter-spacing:2px;padding:14px">🔓 Unlock Pro</button>
+          <button class="btn-wood" onclick="soloExit()" style="width:100%;text-align:center">← Back to Home</button>
+        </div></div>`;
+      } else {
+        const deck=S.cards;const card=deck[S.soloCi];
+        const word=card?card[S.cardDiff==='easy'?0:1]:'';
+        const def=card?card[S.cardDiff==='easy'?2:3]:'';
+        const fs=wordSize(word.length);
+        h=`<div class="screen" style="animation:slideRight .3s"><div class="content" style="gap:8px">
+          <div class="top-bar">
+            <span style="font-family:'Cinzel',serif;font-size:11px;color:var(--gold-light);letter-spacing:2px">🎯 SOLO · ${mL(S.soloMode)}</span>
+            <div style="display:flex;gap:4px">
+              <span style="font-family:'Lora',serif;font-size:10px;color:var(--gold);padding:8px">${S.soloCi+1}/${deck.length}</span>
+              <button class="top-bar-btn" onclick="soloExit()">✕</button>
+            </div>
           </div>
-        </div>
-        <div class="big-card game-card" style="background:${mBg(S.soloMode)};border-left-color:${mColHex(S.soloMode)};flex:1;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center">
-          <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:${mColHex(S.soloMode)};font-weight:700;opacity:.8">${S.cardDiff==='easy'?'Easy':'Challenge'}</div>
-          <div class="gold-line" style="width:50px"></div>
-          <div class="big-word" style="font-size:${fs}px">${word}</div>
-          ${S.soloRevealed?`<div class="gold-line" style="width:50px"></div>
-          <div style="font-family:'Lora',serif;font-size:12px;color:var(--wood-light);line-height:1.5;font-style:italic;padding:8px 12px;text-align:center;max-width:320px">${def}</div>`:''}
-        </div>
-        <div style="display:flex;gap:6px;width:100%">
-          <button onclick="S.cardDiff=S.cardDiff==='easy'?'challenge':'easy';render()" class="btn-wood" style="flex:1;text-align:center;font-size:11px">${S.cardDiff==='easy'?'⬆ Challenge':'⬇ Easy'}</button>
-          ${!S.soloRevealed?`<button onclick="soloReveal()" class="btn-gold" style="flex:2;text-align:center;font-size:13px">👁 Show Definition</button>`
-            :`<button onclick="soloNext()" class="btn-gold" style="flex:2;text-align:center;font-size:13px">Next Word →</button>`}
-        </div>
-      </div></div>`;
+          <div class="big-card game-card gold-corners" style="background:${mBg(S.soloMode)};border-left-color:${mColHex(S.soloMode)};flex:1;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center">
+            <img src="${mImg(S.soloMode)}" class="mode-badge" alt="">
+            <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:${mColHex(S.soloMode)};font-weight:700;opacity:.8">${S.cardDiff==='easy'?'Easy':'Challenge'}</div>
+            <div class="gold-line" style="width:50px"></div>
+            <div class="big-word" style="font-size:${fs}px">${word}</div>
+            ${S.soloRevealed?`<div class="gold-line" style="width:50px"></div>
+            <div style="font-family:'Lora',serif;font-size:12px;color:var(--wood-light);line-height:1.5;font-style:italic;padding:8px 12px;text-align:center;max-width:320px">${def}</div>`:''}
+          </div>
+          <div style="display:flex;gap:6px;width:100%">
+            <button onclick="S.cardDiff=S.cardDiff==='easy'?'challenge':'easy';render()" class="btn-wood" style="flex:1;text-align:center;font-size:11px">${S.cardDiff==='easy'?'⬆ Challenge':'⬇ Easy'}</button>
+            ${!S.soloRevealed?`<button onclick="soloReveal()" class="btn-gold" style="flex:2;text-align:center;font-size:13px">👁 Show Definition</button>`
+              :`<button onclick="soloNext()" class="btn-gold" style="flex:2;text-align:center;font-size:13px">Next Word →</button>`}
+          </div>
+        </div></div>`;
+      }
     }
 
     // Modals
@@ -1617,7 +1671,10 @@ function aboutModal(){return `<div class="modal-overlay" onclick="S.showAbout=fa
     </div>
   </div>
   <div style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);font-style:italic;margin-top:4px">Enter codes via the 🔓 Unlock button on the home screen.</div>
-  <button class="btn-gold" onclick="S.showAbout=false;render()" style="margin-top:8px;width:100%;text-align:center">Close</button>
+  <div style="display:flex;gap:6px;margin-top:8px">
+    <button class="btn-gold" onclick="S.showAbout=false;render()" style="flex:2;text-align:center">Close</button>
+    <button onclick="shareApp()" style="flex:1;padding:8px;border-radius:6px;border:1px solid #25D366;background:rgba(37,211,102,.1);color:#25D366;font-family:'Cinzel',serif;font-size:11px;min-height:44px">📤 Share</button>
+  </div>
 </div></div></div>`}
 
 function exitModal(){return `<div class="modal-overlay" onclick="cancelExit()"><div class="wood-frame" style="max-width:300px;width:100%" onclick="event.stopPropagation()"><div class="panel" style="padding:18px 14px;text-align:center">
@@ -1725,13 +1782,16 @@ function unlockModal(){
     <!-- Denomination Packs -->
     <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:var(--wood-light);text-transform:uppercase;margin:10px 0 6px">Denomination Packs · 50 Cards Each</div>
     <div class="scroll-content" style="max-height:30vh">
-      ${DENOM_PACKS.map(p=>`<div style="background:${p.unlocked?'rgba(45,123,45,.06)':'var(--parchment)'};border:2px solid ${p.unlocked?'var(--felt-green)':p.color};border-radius:6px;padding:10px;margin-bottom:6px;text-align:left">
+      ${DENOM_PACKS.map(p=>`<div style="background:${p.active?'rgba(45,123,45,.06)':p.unlocked?'rgba(200,150,62,.04)':'var(--parchment)'};border:2px solid ${p.active?'var(--felt-green)':p.unlocked?'var(--parchment-deep)':p.color};border-radius:6px;padding:10px;margin-bottom:6px;text-align:left">
         <div style="display:flex;justify-content:space-between;align-items:center">
           <div style="font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--ink)">${p.icon} ${p.name}</div>
-          ${p.unlocked?'<span style="font-family:\'Cinzel\',serif;font-size:8px;color:var(--felt-green);font-weight:700">✓ ACTIVE</span>'
+          ${p.unlocked?`<button onclick="event.stopPropagation();toggleDenomPack('${p.id}')" style="display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:12px;border:2px solid ${p.active?'var(--felt-green)':'var(--parchment-deep)'};background:${p.active?'var(--felt-green)':'var(--parchment-dark)'};min-height:28px;cursor:pointer;transition:all .2s">
+              <div style="width:16px;height:16px;border-radius:50%;background:${p.active?'white':'var(--parchment-deep)'};transition:all .2s;transform:translateX(${p.active?'8px':'0'})"></div>
+              <span style="font-family:'Cinzel',serif;font-size:7px;color:${p.active?'white':'var(--parchment-deep)'};font-weight:700">${p.active?'ON':'OFF'}</span>
+            </button>`
             :`<span style="font-family:'Cinzel',serif;font-size:8px;color:${p.color};font-weight:700">🔒 LOCKED</span>`}
         </div>
-        <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);margin-top:2px">50 cards unique to ${p.name} beliefs & practices</div>
+        <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);margin-top:2px">${p.unlocked?(p.active?'50 cards included in game deck':'50 cards — disabled (tap toggle to re-enable)'):'50 cards unique to '+p.name+' beliefs & practices'}</div>
       </div>`).join('')}
     </div>
 
@@ -1990,15 +2050,26 @@ function dismissInstall(){deferP=null;render()}
 
 // ─── v9: SOLO PRACTICE MODE ───
 function startSolo(mode){
-  S.showSolo=true;S.soloMode=mode;S.soloCi=0;S.soloRevealed=false;
-  const deck=gc(mode);S.cards=shuffle(deck);
+  S.showSolo=true;S.soloMode=mode;S.soloCi=0;S.soloRevealed=false;S.soloLimit=false;
+  const deck=gc(mode);
+  if(!isPro()){
+    // Free users get 60% of their weekly cards for solo
+    const limit=Math.floor(deck.length*0.6);
+    S.cards=shuffle(deck).slice(0,limit);
+  } else {
+    S.cards=shuffle(deck);
+  }
   pushState();render();
 }
 function soloNext(){
+  if(S.soloCi+1>=S.cards.length&&!isPro()){
+    // Hit the free solo limit
+    S.soloLimit=true;render();return;
+  }
   S.soloCi=(S.soloCi+1)%S.cards.length;S.soloRevealed=false;render();
 }
 function soloReveal(){S.soloRevealed=true;render()}
-function soloExit(){S.showSolo=false;S.soloMode=null;S.screen='home';render()}
+function soloExit(){S.showSolo=false;S.soloMode=null;S.soloLimit=false;S.screen='home';render()}
 
 // ─── v9: WHATSAPP SHARE ───
 function shareToWhatsApp(text){
