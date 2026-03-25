@@ -155,7 +155,7 @@ background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='htt
 .tut-dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--gold);transition:all .3s}
 .tut-dot.active{background:var(--gold)}
 
-/* Word definition card */
+/* Word explanation card */
 .def-overlay{position:fixed;inset:0;z-index:110;display:flex;align-items:center;justify-content:center;background:rgba(15,10,5,.85);padding:14px;animation:fadeIn .2s}
 .def-card{width:100%;max-width:340px;animation:cardFlip .4s ease-out}
 .def-close{position:absolute;top:8px;right:8px;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--wood);color:var(--parchment);font-size:16px;font-weight:700;box-shadow:0 2px 6px rgba(0,0,0,.3);z-index:2}
@@ -1080,13 +1080,16 @@ function topBar(extra){
 function svgCheck(){return '<svg width="60" height="60" viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" fill="#2D7B2D"/><polyline points="42 20 25 42 17 33" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>'}
 
 function defCardHTML(word,def){
+  const sentences=(def||'Explanation coming soon.').split(/(?<=\.)\s+/).filter(s=>s.length>3);
+  const bullets=sentences.map(s=>'<div style="display:flex;align-items:flex-start;gap:6px;margin-bottom:4px;text-align:left"><span style="color:var(--gold);font-size:10px;margin-top:3px;flex-shrink:0">✦</span><span style="font-family:\'Lora\',serif;font-size:12px;color:var(--wood-light);line-height:1.5">'+s+'</span></div>').join('');
   return `<div class="def-overlay" onclick="closeDef()"><div class="def-card" onclick="event.stopPropagation()">
-    <div class="wood-frame"><div class="panel" style="padding:24px 18px;position:relative">
+    <div class="wood-frame"><div class="panel gold-corners" style="padding:24px 18px;position:relative">
       <button class="def-close" onclick="closeDef()">✕</button>
       <div style="text-align:center">
         <div style="font-family:'Almendra',serif;font-size:28px;color:var(--ink);margin-bottom:4px">${word}</div>
         <div class="gold-line" style="width:40px"></div>
-        <div style="font-family:'Lora',serif;font-size:13px;color:var(--wood-light);line-height:1.6;font-style:italic;margin-top:8px">${def||'Definition coming soon.'}</div>
+        <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;color:var(--wood-light);text-transform:uppercase;margin:8px 0 6px">Explanation</div>
+        <div style="padding:0 4px">${bullets}</div>
         <button onclick="shareWord('${word.replace(/'/g,"\\'")}','${(def||'').replace(/'/g,"\\'")}')" style="margin-top:12px;padding:6px 16px;border-radius:6px;border:1px solid #25D366;background:rgba(37,211,102,.08);color:#25D366;font-family:'Cinzel',serif;font-size:10px;min-height:34px">📤 Share Word</button>
       </div>
     </div></div>
@@ -1251,8 +1254,8 @@ function render(){
       const st=getStats();
       const pro=isPro();
       const singCount=gc('sing').length;const actCount=gc('act').length;const explainCount=gc('explain').length;
-      const totalBase=SING.length+ACT.length+EXPLAIN.length;
-      const totalFree=singCount+actCount+explainCount;
+      const totalBase=(SING.length+ACT.length+EXPLAIN.length)*2;
+      const totalFree=(singCount+actCount+explainCount)*2;
       h=`<div class="screen" style="animation:fadeIn .6s"><div class="content" style="gap:10px">
         <div class="wood-frame" style="width:100%;animation:slideUp .5s"><div class="panel gold-corners" style="padding:22px 14px;text-align:center">
           <img src="icon-192.png" alt="" style="width:64px;height:64px;border-radius:14px;margin-bottom:6px;box-shadow:0 4px 12px rgba(0,0,0,.3)">
@@ -1260,28 +1263,28 @@ function render(){
           <div class="gold-line" style="width:50px"></div>
           <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:4px;color:var(--wood-light);text-transform:uppercase">The Great Christian Multiplayer Game</div>
           ${pro?`<div style="display:inline-block;margin-top:6px;padding:2px 10px;border-radius:3px;background:linear-gradient(135deg,var(--gold-light),var(--gold));font-family:'Cinzel',serif;font-size:8px;font-weight:700;color:var(--wood-dark);letter-spacing:2px">⭐ FULL EDITION</div>`
-            :`<div style="font-family:'Lora',serif;font-size:10px;color:var(--parchment-deep);margin-top:4px;font-style:italic">${totalFree} of ${totalBase} cards this week</div>`}
+            :`<div style="font-family:'Lora',serif;font-size:10px;color:var(--parchment-deep);margin-top:4px;font-style:italic">${totalFree} of ${totalBase} words this week</div>`}
           ${st.total>0?`<div style="font-family:'Lora',serif;font-size:10px;color:var(--parchment-deep);margin-top:2px;font-style:italic">${st.total} game${st.total>1?'s':''} played</div>`:''}
         </div></div>
-        ${[{m:'sing',img:'mode-sing.png',t:'Sing-Off',s:'Teams alternate singing',c:'#C89632',d:'.1s',cnt:singCount,full:SING.length},
-           {m:'act',img:'mode-act.png',t:'Act It Out',s:'1 word & gestures only',c:'#B83232',d:'.18s',cnt:actCount,full:ACT.length},
-           {m:'explain',img:'mode-explain.png',t:'Explain',s:'Describe any way you like',c:'#2B5C8B',d:'.26s',cnt:explainCount,full:EXPLAIN.length},
+        ${[{m:'sing',img:'mode-sing.png',t:'Sing-Off',s:'Teams alternate singing',c:'#C89632',d:'.1s',cnt:singCount*2,full:SING.length*2},
+           {m:'act',img:'mode-act.png',t:'Act It Out',s:'1 word & gestures only',c:'#B83232',d:'.18s',cnt:actCount*2,full:ACT.length*2},
+           {m:'explain',img:'mode-explain.png',t:'Explain',s:'Describe any way you like',c:'#2B5C8B',d:'.26s',cnt:explainCount*2,full:EXPLAIN.length*2},
            {m:'mix',img:'mode-champ.png',t:'Championship',s:'Sing + Act + Explain combined',c:'#8B5E34',d:'.34s',cnt:totalFree,full:totalBase}
         ].map(g=>`<button onclick="ensureAudio();selectMode('${g.m}')" class="game-card" style="width:100%;padding:0;background:${g.m==='mix'?'linear-gradient(135deg,#F0E8D0,#E0D0B0)':mBg(g.m)};animation:slideUp .5s ease-out ${g.d} both;border-left:6px solid ${g.c};display:flex;align-items:center;overflow:hidden">
           <div style="flex:1;padding:12px 8px 12px 12px;text-align:left">
             <div style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--ink);letter-spacing:2px">${g.t}</div>
-            <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);margin-top:2px;font-style:italic">${g.s} · ${pro?g.full:g.cnt} cards</div>
+            <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);margin-top:2px;font-style:italic">${g.s} · ${pro?g.full:g.cnt} words</div>
           </div>
-          <img src="${g.img}" alt="${g.t}" style="width:70px;height:70px;object-fit:cover;border-radius:6px;margin:6px 8px 6px 0">
+          <div class="wood-frame" style="margin:6px 8px 6px 0;padding:3px;border-radius:8px"><img src="${g.img}" alt="${g.t}" style="width:60px;height:60px;object-fit:cover;border-radius:5px;display:block"></div>
         </button>`).join('')}
 
         <!-- Faith Library -->
         <button onclick="pushState();S.showLearning=true;render()" class="game-card" style="width:100%;padding:0;background:linear-gradient(135deg,#E8E0D0,#D8CDB8);animation:slideUp .5s ease-out .42s both;border-left:6px solid var(--gold-dark);display:flex;align-items:center;overflow:hidden">
           <div style="flex:1;padding:12px 8px 12px 12px;text-align:left">
             <div style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--ink);letter-spacing:2px">Faith Library</div>
-            <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);margin-top:2px;font-style:italic">Explore all words & definitions</div>
+            <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);margin-top:2px;font-style:italic">Explore all words & explanations</div>
           </div>
-          <img src="mode-library.png" alt="Faith Library" style="width:70px;height:70px;object-fit:cover;border-radius:6px;margin:6px 8px 6px 0">
+          <div class="wood-frame" style="margin:6px 8px 6px 0;padding:3px;border-radius:8px"><img src="mode-library.png" alt="Faith Library" style="width:60px;height:60px;object-fit:cover;border-radius:5px;display:block"></div>
         </button>
 
         <!-- Solo Practice -->
@@ -1295,7 +1298,7 @@ function render(){
           </div>
         </div>
 
-        ${!pro?`<button onclick="pushState();S.showUnlock=true;render()" class="btn-gold" style="width:100%;text-align:center;font-size:14px;animation:slideUp .5s ease-out .5s both;letter-spacing:2px">🔓 Unlock Full Edition</button>`:''}
+        <button onclick="pushState();S.showUnlock=true;render()" class="btn-gold" style="width:100%;text-align:center;font-size:14px;animation:slideUp .5s ease-out .5s both;letter-spacing:2px">${pro?'👑 Full Expert Edition':'🔓 Unlock Full Edition'}</button>
 
         <div style="display:flex;gap:6px;margin-top:2px;flex-wrap:wrap;justify-content:center">
           <button onclick="pushState();showRules()" style="padding:6px 12px;border-radius:6px;border:1px solid var(--gold);background:rgba(200,150,62,.08);color:var(--gold-light);font-family:'Cinzel',serif;font-size:10px;min-height:38px">📖 Rules</button>
@@ -1365,8 +1368,8 @@ function render(){
           <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;color:var(--wood-light);text-transform:uppercase;margin-bottom:4px;text-align:center">Rounds</div>
           <div style="display:flex;gap:6px;justify-content:center">${[3,5,7,10].map(n=>`<button onclick="setRounds(${n})" style="width:42px;height:42px;border-radius:50%;font-family:'Cinzel',serif;font-size:15px;font-weight:700;border:2px solid ${S.rounds===n?'var(--gold)':'var(--parchment-deep)'};background:${S.rounds===n?'var(--gold)':'transparent'};color:${S.rounds===n?'var(--wood-dark)':'var(--parchment-deep)'}">${n}</button>`).join('')}</div>
         </div>`}
-        <button onclick="shareApp()" style="width:100%;padding:8px;border-radius:6px;border:1px solid #25D366;background:rgba(37,211,102,.08);color:#25D366;font-family:'Cinzel',serif;font-size:11px;min-height:38px;letter-spacing:1px">📲 Invite Friends to Play</button>
         <button class="btn-gold" onclick="saveTeamNames();startGame()" style="width:100%;padding:14px;font-size:17px;letter-spacing:3px">⚜ BEGIN ⚜</button>
+        <button onclick="shareApp()" style="width:100%;padding:8px;border-radius:6px;border:1px solid #25D366;background:rgba(37,211,102,.08);color:#25D366;font-family:'Cinzel',serif;font-size:11px;min-height:38px;letter-spacing:1px">📲 Invite Friends to Play</button>
       </div></div>`;
     }
 
@@ -1603,7 +1606,7 @@ function render(){
           </div>
           <div style="display:flex;gap:6px;width:100%">
             <button onclick="S.cardDiff=S.cardDiff==='easy'?'challenge':'easy';render()" class="btn-wood" style="flex:1;text-align:center;font-size:11px">${S.cardDiff==='easy'?'⬆ Challenge':'⬇ Easy'}</button>
-            ${!S.soloRevealed?`<button onclick="soloReveal()" class="btn-gold" style="flex:2;text-align:center;font-size:13px">👁 Show Definition</button>`
+            ${!S.soloRevealed?`<button onclick="soloReveal()" class="btn-gold" style="flex:2;text-align:center;font-size:13px">👁 Show Explanation</button>`
               :`<button onclick="soloNext()" class="btn-gold" style="flex:2;text-align:center;font-size:13px">Next Word →</button>`}
           </div>
         </div></div>`;
@@ -1637,7 +1640,7 @@ function rulesModal(){return `<div class="modal-overlay" onclick="hideRules()"><
     <p style="margin-bottom:6px"><b>1. Pick teams</b> — Name your two teams and choose a describer for each.</p>
     <p style="margin-bottom:6px"><b style="color:var(--yellow-card)">🎵 Sing-Off (120s round):</b> A word appears. The first team has <b>10 seconds</b> to start singing a Christian song containing that word. If they sing, the other team must then sing a different song with the same word within 10s. If a team fails, the opponent scores. The next word appears automatically — no breaks!</p>
     <p style="margin-bottom:6px"><b style="color:var(--red-card)">🎭 Act It Out (60s):</b> Describe using <b>only 1 word + gestures</b>. You may NOT say the word on the card! Your team guesses.</p>
-    <p style="margin-bottom:6px"><b style="color:var(--blue-card)">💬 Explain (60s):</b> Describe the word <b>any way you like</b> — sentences, clues, definitions. Just don't say the actual word!</p>
+    <p style="margin-bottom:6px"><b style="color:var(--blue-card)">💬 Explain (60s):</b> Describe the word <b>any way you like</b> — sentences, clues, explanations. Just don't say the actual word!</p>
     <p style="margin-bottom:6px"><b style="color:var(--wood)">🏆 Championship:</b> Play Sing-Off, Act It Out, and Explain in one epic match! You choose how many rounds of each mode. All scores are <b>added together</b> — the team with the highest combined total wins the Championship!</p>
     <p style="margin-bottom:6px"><b style="color:var(--felt-green)">Easy vs Challenge:</b> Each card has two words. Easy = 1pt, Challenge = 2pts. You can switch difficulty before each card.</p>
     <p style="margin-bottom:6px"><b style="color:var(--red-card)">⚠ Penalty:</b> If the describer says the word, tap Penalty — the opposing team gets the point!</p>
@@ -1705,10 +1708,10 @@ function learningModal(){
   const letters=[...new Set(words.map(w=>w.word[0].toUpperCase()))].sort();
   return `<div class="modal-overlay" onclick="S.showLearning=false;render()"><div class="wood-frame modal" style="max-width:420px" onclick="event.stopPropagation()"><div class="panel" style="padding:14px 10px">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-      <img src="mode-library.png" alt="" style="width:40px;height:40px;border-radius:6px">
+      <div class="wood-frame" style="padding:2px;border-radius:8px"><img src="mode-library.png" alt="" style="width:36px;height:36px;border-radius:5px;display:block"></div>
       <div style="flex:1">
         <div style="font-family:'Almendra',serif;font-size:18px;color:var(--wood-dark)">Faith Library</div>
-        <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);font-style:italic">${words.length} words with definitions</div>
+        <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);font-style:italic">${words.length} words with explanations</div>
       </div>
     </div>
     <div class="gold-line" style="width:40px"></div>
