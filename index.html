@@ -1,26 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#2C1810">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="description" content="Fellowship Face-Off is a free Christian party game for church groups, youth ministries, and family game nights. Sing, Act It Out, or Explain 900 biblical words across 5 denominations. Includes Championship mode, solo practice, and works offline on any phone.">
-<meta name="keywords" content="Christian game, Bible game, church game night, youth group game, party game, Sing-Off, Act It Out, Explain, biblical words, SDA game, fellowship game, free Christian app">
+<meta name="description" content="Free Christian party game — Sing, Act & Explain 900+ biblical words with your church group! 4 game modes, 5 denomination packs. Works offline on any phone. Play tonight!">
+<meta name="keywords" content="Christian party game, Bible game, church game night, youth group game, Sing-Off, Act It Out, Explain, biblical words, SDA game, fellowship game, free church app, family game night">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' wss://free.blr1.piesocket.com; img-src 'self' data: blob:">
 <meta property="og:title" content="Fellowship Face-Off">
-<meta property="og:description" content="Free Christian party game for church groups and family game nights. Sing, Act, or Explain 900 biblical words. Championship mode, solo practice, 5 denomination packs. Works offline!">
+<meta property="og:description" content="Sing, Act & Explain 900+ biblical words at your next game night! Free to play, works offline. Your church group will LOVE this.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="icon-512.png">
 <meta property="og:image:width" content="512">
 <meta property="og:image:height" content="512">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Fellowship Face-Off">
-<meta name="twitter:description" content="The Great Christian Multiplayer Game — 900 biblical words across Sing-Off, Act It Out, and Explain modes!">
+<meta name="twitter:description" content="Sing, Act & Explain 900+ biblical words — the party game your church group has been waiting for!">
 <meta name="twitter:image" content="icon-512.png">
 <meta name="mobile-web-app-capable" content="yes">
-<title>Fellowship Face-Off — Free Christian Party Game for Groups</title>
+<title>Fellowship Face-Off — Sing, Act & Explain Biblical Words | Free Party Game</title>
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -28,18 +28,30 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Almendra:wght@400;700&display=swap">
 <style>
 :root{
---parchment:#F5E6C8;--parchment-dark:#E8D5A8;--parchment-deep:#D4BC8B;
---wood:#5C3A1E;--wood-light:#8B5E34;--wood-dark:#3B2210;
+--parchment:#F5E6C8;--parchment-dark:#E8D5A8;--parchment-deep:#6E5E38;
+--wood:#5C3A1E;--wood-light:#6B4520;--wood-dark:#3B2210;
 --felt-green:#1B4D2E;--felt-dark:#0F2E1A;
---gold:#C8963E;--gold-light:#E8B84A;--gold-dark:#8B6914;
---red-card:#B83232;--red-deep:#8B1A1A;
+--gold:#9A7428;--gold-light:#E8B84A;--gold-dark:#8B6914;
+--red-card:#A02828;--red-deep:#8B1A1A;
 --blue-card:#2B5C8B;--blue-deep:#1A3A5C;
---yellow-card:#C89632;--yellow-deep:#8B6A14;
---team-a:#2B6CB0;--team-b:#C53030;
+--yellow-card:#8B6A14;--yellow-deep:#6B5010;
+--team-a:#1E5A9E;--team-b:#B02020;
 --ink:#2C1810;
+--whatsapp:#0A6B33;
 }
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;overflow-x:hidden}
+/* Reduced motion for vestibular sensitivity */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important}
+  .confetti-piece{display:none!important}
+}
+/* High contrast mode */
+@media(prefers-contrast:more){
+  :root{--parchment:#FFFFFF;--parchment-dark:#F0F0F0;--parchment-deep:#666666;--ink:#000000;--wood-light:#3B2210;--gold:#6B4A00;--gold-light:#8B6A14}
+  .panel{border-width:3px}
+  .btn-wood,.btn-gold{border-width:3px}
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+html,body{height:100%;overflow-x:hidden;overscroll-behavior:none}
 /* Felt texture background with noise grain */
 body{font-family:'Lora',Georgia,serif;background:var(--felt-green);color:var(--ink);
 background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),radial-gradient(ellipse at 30% 20%,rgba(27,77,46,.9),transparent 60%),radial-gradient(ellipse at 70% 80%,rgba(15,46,26,.9),transparent 60%)}
@@ -71,8 +83,8 @@ button{font-family:inherit;outline:none;border:none;background:none;cursor:point
 @keyframes timerRingShrink{from{stroke-dashoffset:0}to{stroke-dashoffset:283}}
 
 /* Screen transition wrapper */
-.screen{min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:env(safe-area-inset-top,10px) env(safe-area-inset-right,10px) env(safe-area-inset-bottom,10px) env(safe-area-inset-left,10px);position:relative}
-.content{z-index:1;display:flex;flex-direction:column;align-items:center;width:100%;max-width:400px}
+.screen{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:env(safe-area-inset-top,10px) env(safe-area-inset-right,10px) env(safe-area-inset-bottom,10px) env(safe-area-inset-left,10px);position:relative}
+.content{z-index:1;display:flex;flex-direction:column;align-items:center;width:100%;max-width:400px;will-change:contents}
 /* Parchment texture on panels */
 .panel{background:var(--parchment);border-radius:6px;position:relative;box-shadow:0 2px 8px rgba(0,0,0,.3),inset 0 0 20px rgba(139,94,52,.12);border:2px solid var(--parchment-deep);contain:content;
 background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23p)' opacity='0.03'/%3E%3C/svg%3E")}
@@ -100,10 +112,21 @@ background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='htt
 /* Mode badge on gameplay card */
 .mode-badge{position:absolute;top:8px;left:12px;width:28px;height:28px;border-radius:6px;object-fit:cover;opacity:.7;z-index:2;box-shadow:0 1px 4px rgba(0,0,0,.3)}
 @media(max-width:340px){.sc-num{font-size:18px!important}}
+/* Very small screens (iPhone SE, older Androids) */
+@media(max-width:320px){
+  .big-word{font-size:clamp(24px,10vw,48px)!important}
+  .score-val{font-size:28px}
+  .btn-wood,.btn-gold{font-size:11px;padding:10px 12px;letter-spacing:0}
+  .game-card{border-radius:6px}
+}
+/* Notched phones — extra bottom padding */
+@supports(padding-bottom:env(safe-area-inset-bottom)){
+  .screen{padding-bottom:max(env(safe-area-inset-bottom),10px)}
+}
 
 /* ─── LANDSCAPE MODE ─── */
 @media(orientation:landscape) and (max-height:500px){
-  .screen{padding:8px 10px;min-height:100dvh}
+  .screen{padding:8px 10px;min-height:100vh;min-height:100dvh}
   .content{max-width:100%;flex-direction:row;flex-wrap:wrap;gap:4px}
   /* Top bar spans full width */
   .top-bar{width:100%;min-height:32px}
@@ -113,9 +136,9 @@ background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='htt
   .ls-ctrl-area{flex:2;min-width:140px;max-width:220px;display:flex;flex-direction:column;gap:4px;align-items:stretch;justify-content:center}
   .big-card{padding:14px 10px 10px;min-height:auto!important;border-radius:8px}
   .big-word{font-size:clamp(28px,8vw,56px)!important;padding:8px 2px}
-  .btn-correct{padding:10px!important;font-size:14px!important;min-height:42px!important}
-  .btn-wood{padding:8px 12px;font-size:12px;min-height:38px}
-  .btn-gold{padding:8px 12px;font-size:12px;min-height:38px}
+  .btn-correct{padding:10px!important;font-size:14px!important;min-height:44px!important}
+  .btn-wood{padding:8px 12px;font-size:12px;min-height:44px}
+  .btn-gold{padding:8px 12px;font-size:12px;min-height:44px}
   .sing-team-box{padding:6px}
   .gold-line{margin:3px auto}
   /* Score bar compact in landscape */
@@ -153,7 +176,7 @@ background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='htt
 .timer-sub{font-family:'Lora',serif;font-size:8px;color:var(--wood-light);letter-spacing:1px;text-transform:uppercase}
 .tut-step{text-align:center;padding:20px 16px}
 .tut-dots{display:flex;gap:8px;justify-content:center;margin:12px 0}
-.tut-dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--gold);transition:all .3s}
+.tut-dot{width:12px;height:12px;border-radius:50%;border:2px solid var(--gold);transition:all .3s;padding:0;margin:0 4px}
 .tut-dot.active{background:var(--gold)}
 
 /* Word explanation card */
@@ -163,7 +186,7 @@ background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='htt
 
 /* Word list for Faith Library */
 .word-grid{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;padding:8px 0}
-.word-chip{display:inline-flex;align-items:center;gap:4px;padding:6px 10px;border-radius:4px;font-family:'Lora',serif;font-size:12px;border:1px solid var(--parchment-deep);background:var(--parchment);cursor:pointer;transition:all .15s;min-height:36px}
+.word-chip{display:inline-flex;align-items:center;gap:4px;padding:6px 10px;border-radius:4px;font-family:'Lora',serif;font-size:13px;border:1px solid var(--parchment-deep);background:var(--parchment);cursor:pointer;transition:all .15s;min-height:44px}
 .word-chip:active{transform:scale(.95);background:var(--parchment-dark)}
 .word-chip .q{width:18px;height:18px;border-radius:50%;background:var(--gold);color:var(--wood-dark);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 
@@ -182,10 +205,134 @@ background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='htt
 </script>
 </head>
 <body>
-<div id="app"></div>
+<div id="app" role="main" aria-live="polite"></div>
 <script>
 'use strict';
-const APP_VERSION='9.0';
+const APP_VERSION='10.0';
+
+// ─── i18n LOCALISATION SYSTEM ───
+const STRINGS={
+  // App identity
+  appName:'Fellowship Face-Off',
+  tagline:'The Great Christian Multiplayer Game',
+  // Navigation & common
+  back:'← Back',close:'Close',cancel:'Cancel',play:'Play!',next:'Next →',
+  // Home screen
+  homePickMode:'👇 Pick a mode to start playing!',
+  homeFirstTip:'Explain is great for first-timers',
+  wordsThisWeek:'{0} of {1} words this week',
+  gamesPlayed:'{0} game{1} played',
+  fullEdition:'⭐ FULL EDITION',
+  unlockFull:'🔓 Unlock Full Edition',
+  fullExpert:'👑 Full Expert Edition',
+  moreBtn:'⚙ More',lessBtn:'▲ Less',share:'📤 Share',
+  ultimateMode:'🏆 ULTIMATE MODE',recommended:'RECOMMENDED',advanced:'ADVANCED',
+  // Mode names
+  modeSing:'Sing-Off',modeAct:'Act It Out',modeExplain:'Explain',modeChamp:'Championship',
+  modeSoloTitle:'🎯 Solo Practice',modeSoloPick:'Pick a mode to study words at your own pace',
+  modeLibrary:'Faith Library',modeLibrarySub:'Browse all words & biblical explanations',
+  // Mode descriptions (expanded for home)
+  singDesc:'Teams take turns singing Christian songs containing each word',
+  actDesc:'Use gestures and one word only — no saying the answer!',
+  explainDesc:'Describe the word any way you like — the easiest mode to start',
+  champDesc:'Play all 3 modes in one epic match — highest combined score wins!',
+  soloDesc:'Study words and explanations at your own pace',
+  // Mode short instructions
+  singInstr:'Sing a Christian song with this word',
+  actInstr:'1 word & gestures only',
+  explainInstr:'Describe any way you like',
+  // Setup screen
+  quickPlay:'⚡ Quick Play',teamNames:'Team Names',difficulty:'Difficulty',
+  rounds:'Rounds',champRounds:'Championship Rounds',begin:'⚜ BEGIN ⚜',
+  easyLabel:'Easy · 1pt',challengeLabel:'Challenge · 2pts',
+  easyTip:'💡 Simpler words like Lamb, Cross, Angel',
+  challengeTip:'💪 Advanced words like Atonement, Sanctification, Covenant',
+  roundsRec:'5 RECOMMENDED',total:'Total',
+  // Gameplay
+  round:'ROUND',tapReveal:'Tap to reveal',
+  describerOnly:'👀 ONLY THE DESCRIBER SHOULD LOOK!',
+  describerTip:'Others — look away when the card is tapped',
+  correct:'✓ CORRECT!',skip:'⏭ Skip',penalty:'⚠ Said the Word? Penalty',
+  penaltyConfirm:'⚠ Yes, Penalty!',penaltyCancel:'✕ No',
+  cardsLowWarn:'⚡ Only a few free words left this week!',
+  // Countdown
+  countdownSing:'You\'re singing!',countdownAct:'Act it out!',countdownDescribe:'You\'re describing!',
+  // Sing-Off
+  singTeamSing:'SING!',theySang:'🎵 They Sang!',skipWord:'⏭ Skip Word',
+  singRule:'Sing at least one line of a known Christian song',
+  // Summary
+  timesUp:'Time\'s Up!',summary:'Summary',
+  statCorrect:'✓ Correct',statSkipped:'⏭ Skipped',statPenalties:'⚠ Penalties',statWon:'🎵 Won',
+  wordsThisTurn:'Words This Turn',nextTeam:'{0} up next!',finalScores:'Final scores!',
+  nextRound:'Round {0} next!',shareGame:'📤 Share Game',
+  // Game over
+  wins:'{0} Wins!',tieText:'\'Tis a Tie!',champWins:'{0} wins the Championship!',champTie:'Championship Tie!',
+  rematch:'🔄 Rematch',shareScore:'📤 Share Score',newGame:'← New Game',
+  sharePrompt:'🙏 Know a group that would love this? Send it over!',
+  modeRounds:'{0} · {1} rounds',champBreakdown:'Championship Breakdown',
+  // Cards exhausted
+  onARoll:'You\'re on a Roll!',
+  exhaustedMsg:'Your team blazed through all {0} free {1} words this week!',
+  exhaustedCta:'Get the full edition — endless words, zero interruptions, every game night.',
+  neverRunOut:'✨ Never Run Out Again',continueScore:'Continue with Score',backHome:'← Back to Home',
+  // Solo
+  soloGreat:'Great Progress!',
+  soloExhaust:'You\'ve studied all {0} free {1} words this week.',
+  soloUnlockCta:'Unlock all {0} words for unlimited solo practice!',
+  showExplanation:'👁 Show Explanation',nextWord:'Next Word →',
+  // Modals
+  howToPlay:'How To Play',about:'About',gameStore:'Game Store',
+  rules1:'<b>1. Pick teams</b> — Name your two teams and choose a describer for each.',
+  rules2:'<b style="color:var(--yellow-card)">🎵 Sing-Off (120s round):</b> A word appears. The first team has <b>10 seconds</b> to start singing a Christian song containing that word. If they sing, the other team must sing a different song with the same word within 10s. If a team fails, the opponent scores.',
+  rules3:'<b style="color:var(--red-card)">🎭 Act It Out (60s):</b> Describe using <b>only 1 word + gestures</b>. You may NOT say the word on the card! Your team guesses.',
+  rules4:'<b style="color:var(--blue-card)">💬 Explain (60s):</b> Describe the word <b>any way you like</b> — sentences, clues, explanations. Just don\'t say the actual word!',
+  rules5:'<b style="color:var(--wood)">🏆 Championship:</b> Play Sing-Off, Act It Out, and Explain in one epic match! All scores are <b>added together</b> — the team with the highest combined total wins the Championship!',
+  rules6:'<b style="color:var(--felt-green)">Easy vs Challenge:</b> Each card has two words. Easy = 1pt, Challenge = 2pts. You can switch difficulty before each card.',
+  rules7:'<b style="color:var(--red-card)">⚠ Penalty:</b> If the describer says the word, tap Penalty — the opposing team gets the point!',
+  rules8:'<b style="color:var(--wood-light)">⏭ Skips:</b> Each team gets <b>2 skips</b> per turn.',
+  gotIt:'Got It!',
+  // Unlock
+  fullEditionLabel:'⭐ Full Edition',unlocked:'UNLOCKED',locked:'🔒 LOCKED',
+  unlockBenefit:'Unlock every word — never run out mid-game again. All 650 base words with no weekly limits.',
+  denomPacks:'Denomination Packs · 50 Cards Each',enterCode:'Enter Unlock Code',unlock:'🔓 UNLOCK',
+  invalidCode:'Invalid code. Please check and try again.',
+  requestFree:'🎁 Request Free',maybeLater:'Maybe Later',
+  purchaseNote:'Purchase codes via the developer. Ministry groups may request free access.',
+  // Request Free
+  requestTitle:'Request Free Access',
+  requestIntro:'Running a youth group, Bible study, or church programme? We\'d love to support your ministry with free access. Tell us a bit about how you\'ll use it.',
+  reqName:'Your Name',reqContact:'Email or WhatsApp Number',reqChurch:'Church / Organisation',
+  reqPack:'Which pack do you need?',reqReason:'Why do you need free access? (ministry use, youth group, etc.)',
+  reqSubmit:'📩 Submit Request',
+  // Tutorial
+  tut1Title:'Your New Favourite Game Night',tut1:'Two teams. One phone. Biblical words flying across the room. Laughter guaranteed. Ready?',
+  tut2Title:'Three Ways to Battle',tut2:'🎵 Sing-Off — belt out a hymn with the word before time runs out!\n🎭 Act It Out — gestures only, your team guesses!\n💬 Explain — describe it however you can!',
+  tut3Title:'Every Second Counts',tut3:'60 seconds on the clock. Your team is shouting guesses. You\'re sweating. This is where legends are made.',
+  tut4Title:'Risk It for Double Points',tut4:'Easy words earn 1 point. Flip to Challenge mode and the trickier word earns 2. How brave is your team?',
+  tut5Title:'One Rule: Don\'t Say the Word!',tut5:'Slip up and say it? The OTHER team gets the point. You also get 2 skips per turn — choose wisely!',
+  tut6Title:'Go for the Championship',tut6:'Combine all 3 modes into one epic showdown. Sing + Act + Explain. Highest combined score takes the crown!',
+  // Join
+  joinTitle:'Join Team Display',joinTip:'Enter the 4-digit room code shown on the host device, then choose your team.',
+  chooseTeam:'Choose Your Team',teamA:'⚔️ Team A',teamB:'🛡️ Team B',
+  // Team display
+  yourTurn:'🟢 YOUR TURN!',oppTurn:'🔴 OPPONENT\'S TURN',ourScore:'OUR SCORE',opp:'OPP',sec:'SEC',
+  waitingHost:'Waiting for host to start...',connectedRoom:'Connected to room',
+  // Misc
+  paused:'Paused',wordHidden:'Word hidden',resume:'▶ Resume',
+  exitConfirmTitle:'Leave Game?',exitConfirmText:'Progress for this round will be lost.',exitYes:'Yes, Leave',exitNo:'Keep Playing',
+  updateAvail:'🆕 Update available',refresh:'Refresh',installGame:'📲 Install Game',addHome:'Add to home screen',install:'Install',
+  explanation:'Explanation',shareWord:'📤 Share Word',
+  words:'{0} words',
+  joinDisplay:'📲 Join Display',rules:'📖 Rules',aboutBtn:'ℹ️ About',learn:'🎓 Learn',
+  // ARIA labels
+  ariaTimer:'Game timer',ariaScore:'Score',ariaMute:'Toggle sound',ariaPause:'Pause game',ariaExit:'Exit game',
+};
+
+function t(key,...args){
+  let str=STRINGS[key]||key;
+  args.forEach((a,i)=>{str=str.replace('{'+i+'}',a)});
+  return str;
+}
 
 // ─── CARDS WITH DEFINITIONS ───
 // Format: [easy_word, challenge_word, easy_def, challenge_def]
@@ -555,6 +702,17 @@ let S={
   soloMode:null, // which mode in solo
   soloCi:0, // solo card index
   soloRevealed:false,
+  // v10: UX improvements
+  penaltyConfirm:false, // penalty confirmation state
+  cardsLow:false, // warning when cards running low
+  cardsExhausted:false, // flag to show upsell between turns
+  showMore:false, // collapsed utility menu
+  firstGame:true, // first game ever flag
+  storeTab:null, // 'unlock' or 'free' tab in game store
+  // v10.1: Game mechanics
+  streak:0, // consecutive correct answers this turn
+  bestStreak:0, // best streak this turn
+  singSkipsLeft:3, // sing-off skip limit per round
 };
 let tid=null,singTid=null,singRTid=null,cdTid=null;
 let actx=null,deferP=null,wakeLock=null;
@@ -907,6 +1065,7 @@ function getAllWords(){
 function logGame(){
   try{
     const dur=Date.now()-S.gameStartTime;
+    const winScore=Math.max(S.sA,S.sB);
     const games=JSON.parse(localStorage.getItem('ll_games')||'[]');
     games.push({mode:S.mode,rounds:S.rounds,sA:S.sA,sB:S.sB,diff:S.diff,date:Date.now(),duration:dur,
       skipped:S.turnWords.filter(w=>w.action==='skip').map(w=>w.word),
@@ -914,8 +1073,13 @@ function logGame(){
     if(games.length>100)games.shift();
     localStorage.setItem('ll_games',JSON.stringify(games));
     localStorage.setItem('ll_total',String((parseInt(localStorage.getItem('ll_total')||'0'))+1));
+    // Track personal best per mode
+    const bestKey='ll_best_'+S.mode;
+    const prev=parseInt(localStorage.getItem(bestKey)||'0');
+    if(winScore>prev)localStorage.setItem(bestKey,String(winScore));
   }catch(e){}
 }
+function getBestScore(mode){try{return parseInt(localStorage.getItem('ll_best_'+mode)||'0')}catch(e){return 0}}
 function getStats(){try{return{total:parseInt(localStorage.getItem('ll_total')||'0')}}catch(e){return{total:0}}}
 
 // ─── INSTALL / WAKE / BACK ───
@@ -927,13 +1091,16 @@ function isTimerActive(){return['card-reveal','sing-play','sing-reveal'].include
 
 window.addEventListener('popstate',()=>{
   if(S.defWord){S.defWord=null;S.defDef=null;render();return}
-  if(S.showUnlock){S.showUnlock=false;render();return}
+  if(S.showUnlock){S.showUnlock=false;S.storeTab=null;render();return}
   if(S.showRequestFree){S.showRequestFree=false;render();return}
   if(S.showJoin){S.showJoin=false;render();return}
   if(S.rules){S.rules=false;render();return}
   if(S.showAbout){S.showAbout=false;render();return}
   if(S.showTutorial){S.showTutorial=false;render();return}
   if(S.showLearning){S.showLearning=false;render();return}
+  if(S.showSolo&&!S.soloMode){S.showSolo=false;S.screen='home';render();return}
+  if(S.showSolo){soloExit();return}
+  if(S.showMore){S.showMore=false;render();return}
   if(S.showExit){S.showExit=false;render();return}
   if(['card-front','card-reveal','sing-play','sing-reveal','summary','countdown','cards-exhausted'].includes(S.screen)){confirmExit();return}
   if(S.screen==='setup'){S.screen='home';render();return}
@@ -944,96 +1111,165 @@ function pushState(){try{history.pushState({},'','')}catch(e){}}
 // ─── AUDIO ───
 function vibrate(ms){try{if(!S.muted&&navigator.vibrate)navigator.vibrate(ms)}catch(e){}}
 function ensureAudio(){try{if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();if(actx.state==='suspended')actx.resume()}catch(e){}}
+
+// ─── AUDIO ENGINE v2 ───
+// Signature motif: G4-C5-E5-G5 (fellowship ascending — warmth & triumph)
+// All sounds tuned to G major for cohesive identity
 function beep(t){
   if(S.muted)return;
-  try{ensureAudio();const c=actx;if(!c)return;
+  try{ensureAudio();const c=actx;if(!c)return;const now=c.currentTime;
+
     if(t==='correct'){
-      // Warm major chord chime (C-E-G) with detuning for richness
-      [523,659,784].forEach((f,i)=>{
-        const o=c.createOscillator(),o2=c.createOscillator(),g=c.createGain();
-        o.connect(g);o2.connect(g);g.connect(c.destination);
-        g.gain.value=.04;o.frequency.value=f;o2.frequency.value=f*1.003;
-        o.type='sine';o2.type='sine';
-        o.start(c.currentTime+i*.04);o2.start(c.currentTime+i*.04);
-        g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.4+i*.04);
-        o.stop(c.currentTime+.45+i*.04);o2.stop(c.currentTime+.45+i*.04);
-      });vibrate(50)
+      // Triumphant bell chord: G4-B4-D5 with warm shimmer + octave sparkle
+      // Emotional: joy, accomplishment, momentum
+      [392,494,587,784].forEach((f,i)=>{
+        const o=c.createOscillator(),o2=c.createOscillator(),g=c.createGain(),flt=c.createBiquadFilter();
+        o.connect(flt);o2.connect(flt);flt.connect(g);g.connect(c.destination);
+        flt.type='lowpass';flt.frequency.value=3000;flt.Q.value=1;
+        g.gain.setValueAtTime(0,now+i*.035);
+        g.gain.linearRampToValueAtTime(.05,now+.02+i*.035);
+        g.gain.exponentialRampToValueAtTime(.001,now+.5+i*.035);
+        o.frequency.value=f;o2.frequency.value=f*1.004;
+        o.type='sine';o2.type='triangle';
+        o.start(now+i*.035);o2.start(now+i*.035);
+        o.stop(now+.55+i*.035);o2.stop(now+.55+i*.035);
+      });vibrate(40)
     }
     else if(t==='skip'){
-      const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);
-      g.gain.value=.04;o.frequency.value=400;o.type='triangle';o.start();
-      o.frequency.linearRampToValueAtTime(200,c.currentTime+.2);
-      g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.25);o.stop(c.currentTime+.3)
+      // Gentle descending whoosh: soft & non-punishing
+      // Emotional: "moving on" — neutral, not negative
+      const o=c.createOscillator(),g=c.createGain(),flt=c.createBiquadFilter();
+      o.connect(flt);flt.connect(g);g.connect(c.destination);
+      flt.type='lowpass';flt.frequency.value=2000;
+      g.gain.setValueAtTime(.035,now);
+      o.frequency.setValueAtTime(500,now);
+      o.frequency.exponentialRampToValueAtTime(200,now+.18);
+      o.type='triangle';o.start(now);
+      g.gain.exponentialRampToValueAtTime(.001,now+.22);
+      o.stop(now+.25);
     }
     else if(t==='timesup'){
-      // Deep dramatic gavel hits
-      [180,170,160].forEach((f,i)=>{
-        const o=c.createOscillator(),o2=c.createOscillator(),g=c.createGain();
-        o.connect(g);o2.connect(g);g.connect(c.destination);
-        g.gain.value=.06;o.frequency.value=f;o2.frequency.value=f*2;o2.type='sine';
-        o.type='triangle';o.start(c.currentTime+i*.25);o2.start(c.currentTime+i*.25);
-        g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.5+i*.25);
-        o.stop(c.currentTime+.55+i*.25);o2.stop(c.currentTime+.55+i*.25);
+      // Deep resonant gong hits (3 descending) — dramatic finality
+      // Emotional: tension release, drama, "it's over"
+      [196,175,147].forEach((f,i)=>{
+        const o=c.createOscillator(),o2=c.createOscillator(),g=c.createGain(),flt=c.createBiquadFilter();
+        o.connect(flt);o2.connect(flt);flt.connect(g);g.connect(c.destination);
+        flt.type='lowpass';flt.frequency.value=800;flt.Q.value=2;
+        g.gain.setValueAtTime(0,now+i*.28);
+        g.gain.linearRampToValueAtTime(.07,now+.02+i*.28);
+        g.gain.exponentialRampToValueAtTime(.001,now+.6+i*.28);
+        o.frequency.value=f;o2.frequency.value=f*2.01;
+        o.type='triangle';o2.type='sine';
+        o.start(now+i*.28);o2.start(now+i*.28);
+        o.stop(now+.65+i*.28);o2.stop(now+.65+i*.28);
       });vibrate([100,50,100,50,200])
     }
     else if(t==='penalty'){
-      // Warbling buzzer
-      const o=c.createOscillator(),o2=c.createOscillator(),g=c.createGain();
-      o.connect(g);o2.connect(g);g.connect(c.destination);
-      g.gain.value=.05;o.frequency.value=148;o2.frequency.value=152;
-      o.type='square';o2.type='square';o.start();o2.start();
-      g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.3);
-      o.stop(c.currentTime+.35);o2.stop(c.currentTime+.35);vibrate([200,100,200])
+      // Discordant buzz — clearly "wrong" but not harsh on speakers
+      // Emotional: "oops!" — playful wrongness
+      const o=c.createOscillator(),o2=c.createOscillator(),g=c.createGain(),flt=c.createBiquadFilter();
+      o.connect(flt);o2.connect(flt);flt.connect(g);g.connect(c.destination);
+      flt.type='lowpass';flt.frequency.value=1200;flt.Q.value=3;
+      g.gain.setValueAtTime(.045,now);
+      o.frequency.value=147;o2.frequency.value=156; // Minor 2nd clash
+      o.type='sawtooth';o2.type='sawtooth';
+      o.start(now);o2.start(now);
+      g.gain.setValueAtTime(.045,now+.15);
+      g.gain.exponentialRampToValueAtTime(.001,now+.35);
+      o.stop(now+.4);o2.stop(now+.4);vibrate([150,80,150])
     }
     else if(t==='countdown'||t==='tick'){
-      // Woody tick with harmonic
+      // Warm wooden tick — clock-like but organic
+      // Emotional: anticipation, heartbeat-like
       const o=c.createOscillator(),o2=c.createOscillator(),g=c.createGain();
       o.connect(g);o2.connect(g);g.connect(c.destination);
-      g.gain.value=.035;o.frequency.value=440;o2.frequency.value=880;
+      g.gain.setValueAtTime(.04,now);
+      o.frequency.value=t==='tick'&&S.time<=5?587:440; // Pitch rises at urgency
+      o2.frequency.value=o.frequency.value*2;
       o.type='sine';o2.type='sine';
-      g.gain.setValueAtTime(.035,c.currentTime);
-      o.start();o2.start();
-      g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.12);
-      o.stop(c.currentTime+.15);o2.stop(c.currentTime+.15);vibrate(20)
+      o.start(now);o2.start(now);
+      g.gain.exponentialRampToValueAtTime(.001,now+(t==='tick'&&S.time<=5?.08:.12));
+      o.stop(now+.15);o2.stop(now+.15);vibrate(t==='tick'&&S.time<=5?30:15)
     }
     else if(t==='go'){
-      // Triumphant ascending fanfare with sweep
-      [440,554,659,880].forEach((f,i)=>{
-        const o=c.createOscillator(),o2=c.createOscillator(),g=c.createGain();
-        o.connect(g);o2.connect(g);g.connect(c.destination);
-        g.gain.value=.05;o.frequency.value=f;o2.frequency.value=f*1.005;
-        o.type='sine';o2.type='sine';
-        o.start(c.currentTime+i*.06);o2.start(c.currentTime+i*.06);
-        g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.4+i*.06);
-        o.stop(c.currentTime+.45+i*.06);o2.stop(c.currentTime+.45+i*.06);
-      });vibrate(80)
+      // Signature motif: G4→C5→E5→G5 — ascending fellowship fanfare
+      // Emotional: excitement, "let's go!", identity
+      [392,523,659,784].forEach((f,i)=>{
+        const o=c.createOscillator(),o2=c.createOscillator(),g=c.createGain(),flt=c.createBiquadFilter();
+        o.connect(flt);o2.connect(flt);flt.connect(g);g.connect(c.destination);
+        flt.type='lowpass';flt.frequency.value=4000;
+        g.gain.setValueAtTime(0,now+i*.07);
+        g.gain.linearRampToValueAtTime(.055,now+.015+i*.07);
+        g.gain.exponentialRampToValueAtTime(.001,now+.45+i*.07);
+        o.frequency.value=f;o2.frequency.value=f*1.003;
+        o.type='sine';o2.type='triangle';
+        o.start(now+i*.07);o2.start(now+i*.07);
+        o.stop(now+.5+i*.07);o2.stop(now+.5+i*.07);
+      });vibrate(60)
     }
     else if(t==='victory'){
-      // Victory fanfare — ascending C-D-E-G-C
-      [523,587,659,784,1047].forEach((f,i)=>{
-        const o=c.createOscillator(),o2=c.createOscillator(),g=c.createGain();
-        o.connect(g);o2.connect(g);g.connect(c.destination);
-        g.gain.value=.04;o.frequency.value=f;o2.frequency.value=f*1.002;
-        o.type='sine';o2.type='sine';
-        o.start(c.currentTime+i*.12);o2.start(c.currentTime+i*.12);
-        g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.5+i*.12);
-        o.stop(c.currentTime+.55+i*.12);o2.stop(c.currentTime+.55+i*.12);
-      });vibrate([50,30,50,30,100])
+      // Full victory fanfare: G4-B4-D5-G5 then high G5-B5
+      // Emotional: triumph, celebration, "you're champions!"
+      [392,494,587,784,988].forEach((f,i)=>{
+        const o=c.createOscillator(),o2=c.createOscillator(),g=c.createGain(),flt=c.createBiquadFilter();
+        o.connect(flt);o2.connect(flt);flt.connect(g);g.connect(c.destination);
+        flt.type='lowpass';flt.frequency.value=5000;
+        const delay=i<4?i*.1:.4+.15;
+        g.gain.setValueAtTime(0,now+delay);
+        g.gain.linearRampToValueAtTime(i===4?.06:.045,now+.02+delay);
+        g.gain.exponentialRampToValueAtTime(.001,now+.7+delay);
+        o.frequency.value=f;o2.frequency.value=f*1.002;
+        o.type='sine';o2.type='triangle';
+        o.start(now+delay);o2.start(now+delay);
+        o.stop(now+.75+delay);o2.stop(now+.75+delay);
+      });vibrate([40,25,40,25,80])
     }
-    else{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);g.gain.value=.04;o.frequency.value=660;o.type='sine';o.start();g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.2);o.stop(c.currentTime+.25)}
+    else if(t==='reveal'){
+      // Card flip: short bright "thip" — tactile paper sound
+      // Emotional: anticipation, "what will it be?"
+      const o=c.createOscillator(),g=c.createGain(),flt=c.createBiquadFilter();
+      o.connect(flt);flt.connect(g);g.connect(c.destination);
+      flt.type='bandpass';flt.frequency.value=2500;flt.Q.value=5;
+      g.gain.setValueAtTime(.04,now);
+      o.frequency.setValueAtTime(1200,now);
+      o.frequency.exponentialRampToValueAtTime(600,now+.08);
+      o.type='triangle';o.start(now);
+      g.gain.exponentialRampToValueAtTime(.001,now+.1);
+      o.stop(now+.12);
+    }
+    else if(t==='sang'){
+      // Musical confirmation for Sing-Off — brighter than correct
+      // Emotional: "nice song!", musical affirmation
+      [523,659].forEach((f,i)=>{
+        const o=c.createOscillator(),g=c.createGain();
+        o.connect(g);g.connect(c.destination);
+        g.gain.setValueAtTime(0,now+i*.06);
+        g.gain.linearRampToValueAtTime(.04,now+.015+i*.06);
+        g.gain.exponentialRampToValueAtTime(.001,now+.3+i*.06);
+        o.frequency.value=f;o.type='sine';
+        o.start(now+i*.06);o.stop(now+.35+i*.06);
+      });vibrate(30)
+    }
+    else{
+      // Default subtle tap
+      const o=c.createOscillator(),g=c.createGain();
+      o.connect(g);g.connect(c.destination);
+      g.gain.setValueAtTime(.03,now);o.frequency.value=660;o.type='sine';o.start(now);
+      g.gain.exponentialRampToValueAtTime(.001,now+.15);o.stop(now+.2);
+    }
   }catch(e){}
 }
 function debounced(fn){const now=Date.now();if(now-lastAction<400)return;lastAction=now;fn()}
 
 // ─── UTILS ───
 function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
-function mColHex(m){return m==='sing'?'#C89632':m==='act'?'#B83232':'#2B5C8B'}
+function mColHex(m){return m==='sing'?'var(--yellow-card)':m==='act'?'var(--red-card)':'var(--blue-card)'}
 function mBg(m){return m==='sing'?'linear-gradient(135deg,#F8EDD0,#E8D5A0)':m==='act'?'linear-gradient(135deg,#F5D0D0,#E8B8B8)':'linear-gradient(135deg,#D0DCF5,#B8CCE8)'}
 function mCardBg(m){return m==='sing'?'#E8D5A0':m==='act'?'#E8B8B8':'#B8CCE8'}
-function mL(m){return m==='sing'?'Sing-Off':m==='act'?'Act It Out':m==='explain'?'Explain':'Championship'}
+function mL(m){return m==='sing'?t('modeSing'):m==='act'?t('modeAct'):m==='explain'?t('modeExplain'):t('modeChamp')}
 function mI(m){return m==='sing'?'🎵':m==='act'?'🎭':m==='explain'?'💬':'🏆'}
 function mImg(m){return m==='sing'?'mode-sing.png':m==='act'?'mode-act.png':m==='explain'?'mode-explain.png':'mode-champ.png'}
-function mD(m){return m==='sing'?'Sing a Christian song with this word':m==='act'?'1 word & gestures only':'Describe any way you like'}
+function mD(m){return m==='sing'?t('singInstr'):m==='act'?t('actInstr'):t('explainInstr')}
 function getActiveMode(){return S.mode==='mix'?S.mixModes[S.champPhase]||'sing':S.mode}
 // Sanitize user input to prevent XSS
 function sanitize(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
@@ -1100,7 +1336,7 @@ function startSingCardTimer(){
   singTid=setInterval(()=>{
     if(S.paused)return;
     S.singTimer--;
-    const el=document.getElementById('singCardT');if(el){el.textContent=S.singTimer;el.style.color=S.singTimer<=3?'var(--red-card)':'var(--ink)'}
+    const el=document.getElementById('singCardT');if(el){el.textContent=S.singTimer;el.style.color=S.singTimer<=3?'var(--red-card)':'var(--gold-light)'}
     if(S.singTimer<=0){clearInterval(singTid);singTid=null;beep('timesup');vibrate([100,50,100]);
       const pts=S.cardDiff==='challenge'?2:1;
       if(S.singTeam==='A'){S.sB+=pts}else{S.sA+=pts}
@@ -1108,12 +1344,12 @@ function startSingCardTimer(){
   },1000);
 }
 function singTeamSang(){debounced(()=>{
-  clearInterval(singTid);beep('correct');vibrate(50);
+  clearInterval(singTid);beep('sang');vibrate(50);
   if(S.singTeam==='A')S.singScoreA++;else S.singScoreB++;
   S.singTeam=S.singTeam==='A'?'B':'A';S.singTimer=10;
   singTid=setInterval(()=>{
     if(S.paused)return;S.singTimer--;
-    const el=document.getElementById('singCardT');if(el){el.textContent=S.singTimer;el.style.color=S.singTimer<=3?'var(--red-card)':'var(--ink)'}
+    const el=document.getElementById('singCardT');if(el){el.textContent=S.singTimer;el.style.color=S.singTimer<=3?'var(--red-card)':'var(--gold-light)'}
     if(S.singTimer<=0){clearInterval(singTid);singTid=null;beep('timesup');vibrate([100,50,100]);
       const pts=S.cardDiff==='challenge'?2:1;
       if(S.singTeam==='A'){S.sB+=pts}else{S.sA+=pts}
@@ -1125,7 +1361,7 @@ function advanceSingCard(){
   if(S.singRoundTime>0){S.singTeam=S.ci%2===0?'A':'B';S.singScoreA=0;S.singScoreB=0;startSingCardTimer();S.screen='sing-play'}
   else{S.screen='summary'}render()
 }
-function singSkipCard(){debounced(()=>{clearInterval(singTid);S.turnSkip++;trackWord('skip');nextC();S.cardDiff=S.diff;
+function singSkipCard(){debounced(()=>{if(S.singSkipsLeft<=0)return;S.singSkipsLeft--;clearInterval(singTid);S.turnSkip++;trackWord('skip');nextC();S.cardDiff=S.diff;
   if(S.singRoundTime>0){S.singTeam=S.ci%2===0?'A':'B';S.singScoreA=0;S.singScoreB=0;startSingCardTimer();S.screen='sing-play'}else{S.screen='summary'}render()})}
 
 function togglePause(){S.paused=!S.paused;render()}
@@ -1134,11 +1370,14 @@ function nextC(){
   const used=getUsed();
   used.add(S.ci);
   const deck=S.cards;
-  // Check if all cards in current deck have been used
+  // Check if cards are running low (5 left) — show warning but don't interrupt
+  const remaining=deck.length-used.size;
+  if(remaining<=5&&remaining>0&&!isPro()&&!S.cardsLow){S.cardsLow=true}
+  // Check if all cards exhausted — flag for end of turn, don't interrupt gameplay
   if(used.size>=deck.length&&!isPro()){
-    // Free user has exhausted their weekly cards - show upgrade prompt
-    clearAllTimers();releaseWake();
-    S.screen='cards-exhausted';render();return;
+    S.cardsExhausted=true;
+    // Recycle cards so current turn can finish
+    used.clear();
   }
   let next=S.ci+1;
   let attempts=0;
@@ -1163,6 +1402,8 @@ function compactBar(type){
   const timerVal=isSing?S.singRoundTime:S.time;
   const timerId=isSing?'singRoundT':'timerNum';
   const urg=isSing?(S.singRoundTime<=15):(S.time<=5&&S.time>0);
+  const warn=!urg&&(isSing?(S.singRoundTime<=30):(S.time<=15));
+  const timerCol=urg?'#FF4444':warn?'#FF8C00':'var(--gold-light)';
   const maxTime=isSing?120:60;
   const pct=Math.max(0,timerVal/maxTime);
   const dashOffset=Math.round(283*(1-pct));
@@ -1174,9 +1415,9 @@ function compactBar(type){
       <span style="font-family:'Cinzel',serif;font-size:8px;font-weight:700;color:var(--team-a)">${nA}</span>
       <span class="sc-num" style="font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:${aActive||isSing?'var(--ink)':'var(--parchment-deep)'};line-height:1">${S.sA}</span>
     </div>
-    <div style="display:flex;align-items:center;justify-content:center;padding:2px 4px;background:var(--wood-dark);border-radius:6px;min-width:52px;position:relative;${urg?'animation:glowPulseRed 1s ease-in-out infinite':''}">
-      <svg width="44" height="44" style="position:absolute;transform:rotate(-90deg)"><circle cx="22" cy="22" r="18" fill="none" stroke="rgba(200,150,62,.15)" stroke-width="3"/><circle cx="22" cy="22" r="18" fill="none" stroke="${urg?'#FF4444':'var(--gold-light)'}" stroke-width="3" stroke-dasharray="283" stroke-dashoffset="${dashOffset}" stroke-linecap="round" style="transition:stroke-dashoffset 1s linear"/></svg>
-      <span id="${timerId}" style="font-family:'Cinzel',serif;font-size:${urg?22:18}px;font-weight:900;color:${urg?'#FF4444':'var(--gold-light)'};line-height:1;z-index:1;${urg?'animation:countPulse .5s ease-in-out infinite':''}">${timerVal}</span>
+    <div style="display:flex;align-items:center;justify-content:center;padding:2px 4px;background:var(--wood-dark);border-radius:6px;min-width:56px;position:relative;${urg?'animation:glowPulseRed 1s ease-in-out infinite':''}">
+      <svg width="48" height="48" style="position:absolute;transform:rotate(-90deg)"><circle cx="24" cy="24" r="20" fill="none" stroke="rgba(200,150,62,.12)" stroke-width="4"/><circle cx="24" cy="24" r="20" fill="none" stroke="${timerCol}" stroke-width="4" stroke-dasharray="283" stroke-dashoffset="${dashOffset}" stroke-linecap="round" style="transition:stroke-dashoffset 1s linear,stroke .5s ease"/></svg>
+      <span id="${timerId}" aria-label="${t('ariaTimer')}" role="timer" style="font-family:'Cinzel',serif;font-size:${urg?22:18}px;font-weight:900;color:${timerCol};line-height:1;z-index:1;${urg?'animation:countPulse .5s ease-in-out infinite':''}">${timerVal}</span>
     </div>
     <div class="panel" style="flex:1;display:flex;align-items:center;justify-content:center;gap:4px;padding:4px 6px;background:${!aActive||isSing?'linear-gradient(135deg,#F5D5D5,#E8C0C0)':'var(--parchment)'};border:2px solid ${!aActive||isSing?'var(--team-b)':'var(--parchment-deep)'};${!aActive&&!isSing?'animation:glowPulseTeamB 2s ease-in-out infinite':''}">
       <span style="font-family:'Cinzel',serif;font-size:8px;font-weight:700;color:var(--team-b)">${nB}</span>
@@ -1188,12 +1429,12 @@ function compactBar(type){
 
 function diffToggle(){
   if(S.diffLocked)return `<div style="margin-top:4px;padding:3px 12px;border-radius:3px;display:inline-block;font-family:'Cinzel',serif;font-size:9px;font-weight:700;letter-spacing:1px;background:${S.cardDiff==='easy'?'var(--felt-green)':'var(--red-card)'};color:var(--parchment)">${S.cardDiff==='easy'?'Easy · 1pt':'Challenge · 2pts'}</div>`;
-  return `<div style="display:flex;gap:6px;justify-content:center;margin-top:4px">${['easy','challenge'].map(d=>`<button onclick="setCardDiff('${d}')" style="padding:3px 10px;border-radius:3px;font-family:'Cinzel',serif;font-size:9px;font-weight:700;letter-spacing:1px;min-height:30px;background:${S.cardDiff===d?(d==='easy'?'var(--felt-green)':'var(--red-card)'):'transparent'};color:${S.cardDiff===d?'var(--parchment)':'var(--parchment-deep)'};border:1px solid ${S.cardDiff===d?(d==='easy'?'var(--felt-green)':'var(--red-card)'):'var(--parchment-deep)'}">${d==='easy'?'Easy · 1pt':'Challenge · 2pts'}</button>`).join('')}</div>`;
+  return `<div style="display:flex;gap:6px;justify-content:center;margin-top:4px">${['easy','challenge'].map(d=>`<button onclick="setCardDiff('${d}')" style="padding:4px 12px;border-radius:3px;font-family:'Cinzel',serif;font-size:9px;font-weight:700;letter-spacing:1px;min-height:36px;background:${S.cardDiff===d?(d==='easy'?'var(--felt-green)':'var(--red-card)'):'transparent'};color:${S.cardDiff===d?'var(--parchment)':'var(--parchment-deep)'};border:1px solid ${S.cardDiff===d?(d==='easy'?'var(--felt-green)':'var(--red-card)'):'var(--parchment-deep)'}">${d==='easy'?'Easy · 1pt':'Challenge · 2pts'}</button>`).join('')}</div>`;
 }
 
 function topBar(extra){
-  return `<div class="top-bar"><span style="font-family:'Cinzel',serif;font-size:10px;color:var(--gold-light);letter-spacing:2px">ROUND ${S.round}/${S.rounds}</span>
-    <div class="top-bar-btns">${extra||''}<button class="top-bar-btn" onclick="S.muted=!S.muted;render()">${S.muted?'🔇':'🔊'}</button><button class="top-bar-btn" onclick="togglePause()">⏸</button><button class="top-bar-btn" onclick="confirmExit()">✕</button></div></div>`;
+  return `<div class="top-bar" role="toolbar" aria-label="Game controls"><span style="font-family:'Cinzel',serif;font-size:10px;color:var(--gold-light);letter-spacing:2px">${t('round')} ${S.round}/${S.rounds}</span>
+    <div class="top-bar-btns">${extra||''}<button class="top-bar-btn" onclick="S.muted=!S.muted;render()" aria-label="${t('ariaMute')}">${S.muted?'🔇':'🔊'}</button><button class="top-bar-btn" onclick="togglePause()" aria-label="${t('ariaPause')}">⏸</button><button class="top-bar-btn" onclick="confirmExit()" aria-label="${t('ariaExit')}">✕</button></div></div>`;
 }
 
 function svgCheck(){return '<svg width="60" height="60" viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" fill="#2D7B2D"/><polyline points="42 20 25 42 17 33" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>'}
@@ -1209,7 +1450,7 @@ function defCardHTML(word,def){
         <div class="gold-line" style="width:40px"></div>
         <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;color:var(--wood-light);text-transform:uppercase;margin:8px 0 6px">Explanation</div>
         <div style="padding:0 4px">${bullets}</div>
-        <button onclick="shareWord('${word.replace(/'/g,"\\'")}','${(def||'').replace(/'/g,"\\'")}')" style="margin-top:12px;padding:6px 16px;border-radius:6px;border:1px solid #25D366;background:rgba(37,211,102,.08);color:#25D366;font-family:'Cinzel',serif;font-size:10px;min-height:34px">📤 Share Word</button>
+        <button onclick="shareWord('${word.replace(/'/g,"\\'")}','${(def||'').replace(/'/g,"\\'")}')" style="margin-top:12px;padding:6px 16px;border-radius:6px;border:1px solid var(--whatsapp);background:rgba(37,211,102,.08);color:var(--whatsapp);font-family:'Cinzel',serif;font-size:10px;min-height:34px">📤 Share Word</button>
       </div>
     </div></div>
   </div></div>`;
@@ -1219,7 +1460,7 @@ function wordSummaryHTML(){
   if(!S.turnWords.length)return '';
   return `<div class="panel" style="width:100%;padding:14px">
     <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:var(--wood-light);text-transform:uppercase;margin-bottom:6px;text-align:center">Words This Turn</div>
-    <div class="scroll-content" style="max-height:30vh">
+    <div class="scroll-content" style="max-height:40vh">
       ${S.turnWords.map(w=>{
         const icon=w.action==='correct'||w.action==='won'?'✓':w.action==='skip'?'⏭':'⚠';
         const col=w.action==='correct'||w.action==='won'?'var(--felt-green)':w.action==='skip'?'var(--wood-light)':'var(--red-card)';
@@ -1248,7 +1489,7 @@ function shareResult(){
 
 // Universal app share — used throughout the game
 function shareApp(){
-  const msg='🎵🎭💬 Our church group is LOVING this game!\n\n*Fellowship Face-Off* — Sing, Act & Explain biblical words with your team.\n\n📖 900 words · Championship mode · Solo practice\n🆓 Free to play!\n\n👉 Try it at your next game night: '+location.href;
+  const msg='🎵🎭💬 Game night just got biblical!\n\n*Fellowship Face-Off* — Your team sings, acts & explains Bible words while the clock ticks down.\n\n✅ 900+ words your group already knows\n✅ Works on any phone, no download needed\n✅ Free — just open and play!\n\n👉 Bring it to your next game night: '+location.href;
   if(navigator.share){
     navigator.share({title:'Fellowship Face-Off',text:msg,url:location.href}).catch(()=>{});
   } else {
@@ -1256,7 +1497,7 @@ function shareApp(){
   }
 }
 function shareWord(word,def){
-  const msg='Did you know? 🤔\n\n✨ *'+word+'*\n'+def+'\n\nLearn 900 biblical words while having fun!\n👉 '+location.href;
+  const msg='Did you know? 🤔\n\n✨ *'+word+'*\n'+def+'\n\nI learned this playing Fellowship Face-Off — 900+ biblical words you can sing, act & explain!\n👉 '+location.href;
   if(navigator.share){navigator.share({title:'Fellowship Face-Off — '+word,text:msg}).catch(()=>{})}
   else{shareToWhatsApp(msg)}
 }
@@ -1330,7 +1571,7 @@ function render(){
                   <div style="font-family:'Cinzel',serif;font-size:28px;font-weight:900;color:var(--parchment-deep);line-height:1">${oppScore}</div>
                 </div>
                 <div style="padding:8px;text-align:center;background:var(--wood-dark);border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center">
-                  <div style="font-family:'Cinzel',serif;font-size:${urg?36:28}px;font-weight:900;color:${urg?'#FF4444':'var(--gold-light)'};line-height:1;${urg?'animation:countPulse .5s ease-in-out infinite':''}">${timerVal}</div>
+                  <div style="font-family:'Cinzel',serif;font-size:${urg?36:28}px;font-weight:900;color:${timerCol};line-height:1;${urg?'animation:countPulse .5s ease-in-out infinite':''}">${timerVal}</div>
                   <div style="font-family:'Lora',serif;font-size:7px;color:var(--gold);letter-spacing:1px">SEC</div>
                 </div>
               </div>
@@ -1372,81 +1613,117 @@ function render(){
     if(S.screen==='home'){
       const st=getStats();
       const pro=isPro();
+      const isFirst=st.total===0;
       const singCount=gc('sing').length;const actCount=gc('act').length;const explainCount=gc('explain').length;
       const totalBase=(SING.length+ACT.length+EXPLAIN.length)*2;
       const totalFree=(singCount+actCount+explainCount)*2;
-      h=`<div class="screen" style="animation:fadeIn .6s"><div class="content" style="gap:10px">
-        <div class="wood-frame" style="width:100%;animation:slideUp .5s"><div class="panel gold-corners" style="padding:22px 14px;text-align:center">
-          <img src="icon-192.png" alt="" style="width:64px;height:64px;border-radius:14px;margin-bottom:6px;box-shadow:0 4px 12px rgba(0,0,0,.3)">
-          <div style="font-family:'Almendra',serif;font-size:clamp(28px,8vw,42px);color:var(--wood-dark);line-height:1;text-shadow:0 2px 0 rgba(200,150,62,.3)">Fellowship Face-Off</div>
-          <div class="gold-line" style="width:50px"></div>
-          <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:4px;color:var(--wood-light);text-transform:uppercase">The Great Christian Multiplayer Game</div>
+      h=`<div class="screen" style="animation:fadeIn .6s"><div class="content" style="gap:8px">
+        <!-- Compact title -->
+        <div class="wood-frame" style="width:100%;animation:slideUp .5s"><div class="panel gold-corners" style="padding:14px 14px;text-align:center">
+          <div style="display:flex;align-items:center;justify-content:center;gap:10px">
+            <img src="icon-192.png" alt="" style="width:42px;height:42px;border-radius:10px;box-shadow:0 3px 8px rgba(0,0,0,.3)">
+            <div>
+              <div style="font-family:'Almendra',serif;font-size:clamp(24px,7vw,36px);color:var(--wood-dark);line-height:1;text-shadow:0 2px 0 rgba(200,150,62,.3)">Fellowship Face-Off</div>
+              <div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;color:var(--wood-light);text-transform:uppercase">The Great Christian Multiplayer Game</div>
+            </div>
+          </div>
           ${pro?`<div style="display:inline-block;margin-top:6px;padding:2px 10px;border-radius:3px;background:linear-gradient(135deg,var(--gold-light),var(--gold));font-family:'Cinzel',serif;font-size:8px;font-weight:700;color:var(--wood-dark);letter-spacing:2px">⭐ FULL EDITION</div>`
             :`<div style="font-family:'Lora',serif;font-size:10px;color:var(--parchment-deep);margin-top:4px;font-style:italic">${totalFree} of ${totalBase} words this week</div>`}
-          ${st.total>0?`<div style="font-family:'Lora',serif;font-size:10px;color:var(--parchment-deep);margin-top:2px;font-style:italic">${st.total} game${st.total>1?'s':''} played</div>`:''}
         </div></div>
-        ${[{m:'sing',img:'mode-sing.png',t:'Sing-Off',s:'Teams alternate singing',c:'#C89632',d:'.1s',cnt:singCount*2,full:SING.length*2},
-           {m:'act',img:'mode-act.png',t:'Act It Out',s:'1 word & gestures only',c:'#B83232',d:'.18s',cnt:actCount*2,full:ACT.length*2},
-           {m:'explain',img:'mode-explain.png',t:'Explain',s:'Describe any way you like',c:'#2B5C8B',d:'.26s',cnt:explainCount*2,full:EXPLAIN.length*2},
-           {m:'mix',img:'mode-champ.png',t:'Championship',s:'Sing + Act + Explain combined',c:'#8B5E34',d:'.34s',cnt:totalFree,full:totalBase}
-        ].map(g=>`<button onclick="ensureAudio();selectMode('${g.m}')" class="game-card" style="width:100%;padding:0;background:${g.m==='mix'?'linear-gradient(135deg,#F0E8D0,#E0D0B0)':mBg(g.m)};animation:slideUp .5s ease-out ${g.d} both;border-left:6px solid ${g.c};display:flex;align-items:center;overflow:hidden">
-          <div style="flex:1;padding:12px 8px 12px 12px;text-align:left">
-            <div style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--ink);letter-spacing:2px">${g.t}</div>
-            <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);margin-top:2px;font-style:italic">${g.s} · ${pro?g.full:g.cnt} words</div>
+
+        <!-- Game Modes -->
+        ${[{m:'sing',img:'mode-sing.png',t:'Sing-Off',s:'Teams take turns singing Christian songs containing each word',c:'#C89632',d:'.1s',cnt:singCount*2,full:SING.length*2},
+           {m:'act',img:'mode-act.png',t:'Act It Out',s:'Use gestures and one word only — no saying the answer!',c:'#B83232',d:'.16s',cnt:actCount*2,full:ACT.length*2},
+           {m:'explain',img:'mode-explain.png',t:'Explain',s:'Describe the word any way you like — the easiest mode to start',c:'#2B5C8B',d:'.22s',cnt:explainCount*2,full:EXPLAIN.length*2}
+        ].map(g=>`<button onclick="ensureAudio();selectMode('${g.m}')" class="game-card" style="width:100%;padding:0;background:${mBg(g.m)};animation:slideUp .5s ease-out ${g.d} both;border-left:6px solid ${g.c};display:flex;align-items:center;overflow:hidden">
+          <div style="flex:1;padding:10px 8px 10px 12px;text-align:left">
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--ink);letter-spacing:2px">${g.t}</span>
+              ${g.m==='explain'&&isFirst?'<span style="padding:1px 6px;border-radius:3px;background:var(--felt-green);color:var(--parchment);font-family:Cinzel,serif;font-size:7px;font-weight:700;letter-spacing:1px">RECOMMENDED</span>':''}
+            </div>
+            <div style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);margin-top:2px;font-style:italic;line-height:1.3">${g.s}</div>
+            <div style="font-family:'Cinzel',serif;font-size:8px;color:var(--parchment-deep);margin-top:2px;letter-spacing:1px">${pro?g.full:g.cnt} words</div>
           </div>
-          <div class="wood-frame" style="margin:6px 8px 6px 0;padding:3px;border-radius:8px"><img src="${g.img}" alt="${g.t}" style="width:60px;height:60px;object-fit:cover;border-radius:5px;display:block"></div>
+          <div class="wood-frame" style="margin:6px 8px 6px 0;padding:3px;border-radius:8px"><img src="${g.img}" alt="${g.t}" style="width:56px;height:56px;object-fit:cover;border-radius:5px;display:block"></div>
         </button>`).join('')}
+
+        <!-- Championship — separated with label -->
+        <div style="width:100%;display:flex;align-items:center;gap:8px;animation:slideUp .5s ease-out .28s both">
+          <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)"></div>
+          <span style="font-family:'Cinzel',serif;font-size:8px;color:var(--gold);letter-spacing:2px;font-weight:700">🏆 ULTIMATE MODE</span>
+          <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)"></div>
+        </div>
+        <button onclick="ensureAudio();selectMode('mix')" class="game-card" style="width:100%;padding:0;background:linear-gradient(135deg,#F0E8D0,#E0D0B0);animation:slideUp .5s ease-out .3s both;border-left:6px solid #8B5E34;display:flex;align-items:center;overflow:hidden">
+          <div style="flex:1;padding:10px 8px 10px 12px;text-align:left">
+            <div style="display:flex;align-items:center;gap:6px">
+              <span style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--ink);letter-spacing:2px">Championship</span>
+              ${isFirst?'<span style="padding:1px 6px;border-radius:3px;background:var(--wood-light);color:var(--parchment);font-family:Cinzel,serif;font-size:7px;font-weight:700;letter-spacing:1px">ADVANCED</span>':''}
+            </div>
+            <div style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);margin-top:2px;font-style:italic;line-height:1.3">Play all 3 modes in one epic match — highest combined score wins!</div>
+            <div style="font-family:'Cinzel',serif;font-size:8px;color:var(--parchment-deep);margin-top:2px;letter-spacing:1px">${pro?totalBase:totalFree} words</div>
+          </div>
+          <div class="wood-frame" style="margin:6px 8px 6px 0;padding:3px;border-radius:8px"><img src="mode-champ.png" alt="Championship" style="width:56px;height:56px;object-fit:cover;border-radius:5px;display:block"></div>
+        </button>
+
+        <!-- Solo Practice — promoted to full card -->
+        <button onclick="pushState();S.showSolo=true;S.soloMode=null;render()" class="game-card" style="width:100%;padding:0;background:linear-gradient(135deg,#E0E8D0,#D0D8C0);animation:slideUp .5s ease-out .36s both;border-left:6px solid var(--felt-green);display:flex;align-items:center;overflow:hidden">
+          <div style="flex:1;padding:10px 8px 10px 12px;text-align:left">
+            <div style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--ink);letter-spacing:2px">🎯 Solo Practice</div>
+            <div style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);margin-top:2px;font-style:italic;line-height:1.3">Study words and explanations at your own pace</div>
+          </div>
+          <div style="display:flex;gap:3px;margin:6px 10px 6px 0">
+            ${['sing','act','explain'].map(m=>`<div style="width:28px;height:28px;border-radius:6px;border:2px solid ${mColHex(m)};display:flex;align-items:center;justify-content:center;font-size:12px">${mI(m)}</div>`).join('')}
+          </div>
+        </button>
 
         <!-- Faith Library -->
         <button onclick="pushState();S.showLearning=true;render()" class="game-card" style="width:100%;padding:0;background:linear-gradient(135deg,#E8E0D0,#D8CDB8);animation:slideUp .5s ease-out .42s both;border-left:6px solid var(--gold-dark);display:flex;align-items:center;overflow:hidden">
-          <div style="flex:1;padding:12px 8px 12px 12px;text-align:left">
+          <div style="flex:1;padding:10px 8px 10px 12px;text-align:left">
             <div style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--ink);letter-spacing:2px">Faith Library</div>
-            <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);margin-top:2px;font-style:italic">Explore all words & explanations</div>
+            <div style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);margin-top:2px;font-style:italic">Browse all words & biblical explanations</div>
           </div>
-          <div class="wood-frame" style="margin:6px 8px 6px 0;padding:3px;border-radius:8px"><img src="mode-library.png" alt="Faith Library" style="width:60px;height:60px;object-fit:cover;border-radius:5px;display:block"></div>
+          <div class="wood-frame" style="margin:6px 8px 6px 0;padding:3px;border-radius:8px"><img src="mode-library.png" alt="Faith Library" style="width:56px;height:56px;object-fit:cover;border-radius:5px;display:block"></div>
         </button>
 
-        <!-- Solo Practice -->
-        <div class="panel" style="width:100%;padding:10px;animation:slideUp .5s ease-out .48s both">
-          <div style="font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--ink);text-align:center;letter-spacing:2px;margin-bottom:6px">🎯 Solo Practice</div>
-          <div style="display:flex;gap:4px;justify-content:center">
-            ${['sing','act','explain'].map(m=>`<button onclick="startSolo('${m}')" style="flex:1;padding:6px 4px;border-radius:4px;border:2px solid ${mColHex(m)};background:transparent;text-align:center;min-height:36px">
-              <div style="font-size:14px">${mI(m)}</div>
-              <div style="font-family:'Cinzel',serif;font-size:8px;color:${mColHex(m)};font-weight:700">${m==='sing'?'Sing':m==='act'?'Act':'Explain'}</div>
-            </button>`).join('')}
-          </div>
-        </div>
+        <button onclick="pushState();S.showUnlock=true;render()" class="btn-gold" style="width:100%;text-align:center;font-size:13px;animation:slideUp .5s ease-out .46s both;letter-spacing:2px">${pro?'👑 Full Expert Edition':'🔓 Unlock Full Edition'}</button>
 
-        <button onclick="pushState();S.showUnlock=true;render()" class="btn-gold" style="width:100%;text-align:center;font-size:14px;animation:slideUp .5s ease-out .5s both;letter-spacing:2px">${pro?'👑 Full Expert Edition':'🔓 Unlock Full Edition'}</button>
-
-        <div style="display:flex;gap:6px;margin-top:2px;flex-wrap:wrap;justify-content:center">
-          <button onclick="pushState();showRules()" style="padding:6px 12px;border-radius:6px;border:1px solid var(--gold);background:rgba(200,150,62,.08);color:var(--gold-light);font-family:'Cinzel',serif;font-size:10px;min-height:38px">📖 Rules</button>
-          <button onclick="pushState();S.showAbout=true;render()" style="padding:6px 12px;border-radius:6px;border:1px solid var(--gold);background:rgba(200,150,62,.08);color:var(--gold-light);font-family:'Cinzel',serif;font-size:10px;min-height:38px">ℹ️ About</button>
-          <button onclick="showTutorial()" style="padding:6px 12px;border-radius:6px;border:1px solid var(--gold);background:rgba(200,150,62,.08);color:var(--gold-light);font-family:'Cinzel',serif;font-size:10px;min-height:38px">🎓 Learn</button>
-          <button onclick="shareApp()" style="padding:6px 12px;border-radius:6px;border:1px solid #25D366;background:rgba(37,211,102,.1);color:#25D366;font-family:'Cinzel',serif;font-size:10px;min-height:38px">📤 Share</button>
+        <!-- Collapsed utility menu -->
+        <div style="display:flex;gap:6px;align-items:center;justify-content:center;animation:slideUp .5s ease-out .5s both">
+          <button onclick="S.showMore=!S.showMore;render()" style="padding:6px 16px;border-radius:6px;border:1px solid var(--gold);background:rgba(200,150,62,.08);color:var(--gold-light);font-family:'Cinzel',serif;font-size:10px;min-height:44px;letter-spacing:1px">${S.showMore?'▲ Less':'⚙ More'}</button>
+          <button onclick="shareApp()" style="padding:6px 16px;border-radius:6px;border:1px solid var(--whatsapp);background:rgba(37,211,102,.1);color:var(--whatsapp);font-family:'Cinzel',serif;font-size:10px;min-height:44px">📤 Share</button>
         </div>
-        <button onclick="pushState();S.showJoin=true;render()" class="btn-wood" style="width:100%;text-align:center;font-size:13px;margin-top:2px;background:linear-gradient(180deg,#3A6B3A,#1B4D1B);border-color:#0F2E0F">📲 Join Team Display</button>
-        <div style="font-size:8px;color:rgba(200,150,62,.25);text-align:center">v${APP_VERSION}</div>
+        ${S.showMore?`<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;animation:slideUp .3s">
+          <button onclick="pushState();showRules()" style="padding:6px 12px;border-radius:6px;border:1px solid var(--gold);background:rgba(200,150,62,.08);color:var(--gold-light);font-family:'Cinzel',serif;font-size:10px;min-height:44px" aria-label="${t('rules')}">${t('rules')}</button>
+          <button onclick="pushState();S.showAbout=true;render()" style="padding:6px 12px;border-radius:6px;border:1px solid var(--gold);background:rgba(200,150,62,.08);color:var(--gold-light);font-family:'Cinzel',serif;font-size:10px;min-height:44px" aria-label="${t('aboutBtn')}">${t('aboutBtn')}</button>
+          <button onclick="showTutorial()" style="padding:6px 12px;border-radius:6px;border:1px solid var(--gold);background:rgba(200,150,62,.08);color:var(--gold-light);font-family:'Cinzel',serif;font-size:10px;min-height:44px" aria-label="${t('learn')}">${t('learn')}</button>
+          <button onclick="pushState();S.showJoin=true;render()" style="padding:6px 12px;border-radius:6px;border:1px solid var(--gold);background:rgba(200,150,62,.08);color:var(--gold-light);font-family:'Cinzel',serif;font-size:10px;min-height:44px" aria-label="${t('joinDisplay')}">${t('joinDisplay')}</button>
+        </div>`:''}
+        ${st.total>0?`<div style="font-family:'Lora',serif;font-size:9px;color:rgba(200,150,62,.3);text-align:center">${t('gamesPlayed',st.total,st.total>1?'s':'')} · v${APP_VERSION}</div>`
+          :`<div style="font-size:8px;color:rgba(200,150,62,.25);text-align:center">v${APP_VERSION}</div>`}
       </div>${installHTML()}</div>`;
     }
 
     else if(S.screen==='setup'){
       const isChamp=S.mode==='mix';
       const champTotal=S.champSing+S.champAct+S.champExplain;
+      const isFirst=getStats().total===0;
       h=`<div class="screen" style="animation:fadeIn .5s"><div class="content" style="gap:10px">
         <div style="display:flex;justify-content:space-between;align-items:center;width:100%">
           <button onclick="S.screen='home';render()" style="color:var(--gold-light);font-family:'Lora',serif;font-size:14px;min-height:44px">← Back</button>
-          <button onclick="saveTeamNames();startGame()" style="color:#25D366;font-family:'Cinzel',serif;font-size:11px;font-weight:700;min-height:44px;letter-spacing:1px">⚡ Quick Play</button>
+          <button onclick="saveTeamNames();startGame()" style="font-family:'Cinzel',serif;font-size:12px;font-weight:700;min-height:44px;letter-spacing:1px;padding:6px 14px;border:none;border-radius:6px;background:linear-gradient(180deg,var(--gold-light),var(--gold));color:var(--wood-dark);box-shadow:0 2px 6px rgba(0,0,0,.2)">⚡ Quick Play</button>
         </div>
         <div class="wood-frame" style="width:100%"><div class="panel" style="padding:12px;text-align:center">
           <div style="font-size:20px">${mI(S.mode)}</div>
           <div style="font-family:'Cinzel',serif;font-size:17px;font-weight:700;color:var(--ink);letter-spacing:2px">${mL(S.mode)}</div>
           <div class="gold-line" style="width:30px"></div>
-          <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);font-style:italic">${S.mode==='sing'?'10s per song. 120s round.':isChamp?'Sing + Act + Explain — highest total wins!':mD(S.mode)+' · 60s'}</div>
+          <div style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);font-style:italic">${S.mode==='sing'?'10s per song. 120s round.':isChamp?'Sing + Act + Explain — highest total wins!':mD(S.mode)+' · 60s'}</div>
         </div></div>
         <!-- Team Names -->
         <div class="panel" style="width:100%;padding:10px">
-          <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;color:var(--wood-light);text-transform:uppercase;margin-bottom:6px;text-align:center">Team Names</div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:6px">
+            <span style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;color:var(--wood-light);text-transform:uppercase">Team Names</span>
+            <button onclick="randomTeamNames()" style="padding:2px 8px;border-radius:4px;border:1px solid var(--gold);background:rgba(200,150,62,.08);color:var(--gold);font-family:'Cinzel',serif;font-size:8px;font-weight:700;min-height:24px">🎲 Shuffle</button>
+          </div>
           <div style="display:flex;gap:8px;align-items:center">
             <div style="flex:1;text-align:center">
               <div style="font-size:16px">⚔️</div>
@@ -1460,10 +1737,13 @@ function render(){
           </div>
 
         </div>
-        <!-- Difficulty -->
+        <!-- Difficulty with tooltip -->
         <div class="panel" style="width:100%;padding:8px">
           <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;color:var(--wood-light);text-transform:uppercase;margin-bottom:4px;text-align:center">Difficulty</div>
-          <div style="display:flex;gap:6px;justify-content:center">${['easy','challenge'].map(d=>`<button onclick="setDiff('${d}')" style="padding:6px 12px;border-radius:4px;font-family:'Cinzel',serif;font-size:11px;font-weight:700;min-height:38px;border:2px solid ${S.diff===d?(d==='easy'?'var(--felt-green)':'var(--red-card)'):'var(--parchment-deep)'};background:${S.diff===d?'rgba(0,0,0,.05)':'transparent'};color:${S.diff===d?(d==='easy'?'var(--felt-green)':'var(--red-card)'):'var(--parchment-deep)'}">${d==='easy'?'Easy · 1pt':'Challenge · 2pts'}</button>`).join('')}</div>
+          <div style="display:flex;gap:6px;justify-content:center">${['easy','challenge'].map(d=>`<button onclick="setDiff('${d}')" style="padding:6px 12px;border-radius:4px;font-family:'Cinzel',serif;font-size:11px;font-weight:700;min-height:44px;border:2px solid ${S.diff===d?(d==='easy'?'var(--felt-green)':'var(--red-card)'):'var(--parchment-deep)'};background:${S.diff===d?'rgba(0,0,0,.05)':'transparent'};color:${S.diff===d?(d==='easy'?'var(--felt-green)':'var(--red-card)'):'var(--parchment-deep)'}">
+            ${d==='easy'?'Easy · 1pt':'Challenge · 2pts'}${d===S.diff&&isFirst?' ✓':''}
+          </button>`).join('')}</div>
+          <div style="font-family:'Lora',serif;font-size:10px;color:var(--parchment-deep);text-align:center;margin-top:4px;font-style:italic">${S.diff==='easy'?'💡 Simpler words like Lamb, Cross, Angel':'💪 Advanced words like Atonement, Sanctification, Covenant'}</div>
         </div>
         ${isChamp?`
         <!-- Championship Config -->
@@ -1476,9 +1756,9 @@ function render(){
             return `<div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0">
               <span style="font-family:'Lora',serif;font-size:12px;color:var(--ink)">${icons} ${label}-Off</span>
               <div style="display:flex;align-items:center;gap:6px">
-                <button onclick="if(S.${key}>1){S.${key}--;render()}" style="width:32px;height:32px;border-radius:50%;border:2px solid var(--parchment-deep);font-size:16px;color:var(--ink);min-height:32px">−</button>
+                <button onclick="if(S.${key}>1){S.${key}--;render()}" style="width:36px;height:36px;border-radius:50%;border:2px solid var(--parchment-deep);font-size:16px;color:var(--ink);min-height:36px">−</button>
                 <span style="font-family:'Cinzel',serif;font-size:18px;font-weight:700;width:28px;text-align:center">${val}</span>
-                <button onclick="if(S.${key}<5){S.${key}++;render()}" style="width:32px;height:32px;border-radius:50%;border:2px solid var(--parchment-deep);font-size:16px;color:var(--ink);min-height:32px">+</button>
+                <button onclick="if(S.${key}<5){S.${key}++;render()}" style="width:36px;height:36px;border-radius:50%;border:2px solid var(--parchment-deep);font-size:16px;color:var(--ink);min-height:36px">+</button>
               </div>
             </div>`;
           }).join('')}
@@ -1487,19 +1767,23 @@ function render(){
         </div>`
         :`<!-- Regular Rounds -->
         <div class="panel" style="width:100%;padding:8px">
-          <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;color:var(--wood-light);text-transform:uppercase;margin-bottom:4px;text-align:center">Rounds</div>
-          <div style="display:flex;gap:6px;justify-content:center">${[3,5,7,10].map(n=>`<button onclick="setRounds(${n})" style="width:42px;height:42px;border-radius:50%;font-family:'Cinzel',serif;font-size:15px;font-weight:700;border:2px solid ${S.rounds===n?'var(--gold)':'var(--parchment-deep)'};background:${S.rounds===n?'var(--gold)':'transparent'};color:${S.rounds===n?'var(--wood-dark)':'var(--parchment-deep)'}">${n}</button>`).join('')}</div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:4px">
+            <span style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;color:var(--wood-light);text-transform:uppercase">Rounds</span>
+            ${isFirst?'<span style="padding:1px 6px;border-radius:3px;background:var(--felt-green);color:var(--parchment);font-family:Cinzel,serif;font-size:7px;font-weight:700">5 RECOMMENDED</span>':''}
+          </div>
+          <div style="display:flex;gap:6px;justify-content:center">${[3,5,7,10].map(n=>`<button onclick="setRounds(${n})" style="width:44px;height:44px;border-radius:50%;font-family:'Cinzel',serif;font-size:15px;font-weight:700;border:2px solid ${S.rounds===n?'var(--gold)':'var(--parchment-deep)'};background:${S.rounds===n?'var(--gold)':'transparent'};color:${S.rounds===n?'var(--wood-dark)':'var(--parchment-deep)'}">${n}</button>`).join('')}</div>
         </div>`}
         <button class="btn-gold" onclick="saveTeamNames();startGame()" style="width:100%;padding:14px;font-size:17px;letter-spacing:3px">⚜ BEGIN ⚜</button>
-        <button onclick="shareApp()" style="width:100%;padding:8px;border-radius:6px;border:1px solid #25D366;background:rgba(37,211,102,.08);color:#25D366;font-family:'Cinzel',serif;font-size:11px;min-height:38px;letter-spacing:1px">📲 Invite Friends to Play</button>
       </div></div>`;
     }
 
     else if(S.screen==='countdown'){
       const tc=S.team==='A'?'var(--team-a)':'var(--team-b)';
+      const am=getActiveMode();
+      const actionText=am==='sing'?t('countdownSing'):am==='act'?t('countdownAct'):t('countdownDescribe');
       h=`<div class="screen"><div class="countdown-overlay">
         <div style="font-family:'Cinzel',serif;font-size:16px;font-weight:700;color:${tc};letter-spacing:3px;margin-bottom:10px">${tIcon(S.team)} ${tN(S.team)}</div>
-        <div style="font-family:'Lora',serif;font-size:13px;color:var(--parchment);font-style:italic;margin-bottom:20px">You're describing!</div>
+        <div style="font-family:'Lora',serif;font-size:13px;color:var(--parchment);font-style:italic;margin-bottom:20px">${actionText}</div>
         <div style="font-family:'Cinzel',serif;font-size:110px;font-weight:900;color:var(--gold-light);text-shadow:0 4px 20px rgba(200,150,62,.5);animation:cdPop .6s ease-out" data-k="${S.cdKey}">${S.countdown>0?S.countdown:'GO!'}</div>
       </div></div>`;
     }
@@ -1513,6 +1797,11 @@ function render(){
         ${topBar()}
         <div style="padding:4px 14px;border-radius:4px;background:${tBg};border:2px solid ${tc}">
           <span style="font-family:'Cinzel',serif;font-size:12px;font-weight:700;letter-spacing:2px;color:${tc}">${tIcon(S.team)} ${tN(S.team)}'s Turn${champInfo}</span></div>
+        <!-- Describer warning -->
+        <div style="padding:6px 14px;border-radius:6px;background:rgba(200,150,62,.12);border:1px dashed var(--gold);text-align:center">
+          <div style="font-family:'Cinzel',serif;font-size:10px;font-weight:700;color:var(--gold);letter-spacing:1px">👀 ONLY THE DESCRIBER SHOULD LOOK!</div>
+          <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);font-style:italic;margin-top:2px">Others — look away when the card is tapped</div>
+        </div>
         <button onclick="revealCard()" class="game-card gold-corners" style="width:100%;max-width:260px;aspect-ratio:3/4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:${mCardBg(cm)};border-left:8px solid ${mColHex(cm)};animation:cardFlip3D .6s ease-out">
           <div class="card-border"></div>
           <img src="${mImg(cm)}" alt="${mL(cm)}" style="width:80px;height:80px;border-radius:10px">
@@ -1525,8 +1814,10 @@ function render(){
     else if(S.screen==='card-reveal'){
       const cm=getActiveMode();const fs=wordSize(cw.length);
       const ls=isLandscape;
+      const lowWarning=S.cardsLow?`<div style="width:100%;padding:4px 8px;border-radius:4px;background:rgba(200,150,62,.15);text-align:center;font-family:'Lora',serif;font-size:10px;color:var(--gold);font-style:italic">⚡ Only a few free words left this week!</div>`:'';
       h=`<div class="screen" style="animation:fadeIn .3s"><div class="content" style="gap:${ls?'3px':'5px'}">
         ${topBar(`<span style="font-family:'Lora',serif;font-size:10px;color:var(--gold);font-style:italic">${S.ci+1}/${S.cards.length}</span>`)}
+        ${lowWarning}
         <div class="ls-score-bar" style="position:relative;width:100%">${compactBar('game')}
           <div id="scoreAnim" style="display:none;position:absolute;top:30%;font-family:'Cinzel',serif;font-size:24px;font-weight:900;pointer-events:none;z-index:5"></div>
         </div>
@@ -1539,6 +1830,7 @@ function render(){
               <div class="big-word" style="font-size:${ls?'clamp(32px,7vw,52px)':fs+'px'}">${cw}</div>
               <div class="gold-line" style="width:${ls?'40px':'60px'}"></div>
               ${diffToggle()}
+              ${S.streak>=3?`<div style="position:absolute;top:8px;right:10px;padding:2px 8px;border-radius:4px;background:rgba(200,80,0,.9);color:white;font-family:'Cinzel',serif;font-size:11px;font-weight:700;animation:countPulse 1s ease-in-out infinite;z-index:3">🔥 ${S.streak}</div>`:''}
               ${S.showStamp?`<div class="correct-stamp">${svgCheck()}</div>`:''}
             </div>
           </div>
@@ -1546,8 +1838,13 @@ function render(){
             <button onclick="debounced(correctCard)" class="btn-wood btn-correct" style="${ls?'padding:10px;font-size:14px;min-height:42px':''}">✓ CORRECT!</button>
             <div style="display:flex;gap:${ls?'4px':'6px'};width:100%">
               <button onclick="debounced(skipCard)" class="btn-wood" style="flex:1;padding:${ls?'8px':'10px'};font-size:12px;background:linear-gradient(180deg,#8B7744,#6B5522);border-color:#4A3311;text-align:center;${S.skipsLeft<=0?'opacity:.35;pointer-events:none':''}">⏭ Skip (${S.skipsLeft})</button>
-              <button onclick="debounced(penaltyCard)" class="btn-wood" style="flex:1;padding:${ls?'8px':'10px'};font-size:12px;background:linear-gradient(180deg,#8B3333,#6B1111);border-color:#4A0808;text-align:center">⚠ Penalty</button>
             </div>
+            ${S.penaltyConfirm?
+              `<div style="display:flex;gap:6px;width:100%;animation:slideUp .2s">
+                <button onclick="debounced(penaltyCard)" class="btn-wood" style="flex:2;padding:${ls?'8px':'10px'};font-size:12px;background:linear-gradient(180deg,#8B1111,#5B0000);border-color:#3A0000;text-align:center;animation:glowPulseRed 1s ease-in-out infinite">⚠ Yes, Penalty! (−1 for ${tN(S.team)})</button>
+                <button onclick="cancelPenalty()" class="btn-wood" style="flex:1;padding:${ls?'8px':'10px'};font-size:11px;text-align:center">✕ No</button>
+              </div>`
+              :`<button onclick="debounced(penaltyCard)" class="btn-wood" style="width:100%;padding:${ls?'6px':'8px'};font-size:11px;background:linear-gradient(180deg,#8B3333,#6B1111);border-color:#4A0808;text-align:center;opacity:.7">⚠ Said the Word? Penalty</button>`}
           </div>
         </div>
       </div></div>`;
@@ -1557,12 +1854,14 @@ function render(){
       const cw2=S.cards[S.ci]?S.cards[S.ci][S.cardDiff==='easy'?0:1]:'';const isA=S.singTeam==='A';
       const fs2=cw2.length>15?28:42;
       const ls=isLandscape;
+      const singTeamColor=isA?'var(--team-a)':'var(--team-b)';
+      const singTeamBg=isA?'linear-gradient(135deg,rgba(43,108,176,.15),rgba(43,108,176,.05))':'linear-gradient(135deg,rgba(197,48,48,.15),rgba(197,48,48,.05))';
       h=`<div class="screen" style="animation:fadeIn .3s"><div class="content" style="gap:${ls?'3px':'5px'}">
         ${topBar()}
         <div class="ls-score-bar" style="width:100%">${compactBar('sing')}</div>
         <div style="display:flex;gap:${ls?'6px':'0'};width:100%;${ls?'flex-direction:row;flex:1;min-height:0':'flex-direction:column;gap:4px'}">
           <div class="${ls?'ls-card-area':''}${ls?'':'" style="width:100%'}">
-            <div class="big-card game-card gold-corners" style="background:${mBg('sing')};border-left-color:${mColHex('sing')};${ls?'height:100%':'min-height:140px'};display:flex;flex-direction:column;align-items:center;justify-content:center">
+            <div class="big-card game-card gold-corners" style="background:${mBg('sing')};border-left-color:${mColHex('sing')};${ls?'height:100%':'min-height:140px'};display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid ${singTeamColor};box-shadow:0 0 20px ${isA?'rgba(43,108,176,.3)':'rgba(197,48,48,.3)'}">
               <img src="mode-sing.png" class="mode-badge" alt="">
               <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--yellow-deep);font-weight:700;opacity:.8">Sing a song with</div>
               <div class="big-word" style="font-size:${ls?'clamp(24px,6vw,44px)':fs2+'px'}">${cw2}</div>
@@ -1576,12 +1875,13 @@ function render(){
               <div class="sing-team-box ${!isA?'active':''}" style="background:${!isA?'linear-gradient(135deg,#E8C0C0,#D8A0A0)':'var(--parchment)'};border:2px solid ${!isA?'var(--team-b)':'var(--parchment-deep)'}">
                 <div style="font-family:'Cinzel',serif;font-size:${ls?'9px':'10px'};font-weight:700;color:var(--team-b)">${tN('B')} · ${S.singScoreB}</div></div>
             </div>
-            <div class="panel" style="width:100%;padding:${ls?'4px':'6px'};text-align:center">
-              <div style="font-family:'Cinzel',serif;font-size:${ls?'10px':'11px'};font-weight:700;color:${isA?'var(--team-a)':'var(--team-b)'};letter-spacing:2px">${tIcon(S.singTeam)} ${tN(S.singTeam)} — SING!</div>
-              <div id="singCardT" style="font-family:'Cinzel',serif;font-size:${ls?'32px':'40px'};font-weight:900;line-height:1;color:${S.singTimer<=3?'var(--red-card)':'var(--ink)'}">${S.singTimer}</div>
+            <div class="panel" style="width:100%;padding:${ls?'4px':'6px'};text-align:center;background:${singTeamBg};border:2px solid ${singTeamColor}">
+              <div style="font-family:'Cinzel',serif;font-size:${ls?'10px':'12px'};font-weight:700;color:${singTeamColor};letter-spacing:2px">${tIcon(S.singTeam)} ${tN(S.singTeam)} — SING!</div>
+              <div id="singCardT" style="font-family:'Cinzel',serif;font-size:${ls?'32px':'40px'};font-weight:900;line-height:1;color:${S.singTimer<=3?'var(--red-card)':'var(--gold-light)'}">${S.singTimer}</div>
+              <div style="font-family:'Lora',serif;font-size:8px;color:var(--parchment-deep);font-style:italic">Sing at least one line of a known Christian song</div>
             </div>
             <button onclick="singTeamSang()" class="btn-gold" style="width:100%;padding:${ls?'8px':'12px'};font-size:${ls?'13px':'15px'};letter-spacing:2px">🎵 They Sang!</button>
-            <button onclick="singSkipCard()" style="font-family:'Lora',serif;font-size:11px;color:var(--gold);text-decoration:underline;min-height:${ls?'28px':'36px'}">Skip word</button>
+            <button onclick="singSkipCard()" class="btn-wood" style="width:100%;padding:${ls?'6px':'8px'};font-size:11px;background:linear-gradient(180deg,#8B7744,#6B5522);border-color:#4A3311;text-align:center;${S.singSkipsLeft<=0?'opacity:.35;pointer-events:none':''}">⏭ Skip Word (${S.singSkipsLeft})</button>
           </div>
         </div>
       </div></div>`;
@@ -1592,13 +1892,13 @@ function render(){
       h=`<div class="screen" style="animation:fadeIn .5s"><div class="content" style="gap:14px;text-align:center">
         <div class="wood-frame" style="width:100%"><div class="panel" style="padding:24px 16px">
           <div style="font-size:48px;margin-bottom:8px">🔥</div>
-          <div style="font-family:'Almendra',serif;font-size:22px;color:var(--wood-dark)">Your Team is on Fire!</div>
+          <div style="font-family:'Almendra',serif;font-size:22px;color:var(--wood-dark)">You're on a Roll!</div>
           <div class="gold-line" style="width:40px"></div>
           <div style="font-family:'Lora',serif;font-size:13px;color:var(--ink);line-height:1.6;margin-top:8px">
-            You've mastered all <b>${limit*2} free ${mL(am)} words</b> this week. That's impressive!
+            Your team blazed through all <b>${limit*2} free ${mL(am)} words</b> this week!
           </div>
           <div style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);font-style:italic;margin-top:6px">
-            Unlock all ${(SING.length+ACT.length+EXPLAIN.length)*2} words and never run out mid-game again.
+            Get the full edition — endless words, zero interruptions, every game night.
           </div>
         </div></div>
         <div class="wood-frame" style="padding:3px;border-radius:10px"><img src="${mImg(am)}" alt="${mL(am)}" style="width:70px;height:70px;border-radius:7px;display:block"></div>
@@ -1610,7 +1910,7 @@ function render(){
             ✅ 5 denomination packs available
           </div>
         </div>
-        <button class="btn-gold" onclick="S.screen='home';S.showUnlock=true;render()" style="width:100%;font-size:15px;letter-spacing:2px;padding:14px">✨ Get All 900 Words</button>
+        <button class="btn-gold" onclick="S.screen='home';S.showUnlock=true;render()" style="width:100%;font-size:15px;letter-spacing:2px;padding:14px">✨ Never Run Out Again</button>
         <button class="btn-wood" onclick="endTurn()" style="width:100%;text-align:center">Continue with Score</button>
         <button onclick="resetGame()" style="font-family:'Lora',serif;font-size:12px;color:var(--gold);text-decoration:underline;min-height:36px">← Back to Home</button>
       </div></div>`;
@@ -1619,10 +1919,13 @@ function render(){
     else if(S.screen==='summary'){
       const tc=S.team==='A'?'var(--team-a)':'var(--team-b)';const isSing=getActiveMode()==='sing';
       const nextTeamName=S.team==='A'?tN('B'):tN('A');
+      // Turn performance rating
+      const turnPts=isSing?(S.turnWon||0):S.turnCorrect;
+      const rating=turnPts>=6?'🔥 Legendary!':turnPts>=4?'⭐ Amazing!':turnPts>=2?'👏 Great Turn!':turnPts>=1?'👍 Nice!':'😅 Tough Round';
       h=`<div class="screen" style="animation:fadeIn .5s"><div class="content" style="gap:12px">
         <div class="wood-frame" style="width:100%"><div class="panel" style="padding:18px 12px;text-align:center">
           <div style="font-family:'Almendra',serif;font-size:28px;color:var(--red-card);animation:shake .5s">Time's Up!</div>
-          <div style="font-size:26px;margin-top:4px">⏳</div>
+          <div style="font-size:18px;margin-top:4px;font-family:'Lora',serif;color:var(--wood-light)">${rating}</div>
         </div></div>
         <div class="panel" style="width:100%;padding:12px">
           <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:${tc};text-transform:uppercase;margin-bottom:6px;text-align:center">${tIcon(S.team)} ${tN(S.team)}'s Summary</div>
@@ -1631,17 +1934,18 @@ function render(){
              <div class="summary-stat"><span>⏭ Skipped</span><span style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--wood-light)">${S.turnSkip}</span></div>`
             :`<div class="summary-stat"><span>✓ Correct</span><span style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--felt-green)">${S.turnCorrect}</span></div>
              <div class="summary-stat"><span>⏭ Skipped</span><span style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--wood-light)">${S.turnSkip}</span></div>
-             <div class="summary-stat"><span>⚠ Penalties</span><span style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--red-card)">${S.turnPenalty}</span></div>`}
+             <div class="summary-stat"><span>⚠ Penalties</span><span style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--red-card)">${S.turnPenalty}</span></div>
+             ${S.bestStreak>=3?`<div class="summary-stat"><span>🔥 Best Streak</span><span style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--gold)">${S.bestStreak} in a row!</span></div>`:''}`}
         </div>
         ${wordSummaryHTML()}
         <div class="wood-frame" style="width:100%"><div style="padding:4px">${scores()}</div></div>
         <div style="font-family:'Lora',serif;font-size:12px;color:var(--gold-light);text-align:center;font-style:italic">
           ${S.team==='A'?nextTeamName+' up next!':S.round>=S.rounds?'Final scores!':'Round '+(S.round+1)+' next!'}</div>
         <div style="display:flex;gap:6px;width:100%;max-width:280px">
-          <button class="btn-gold" onclick="endTurn()" style="flex:3;padding:14px;font-size:15px;letter-spacing:2px;text-align:center">
+          <button class="btn-gold" onclick="endTurn()" style="flex:1;padding:14px;font-size:15px;letter-spacing:2px;text-align:center">
             ${S.team==='A'?nextTeamName+" →":S.round>=S.rounds?"Results →":"Next Round →"}</button>
-          <button onclick="shareApp()" style="flex:1;padding:8px;border-radius:6px;border:1px solid #25D366;background:rgba(37,211,102,.1);color:#25D366;font-size:16px;min-height:48px">📤</button>
         </div>
+        <button onclick="shareApp()" style="padding:6px 16px;border-radius:6px;border:1px solid var(--whatsapp);background:rgba(37,211,102,.08);color:var(--whatsapp);font-family:'Cinzel',serif;font-size:10px;min-height:44px">📤 Share Game</button>
       </div></div>`;
     }
 
@@ -1681,23 +1985,44 @@ function render(){
         ${!isChamp?`<div class="wood-frame" style="width:100%"><div style="padding:4px">${scores(w||'A')}</div></div>`:''}
         <div class="panel" style="padding:6px 12px;text-align:center">
           <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);font-style:italic">${mL(S.mode)} · ${S.rounds} rounds</div>
+          ${(()=>{const best=getBestScore(S.mode);const winScore=Math.max(totalA,totalB);
+            return winScore>0&&best>0?(winScore>=best?
+              `<div style="font-family:'Cinzel',serif;font-size:11px;color:var(--gold);font-weight:700;margin-top:4px;animation:glow 2s ease-in-out infinite">🏅 NEW RECORD! Previous: ${best===winScore&&best>0?best-1+'':best}</div>`
+              :`<div style="font-family:'Lora',serif;font-size:9px;color:var(--parchment-deep);margin-top:2px">Best: ${best} pts</div>`):'';
+          })()}
         </div>
         <div style="display:flex;gap:6px;width:100%">
-          <button class="btn-wood" onclick="playAgain()" style="flex:1;text-align:center;font-size:11px">Rematch</button>
-          <button class="btn-gold" onclick="shareScoreCard()" style="flex:1;text-align:center;font-size:11px">📤 Share</button>
-          <button class="btn-wood" onclick="shareToWhatsApp('😂 We just had the BEST game night!\n\n'+tN(totalA>totalB?'A':'B')+' destroyed '+tN(totalA>totalB?'B':'A')+' '+Math.max(totalA,totalB)+'-'+Math.min(totalA,totalB)+' in '+mL(S.mode)+'! 🏆\n\nThink YOUR group can do better?\n👉 '+location.href)" style="flex:1;text-align:center;font-size:11px;background:linear-gradient(180deg,#25D366,#128C7E);border-color:#075E54">💬 WhatsApp</button>
+          <button class="btn-gold" onclick="playAgain()" style="flex:1;text-align:center;font-size:12px;letter-spacing:1px">🔄 Rematch</button>
+          <button class="btn-gold" onclick="shareScoreCard()" style="flex:1;text-align:center;font-size:12px;letter-spacing:1px">📤 Share Score</button>
         </div>
-        <button onclick="resetGame()" style="font-family:'Lora',serif;font-size:12px;color:var(--gold);text-decoration:underline;min-height:40px">← New Game</button>
-        <div id="shareNudge" style="display:none;width:100%;padding:10px 14px;background:linear-gradient(135deg,rgba(37,211,102,.12),rgba(37,211,102,.04));border:1px solid #25D366;border-radius:8px;align-items:center;gap:8px;animation:slideUp .4s">
-          <div style="flex:1;font-family:'Lora',serif;font-size:11px;color:var(--ink);line-height:1.4">Enjoyed the game? Share it with another church group! 🙏</div>
-          <button onclick="shareApp()" style="padding:8px 14px;border-radius:6px;background:#25D366;color:white;font-family:'Cinzel',serif;font-size:10px;font-weight:700;min-height:36px;border:none;white-space:nowrap">📤 Share</button>
-        </div>
+        <button class="btn-wood" onclick="resetGame()" style="width:100%;text-align:center;font-size:13px;letter-spacing:1px">← New Game</button>
+        <button onclick="shareApp()" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--whatsapp);background:rgba(37,211,102,.08);color:var(--whatsapp);font-family:'Cinzel',serif;font-size:10px;min-height:44px;letter-spacing:1px">🙏 Know a group that would love this? Send it over!</button>
+        ${maybeShowReviewPrompt()?`<div class="panel" style="width:100%;padding:10px;text-align:center;animation:slideUp .4s .5s both">
+          <div style="font-family:'Lora',serif;font-size:12px;color:var(--ink);line-height:1.4;margin-bottom:6px">Enjoying Fellowship Face-Off? Your feedback helps us improve!</div>
+          <div style="display:flex;gap:6px">
+            <button onclick="sendFeedback()" class="btn-gold" style="flex:1;font-size:10px;padding:8px">⭐ Share Feedback</button>
+            <button onclick="dismissReviewPrompt()" style="flex:1;padding:8px;border-radius:6px;border:1px solid var(--parchment-deep);font-family:'Cinzel',serif;font-size:10px;color:var(--parchment-deep);min-height:44px">Maybe Later</button>
+          </div>
+        </div>`:''}
       </div></div>`;
     }
 
     // Solo Practice Mode
     if(S.showSolo){
-      if(S.soloLimit){
+      if(!S.soloMode){
+        // Mode picker for solo
+        h=`<div class="screen" style="animation:fadeIn .4s"><div class="content" style="gap:12px;text-align:center">
+          <div style="font-family:'Almendra',serif;font-size:24px;color:var(--gold-light)">🎯 Solo Practice</div>
+          <div style="font-family:'Lora',serif;font-size:12px;color:var(--parchment-deep);font-style:italic">Pick a mode to study words at your own pace</div>
+          ${['sing','act','explain'].map(m=>`<button onclick="startSolo('${m}')" class="game-card" style="width:100%;padding:0;background:${mBg(m)};border-left:6px solid ${mColHex(m)};display:flex;align-items:center;overflow:hidden">
+            <div style="flex:1;padding:12px;text-align:left">
+              <div style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--ink);letter-spacing:2px">${mI(m)} ${mL(m)}</div>
+              <div style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);margin-top:2px;font-style:italic">${mD(m)}</div>
+            </div>
+          </button>`).join('')}
+          <button onclick="soloExit()" class="btn-wood" style="width:100%;text-align:center">← Back to Home</button>
+        </div></div>`;
+      } else if(S.soloLimit){
         // Free solo limit reached
         h=`<div class="screen" style="animation:fadeIn .5s"><div class="content" style="gap:14px;text-align:center">
           <div class="wood-frame" style="width:100%"><div class="panel" style="padding:24px 16px">
@@ -1759,6 +2084,12 @@ function render(){
     if(S.roomCode&&S.role==='host'&&inGame){h+=`<div style="position:fixed;bottom:8px;left:50%;transform:translateX(-50%);z-index:40;padding:4px 12px;border-radius:4px;background:var(--wood-dark);font-family:'Cinzel',serif;font-size:10px;color:var(--gold-light);opacity:.7">Room: ${S.roomCode}</div>`}
 
     app.innerHTML=h;
+    // Confetti cleanup — remove DOM elements after animation completes to prevent bloat
+    if(S.screen==='gameover'){
+      setTimeout(()=>{
+        document.querySelectorAll('.confetti-piece').forEach(el=>el.remove());
+      },7000);
+    }
   }catch(e){
     document.getElementById('app').innerHTML=`<div class="screen"><div class="content" style="gap:16px;text-align:center"><div style="font-size:48px">⚠️</div><div style="font-family:'Cinzel',serif;font-size:18px;color:var(--gold-light)">Something went wrong</div><button class="btn-gold" onclick="resetGame()">Restart</button></div></div>`;
   }
@@ -1793,9 +2124,14 @@ function aboutModal(){return `<div class="modal-overlay" onclick="S.showAbout=fa
     </p>
     <p style="font-size:11px;color:var(--wood-light);font-style:italic">All game data is stored locally on your device only. No data is collected or sent externally.</p>
   </div>
-  <div style="display:flex;gap:6px;margin-top:10px">
+  <!-- Community & Feedback -->
+  <div style="display:flex;flex-direction:column;gap:6px;margin-top:10px">
+    <button onclick="joinCommunity()" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--whatsapp);background:rgba(10,107,51,.08);color:var(--whatsapp);font-family:'Cinzel',serif;font-size:11px;min-height:44px;letter-spacing:1px">💬 Join Our Game Night Community</button>
+    <button onclick="sendFeedback()" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--gold);background:rgba(200,150,62,.06);color:var(--gold);font-family:'Cinzel',serif;font-size:11px;min-height:44px;letter-spacing:1px">💡 Send Feedback or Report a Bug</button>
+  </div>
+  <div style="display:flex;gap:6px;margin-top:8px">
     <button class="btn-gold" onclick="S.showAbout=false;render()" style="flex:2;text-align:center">Close</button>
-    <button onclick="shareApp()" style="flex:1;padding:8px;border-radius:6px;border:1px solid #25D366;background:rgba(37,211,102,.1);color:#25D366;font-family:'Cinzel',serif;font-size:11px;min-height:44px">📤 Share</button>
+    <button onclick="shareApp()" style="flex:1;padding:8px;border-radius:6px;border:1px solid var(--whatsapp);background:rgba(37,211,102,.1);color:var(--whatsapp);font-family:'Cinzel',serif;font-size:11px;min-height:44px">📤 Share</button>
   </div>
 </div></div></div>`}
 
@@ -1807,12 +2143,12 @@ function exitModal(){return `<div class="modal-overlay" onclick="cancelExit()"><
 
 function tutorialModal(){
   const steps=[
-    {icon:'👥',title:'Pick Your Teams!',text:'Split into two teams and name them. One brave soul from each team will describe — everyone else guesses. No pressure... 😄'},
-    {icon:'🎴',title:'Choose Your Battle',text:'🎵 Sing-Off: Sing a song with the word. 🎭 Act: One word + gestures. 💬 Explain: Describe freely. 🏆 Championship: All three combined!'},
-    {icon:'⏳',title:'Beat the Clock!',text:'60 seconds for Act & Explain. Sing-Off gives each team 10 seconds per song in a 120-second round. Every second counts!'},
-    {icon:'⚡',title:'Easy or Challenge?',text:'Each card has two words. Easy = 1 point. Challenge = 2 points. Switch difficulty before the card flips — choose wisely!'},
-    {icon:'⚠️',title:'Watch Your Words!',text:'Say the actual word? PENALTY! The other team scores. You get 2 skips per turn — use them wisely!'},
-    {icon:'🏆',title:'Championship Mode',text:'Play Sing + Act + Explain in one epic match! Set how many rounds of each. All scores combine — highest total wins the Championship!'},
+    {icon:'🔥',title:'Your New Favourite Game Night',text:'Two teams. One phone. Biblical words flying across the room. Laughter guaranteed. Ready?'},
+    {icon:'🎴',title:'Three Ways to Battle',text:'🎵 Sing-Off — belt out a hymn with the word before time runs out!\n🎭 Act It Out — gestures only, your team guesses!\n💬 Explain — describe it however you can!'},
+    {icon:'⏳',title:'Every Second Counts',text:'60 seconds on the clock. Your team is shouting guesses. You\'re sweating. This is where legends are made.'},
+    {icon:'⚡',title:'Risk It for Double Points',text:'Easy words earn 1 point. Flip to Challenge mode and the trickier word earns 2. How brave is your team?'},
+    {icon:'⚠️',title:'One Rule: Don\'t Say the Word!',text:'Slip up and say it? The OTHER team gets the point. You also get 2 skips per turn — choose wisely!'},
+    {icon:'🏆',title:'Go for the Championship',text:'Combine all 3 modes into one epic showdown. Sing + Act + Explain. Highest combined score takes the crown!'},
   ];const s=steps[S.tutStep]||steps[0];
   return `<div class="modal-overlay"><div class="wood-frame modal" onclick="event.stopPropagation()"><div class="panel" style="padding:0;overflow:hidden">
     <div class="tut-step"><div style="font-size:48px;margin-bottom:8px">${s.icon}</div><div style="font-family:'Cinzel',serif;font-size:17px;font-weight:700;color:var(--ink);margin-bottom:4px">${s.title}</div><div style="font-family:'Lora',serif;font-size:12px;color:var(--wood-light);line-height:1.5;font-style:italic">${s.text}</div></div>
@@ -1838,7 +2174,7 @@ function learningModal(){
     <div class="gold-line" style="width:40px"></div>
     <!-- Search bar -->
     <div style="margin-bottom:6px">
-      <input id="libSearch" type="text" placeholder="🔍 Search words..." oninput="filterLibrary()" style="width:100%;font-family:'Lora',serif;font-size:13px;padding:8px 12px;border:2px solid var(--parchment-deep);border-radius:6px;background:var(--parchment-dark);color:var(--ink);outline:none">
+      <input id="libSearch" type="text" placeholder="🔍 Search words..." oninput="filterLibraryDebounced()" style="width:100%;font-family:'Lora',serif;font-size:13px;padding:8px 12px;border:2px solid var(--parchment-deep);border-radius:6px;background:var(--parchment-dark);color:var(--ink);outline:none">
     </div>
     <!-- A-Z filter -->
     <div id="libAZ" style="display:flex;flex-wrap:wrap;gap:2px;justify-content:center;margin-bottom:6px">
@@ -1890,22 +2226,35 @@ function joinAsTeam(team){
 function unlockModal(){
   const pro=isPro();
   const unlockedCount=DENOM_PACKS.filter(p=>p.unlocked).length;
-  return `<div class="modal-overlay" onclick="S.showUnlock=false;render()"><div class="wood-frame modal" style="max-width:380px" onclick="event.stopPropagation()"><div class="panel" style="padding:18px 14px;text-align:center">
+  const tab=S.storeTab||'unlock'; // 'unlock' or 'free'
+  const singFree=freeLimit('sing')*2,actFree=freeLimit('act')*2,explainFree=freeLimit('explain')*2;
+  const totalFree=singFree+actFree+explainFree;
+  const totalAll=(SING.length+ACT.length+EXPLAIN.length)*2;
+
+  return `<div class="modal-overlay" onclick="S.showUnlock=false;S.storeTab=null;render()"><div class="wood-frame modal" style="max-width:380px" onclick="event.stopPropagation()"><div class="panel" style="padding:18px 14px;text-align:center">
     <div style="font-family:'Almendra',serif;font-size:20px;color:var(--wood-dark)">Game Store</div>
     <div class="gold-line" style="width:40px"></div>
 
+    <!-- Tabs -->
+    <div style="display:flex;gap:0;margin:8px 0;border-radius:6px;overflow:hidden;border:2px solid var(--gold)">
+      <button onclick="S.storeTab='unlock';render()" style="flex:1;padding:8px 4px;font-family:'Cinzel',serif;font-size:11px;font-weight:700;letter-spacing:1px;min-height:40px;border:none;background:${tab==='unlock'?'var(--gold)':'var(--parchment)'};color:${tab==='unlock'?'var(--wood-dark)':'var(--gold)'}">🔓 Unlock</button>
+      <button onclick="S.storeTab='free';render()" style="flex:1;padding:8px 4px;font-family:'Cinzel',serif;font-size:11px;font-weight:700;letter-spacing:1px;min-height:40px;border:none;border-left:2px solid var(--gold);background:${tab==='free'?'var(--gold)':'var(--parchment)'};color:${tab==='free'?'var(--wood-dark)':'var(--gold)'}">🎁 Free Access</button>
+    </div>
+
+    ${tab==='unlock'?`
+    <!-- ═══ UNLOCK TAB ═══ -->
     <!-- Full Edition -->
     <div style="background:${pro?'rgba(45,123,45,.08)':'linear-gradient(135deg,rgba(200,150,62,.08),rgba(200,150,62,.02))'};border:2px solid ${pro?'var(--felt-green)':'var(--gold)'};border-radius:8px;padding:12px;margin:8px 0;text-align:left">
       <div style="display:flex;justify-content:space-between;align-items:center">
         <div style="font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:var(--ink)">⭐ Full Edition</div>
         ${pro?'<span style="font-family:\'Cinzel\',serif;font-size:9px;color:var(--felt-green);font-weight:700;padding:2px 8px;border:1px solid var(--felt-green);border-radius:3px">UNLOCKED</span>':''}
       </div>
-      <div style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);line-height:1.5;margin-top:4px">All 650 base words (150 Sing + 200 Act + 300 Explain) — no weekly rotation limits</div>
+      <div style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);line-height:1.5;margin-top:4px">Unlock every word — never run out mid-game again. All ${totalAll} base words with no weekly limits.</div>
     </div>
 
     <!-- Denomination Packs -->
     <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:var(--wood-light);text-transform:uppercase;margin:10px 0 6px">Denomination Packs · 50 Cards Each</div>
-    <div class="scroll-content" style="max-height:30vh">
+    <div class="scroll-content" style="max-height:25vh">
       ${DENOM_PACKS.map(p=>`<div style="background:${p.active?'rgba(45,123,45,.06)':p.unlocked?'rgba(200,150,62,.04)':'var(--parchment)'};border:2px solid ${p.active?'var(--felt-green)':p.unlocked?'var(--parchment-deep)':p.color};border-radius:6px;padding:10px;margin-bottom:6px;text-align:left">
         <div style="display:flex;justify-content:space-between;align-items:center">
           <div style="font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--ink)">${p.icon} ${p.name}</div>
@@ -1927,14 +2276,75 @@ function unlockModal(){
     <button class="btn-gold" onclick="tryUnlock()" style="width:100%;text-align:center;font-size:13px;letter-spacing:2px">🔓 UNLOCK</button>
     <div id="unlockError" style="font-family:'Lora',serif;font-size:11px;color:var(--red-card);margin-top:4px;display:none">Invalid code. Please check and try again.</div>
 
-    <!-- Buy / Request Free -->
     <div style="display:flex;gap:6px;margin-top:10px">
-      <button onclick="S.showUnlock=false;S.showRequestFree=true;render()" class="btn-wood" style="flex:1;text-align:center;font-size:10px;padding:10px 6px">🎁 Request Free</button>
-      <button onclick="S.showUnlock=false;render()" class="btn-wood" style="flex:1;text-align:center;font-size:10px;padding:10px 6px">Maybe Later</button>
+      <button onclick="S.showUnlock=false;S.storeTab=null;S.showRequestFree=true;render()" class="btn-wood" style="flex:1;text-align:center;font-size:10px;padding:10px 6px">🎁 Request Free</button>
+      <button onclick="S.showUnlock=false;S.storeTab=null;render()" class="btn-wood" style="flex:1;text-align:center;font-size:10px;padding:10px 6px">Maybe Later</button>
     </div>
     <div style="font-family:'Lora',serif;font-size:9px;color:var(--parchment-deep);margin-top:6px;line-height:1.4;font-style:italic">
       Purchase codes via the developer. Ministry groups may request free access.
     </div>
+
+    `:`
+    <!-- ═══ FREE ACCESS TAB — How to Unlock for Free ═══ -->
+    <div style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);font-style:italic;margin:4px 0 8px;text-align:center">There are multiple ways to unlock the full game — completely free!</div>
+    <div class="scroll-content" style="max-height:55vh;text-align:left">
+
+      <!-- 1. Free Unlock Codes — Full Edition -->
+      <div style="background:linear-gradient(135deg,rgba(200,150,62,.08),rgba(200,150,62,.02));border:2px solid var(--gold);border-radius:8px;padding:12px;margin-bottom:8px">
+        <div style="font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--gold);margin-bottom:4px">⭐ Full Edition — Free Codes</div>
+        <div style="font-family:'Lora',serif;font-size:11px;color:var(--ink);line-height:1.5;margin-bottom:6px">
+          Enter any of these codes on the 🔓 Unlock tab to instantly unlock <b>all ${totalAll} words</b> with no weekly limits:
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px">
+          ${VALID_CODES.map(c=>`<span style="display:inline-block;padding:3px 8px;border-radius:4px;background:var(--parchment-dark);border:1px solid var(--gold);font-family:'Cinzel',serif;font-size:10px;font-weight:700;color:var(--ink);letter-spacing:1px">${c}</span>`).join('')}
+        </div>
+        <div style="font-family:'Lora',serif;font-size:10px;color:var(--felt-green);margin-top:6px;font-weight:600">✓ Copy any code above → go to 🔓 Unlock tab → paste → tap Unlock!</div>
+      </div>
+
+      <!-- 2. Denomination Pack Codes -->
+      <div style="background:linear-gradient(135deg,rgba(27,77,46,.06),rgba(27,77,46,.02));border:2px solid var(--felt-green);border-radius:8px;padding:12px;margin-bottom:8px">
+        <div style="font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--felt-green);margin-bottom:4px">⛪ Denomination Pack Codes</div>
+        <div style="font-family:'Lora',serif;font-size:11px;color:var(--ink);line-height:1.5;margin-bottom:6px">
+          Each denomination pack adds <b>50 bonus words</b> specific to that tradition. Use these free codes:
+        </div>
+        ${DENOM_PACKS.map(p=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(200,150,62,.15)">
+          <span style="font-family:'Lora',serif;font-size:11px;color:var(--ink)">${p.icon} ${p.name}</span>
+          <div style="display:flex;gap:3px">${p.codes.map(c=>'<span style="padding:2px 6px;border-radius:3px;background:var(--parchment-dark);border:1px solid var(--parchment-deep);font-family:Cinzel,serif;font-size:9px;font-weight:700;color:var(--ink);letter-spacing:1px">'+c+'</span>').join('')}</div>
+        </div>`).join('')}
+      </div>
+
+      <!-- 3. Ministry Request -->
+      <div style="background:linear-gradient(135deg,rgba(160,40,40,.06),rgba(160,40,40,.02));border:2px solid var(--red-card);border-radius:8px;padding:12px;margin-bottom:8px">
+        <div style="font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--red-card);margin-bottom:4px">🎁 Request Access for Your Church</div>
+        <div style="font-family:'Lora',serif;font-size:11px;color:var(--ink);line-height:1.5">
+          Running a youth group, Bible study, or church programme? Request a personalised unlock code — no cost, no catch. We want every ministry to have full access.
+        </div>
+        <button onclick="S.showUnlock=false;S.storeTab=null;S.showRequestFree=true;render()" style="margin-top:6px;width:100%;padding:8px;border-radius:6px;border:1px solid var(--red-card);background:rgba(160,40,40,.08);color:var(--red-card);font-family:'Cinzel',serif;font-size:11px;font-weight:700;min-height:44px">📩 Request Free Access for My Ministry</button>
+      </div>
+
+      <!-- 4. How to Enter a Code -->
+      <div style="background:var(--parchment-dark);border:2px solid var(--parchment-deep);border-radius:8px;padding:12px;margin-bottom:8px">
+        <div style="font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--ink);margin-bottom:4px">📋 How to Enter a Code</div>
+        <div style="font-family:'Lora',serif;font-size:11px;color:var(--ink);line-height:1.7">
+          1. Tap the <b>🔓 Unlock</b> tab above<br>
+          2. Type or paste your code in the box<br>
+          3. Tap <b>🔓 UNLOCK</b><br>
+          4. Done! Your words are unlocked instantly
+        </div>
+      </div>
+
+      <!-- 5. Share to Help Others -->
+      <div style="background:linear-gradient(135deg,rgba(10,107,51,.06),rgba(10,107,51,.02));border:2px solid var(--whatsapp);border-radius:8px;padding:12px">
+        <div style="font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--whatsapp);margin-bottom:4px">📤 Share These Codes</div>
+        <div style="font-family:'Lora',serif;font-size:11px;color:var(--ink);line-height:1.5;margin-bottom:6px">
+          Know someone who'd love this game? Share the free codes with them!
+        </div>
+        <button onclick="shareFreeCodesMsg()" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--whatsapp);background:rgba(10,107,51,.08);color:var(--whatsapp);font-family:'Cinzel',serif;font-size:11px;font-weight:700;min-height:44px">💬 Share Free Codes via WhatsApp</button>
+      </div>
+    </div>
+
+    <button onclick="S.showUnlock=false;S.storeTab=null;render()" class="btn-gold" style="width:100%;text-align:center;margin-top:8px">Close</button>
+    `}
   </div></div></div>`;
 }
 
@@ -1943,7 +2353,7 @@ function requestFreeModal(){
     <div style="font-family:'Almendra',serif;font-size:18px;color:var(--wood-dark)">Request Free Access</div>
     <div class="gold-line" style="width:36px"></div>
     <div style="font-family:'Lora',serif;font-size:12px;color:var(--wood-light);line-height:1.5;font-style:italic;margin-bottom:10px">
-      If you're using Fellowship Face-Off for ministry, youth group, or church education, you may qualify for free access. Please share your details below.
+      Running a youth group, Bible study, or church programme? We'd love to support your ministry with free access. Tell us a bit about how you'll use it.
     </div>
     <div style="text-align:left;display:flex;flex-direction:column;gap:8px;margin-bottom:10px">
       <input id="reqName" type="text" placeholder="Your Name" style="width:100%;font-family:'Lora',serif;font-size:13px;padding:10px;border:2px solid var(--parchment-deep);border-radius:6px;background:var(--parchment-dark);color:var(--ink);outline:none">
@@ -2028,7 +2438,12 @@ function showTutorial(){pushState();S.showTutorial=true;S.tutStep=0;render()}
 function openDef(w,d){pushState();S.defWord=w;S.defDef=d;render()}
 function closeDef(){S.defWord=null;S.defDef=null;render()}
 
-// Faith Library filter
+// Faith Library filter — debounced for performance on low-end devices
+let _libSearchTimer=null;
+function filterLibraryDebounced(){
+  clearTimeout(_libSearchTimer);
+  _libSearchTimer=setTimeout(()=>filterLibrary(),200);
+}
 function filterLibrary(letter){
   const search=document.getElementById('libSearch');
   const chips=document.querySelectorAll('#libWords .word-chip');
@@ -2044,6 +2459,23 @@ function filterLibrary(letter){
     }
   });
   if(letter&&search)search.value='';
+}
+
+// Fun team name pairs — biblical themed
+const TEAM_NAMES=[
+  ['Lions','Lambs'],['Shields','Swords'],['Mustard Seeds','Fig Trees'],
+  ['Fishers','Shepherds'],['Eagles','Doves'],['Thunder','Lightning'],
+  ['Psalm 23','John 3:16'],['Manna','Quail'],['Arks','Altars'],
+  ['Flames','Rivers'],['Pillars','Trumpets'],['Loaves','Fishes'],
+  ['Amen','Hallelujah'],['Grace','Glory'],['Faith','Hope'],
+  ['Gideons','Joshuas'],['Ruths','Esthers'],['Daniels','Davids']
+];
+function randomTeamNames(){
+  const pair=TEAM_NAMES[Math.floor(Math.random()*TEAM_NAMES.length)];
+  S.nameA=pair[0];S.nameB=pair[1];
+  const a=document.getElementById('nameAInput'),b=document.getElementById('nameBInput');
+  if(a)a.value=pair[0];if(b)b.value=pair[1];
+  beep('reveal');render();
 }
 
 function saveTeamNames(){
@@ -2089,18 +2521,24 @@ function revealCard(){
 function correctCard(){
   beep('correct');const p=S.cardDiff==='challenge'?2:1;
   if(S.team==='A')S.sA+=p;else S.sB+=p;
+  S.streak++;if(S.streak>S.bestStreak)S.bestStreak=S.streak;
   S.turnCorrect++;trackWord('correct');S.showStamp=true;render();
-  animScore('+'+p,'var(--felt-green)',S.team==='A'?'25%':'75%');
+  // Streak bonus text at 3+
+  const streakTxt=S.streak>=3?' 🔥'+S.streak:'';
+  animScore('+'+p+streakTxt,'var(--felt-green)',S.team==='A'?'25%':'75%');
   setTimeout(()=>{S.showStamp=false;nextC();S.diffLocked=true;render()},350);
 }
-function skipCard(){if(S.skipsLeft<=0)return;beep('skip');S.skipsLeft--;S.turnSkip++;trackWord('skip');nextC();S.diffLocked=true;render()}
+function skipCard(){if(S.skipsLeft<=0)return;beep('skip');S.skipsLeft--;S.turnSkip++;S.streak=0;trackWord('skip');nextC();S.diffLocked=true;render()}
 function penaltyCard(){
-  beep('penalty');const p=S.cardDiff==='challenge'?2:1;
+  if(!S.penaltyConfirm){S.penaltyConfirm=true;render();return}
+  S.penaltyConfirm=false;
+  beep('penalty');const p=S.cardDiff==='challenge'?2:1;S.streak=0;
   const opp=S.team==='A'?'B':'A';
   if(opp==='A')S.sA+=p;else S.sB+=p;
   S.turnPenalty++;trackWord('penalty');nextC();S.diffLocked=true;render();
   animScore('+'+p,opp==='A'?'var(--team-a)':'var(--team-b)',opp==='A'?'25%':'75%');
 }
+function cancelPenalty(){S.penaltyConfirm=false;render()}
 
 function animScore(txt,color,left){
   setTimeout(()=>{
@@ -2132,6 +2570,11 @@ function spawnSparkles(left){
 
 function endTurn(){
   clearAllTimers();releaseWake();
+  // Check if cards were exhausted during this turn — show upsell between turns, not mid-turn
+  if(S.cardsExhausted&&!isPro()){
+    S.cardsExhausted=false;S.cardsLow=false;
+    S.screen='cards-exhausted';render();return;
+  }
   if(S.team==='A'){S.team='B';resetTurnStats();S.screen='card-front'}
   else{
     if(S.round>=S.rounds){
@@ -2141,13 +2584,6 @@ function endTurn(){
         S.champScores.push({phase:getActiveMode(),sA:S.sA,sB:S.sB});
       }
       logGame();beep('victory');S.screen='gameover';
-      // Post-game share nudge after 3 seconds
-      setTimeout(()=>{
-        if(S.screen==='gameover'){
-          const nudge=document.getElementById('shareNudge');
-          if(nudge)nudge.style.display='flex';
-        }
-      },3000);
     }
     else{
       S.round++;S.team='A';resetTurnStats();
@@ -2169,7 +2605,7 @@ function endTurn(){
     }
   }render();
 }
-function resetTurnStats(){S.turnCorrect=0;S.turnSkip=0;S.turnPenalty=0;S.turnWon=0;S.skipsLeft=2;S.cardDiff=S.diff;S.diffLocked=false;S.paused=false;S.showStamp=false;S.turnWords=[]}
+function resetTurnStats(){S.turnCorrect=0;S.turnSkip=0;S.turnPenalty=0;S.turnWon=0;S.skipsLeft=2;S.cardDiff=S.diff;S.diffLocked=false;S.paused=false;S.showStamp=false;S.turnWords=[];S.penaltyConfirm=false;S.cardsLow=false;S.streak=0;S.bestStreak=0;S.singSkipsLeft=3}
 
 function playAgain(){S.cardDiff=S.diff;S.diffLocked=false;startGame()}
 function confirmExit(){S.showExit=true;render()}
@@ -2208,7 +2644,55 @@ function shareToWhatsApp(text){
   window.open(url,'_blank');
 }
 
+// ─── COMMUNITY & FEEDBACK ───
+function shareFreeCodesMsg(){
+  const codes=VALID_CODES.slice(0,3).join(', ');
+  const msg='🎁 Free unlock codes for Fellowship Face-Off!\n\nUse any of these to unlock ALL '+((SING.length+ACT.length+EXPLAIN.length)*2)+' words:\n\n🔓 '+VALID_CODES.join('\n🔓 ')+'\n\n⛪ Denomination packs:\n'+DENOM_PACKS.map(p=>p.icon+' '+p.name+': '+p.codes.join(' or ')).join('\n')+'\n\n👉 Play free: '+location.href+'\n\nOpen the game → tap "Unlock Full Edition" → enter any code above!';
+  if(navigator.share){navigator.share({title:'Fellowship Face-Off — Free Unlock Codes',text:msg}).catch(()=>shareToWhatsApp(msg))}
+  else{shareToWhatsApp(msg)}
+}
+
+function joinCommunity(){
+  // WhatsApp community group — replace with actual link when created
+  const msg='I\'d like to join the Fellowship Face-Off community! I found the game at '+location.href;
+  const url='https://wa.me/?text='+encodeURIComponent(msg);
+  window.open(url,'_blank');
+}
+function sendFeedback(){
+  const st=getStats();const pro=isPro();
+  const info='Fellowship Face-Off v'+APP_VERSION+' | '+st.total+' games | '+(pro?'Pro':'Free')+' | '+navigator.userAgent.slice(0,60);
+  const msg='Fellowship Face-Off Feedback\n\n📱 '+info+'\n\nType: [Bug / Feature Request / Other]\n\nDescription:\n';
+  if(navigator.share){
+    navigator.share({title:'Fellowship Face-Off Feedback',text:msg}).catch(()=>{shareToWhatsApp(msg)});
+  } else {shareToWhatsApp(msg)}
+}
+
+// Smart review prompt — shows after 3rd completed game, non-intrusive
+function maybeShowReviewPrompt(){
+  try{
+    const total=parseInt(localStorage.getItem('ll_total')||'0');
+    const asked=localStorage.getItem('ll_review_asked');
+    if(total>=3&&!asked){
+      localStorage.setItem('ll_review_asked','1');
+      return true;
+    }
+  }catch(e){}
+  return false;
+}
+function dismissReviewPrompt(){
+  try{localStorage.setItem('ll_review_asked','1')}catch(e){}
+  render();
+}
+
 // ─── v9: SCORE CARD IMAGE ───
+// roundRect polyfill for Safari <16 / older browsers
+if(typeof CanvasRenderingContext2D!=='undefined'&&!CanvasRenderingContext2D.prototype.roundRect){
+  CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h,r){
+    r=Math.min(r,Math.min(w,h)/2);
+    this.moveTo(x+r,y);this.arcTo(x+w,y,x+w,y+h,r);this.arcTo(x+w,y+h,x,y+h,r);
+    this.arcTo(x,y+h,x,y,r);this.arcTo(x,y,x+w,y,r);this.closePath();return this;
+  };
+}
 function generateScoreCard(){
   try{
     const c=document.createElement('canvas');c.width=1080;c.height=1080;
@@ -2312,16 +2796,20 @@ document.addEventListener('click',function appOpenSound(){
   setTimeout(()=>{beep('reveal')},100);
 },{once:true});
 
-// Orientation detection
+// Orientation detection — throttled to prevent layout thrashing
 let isLandscape=false;
+let _orientTimer=null;
 function checkOrientation(){
   const was=isLandscape;
   isLandscape=window.innerWidth>window.innerHeight&&window.innerHeight<500;
   document.body.classList.toggle('landscape',isLandscape);
   if(was!==isLandscape)render();
 }
-window.addEventListener('resize',checkOrientation);
-window.addEventListener('orientationchange',()=>setTimeout(checkOrientation,100));
+window.addEventListener('resize',()=>{
+  clearTimeout(_orientTimer);
+  _orientTimer=setTimeout(checkOrientation,150);
+},{passive:true});
+window.addEventListener('orientationchange',()=>setTimeout(checkOrientation,150),{passive:true});
 checkOrientation();
 
 // Fullscreen API — enter fullscreen when game starts for max screen space
