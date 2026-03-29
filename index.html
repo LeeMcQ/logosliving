@@ -229,9 +229,9 @@ const STRINGS={
   explainInstr:'Describe any way you like',
   quickPlay:'⚡ Quick Play',teamNames:'Team Names',difficulty:'Difficulty',
   rounds:'Rounds',champRounds:'Championship Rounds',begin:'⚜ BEGIN ⚜',
-  easyLabel:'Easy · 1pt',challengeLabel:'Challenge · 2pts',
-  easyTip:'💡 Simpler words like Lamb, Cross, Angel',
-  challengeTip:'💪 Advanced words like Atonement, Sanctification, Covenant',
+  easyLabel:'Growing · 1pt',challengeLabel:'Expert · 2pts',
+  easyTip:'💡 Growing in understanding of The Bible',
+  challengeTip:'💪 For Expert Bible Scholars',
   roundsRec:'5 RECOMMENDED',total:'Total',
   round:'ROUND',tapReveal:'Tap to reveal',
   describerOnly:'👀 ONLY THE DESCRIBER SHOULD LOOK!',
@@ -264,7 +264,7 @@ const STRINGS={
   rules3:'<b style="color:var(--red-card)">🎭 Act It Out (60s):</b> Describe using <b>only 1 word + gestures</b>. You may NOT say the word on the card! Your team guesses.',
   rules4:'<b style="color:var(--blue-card)">💬 Explain (60s):</b> Describe the word <b>any way you like</b> — sentences, clues, explanations. Just don\'t say the actual word!',
   rules5:'<b style="color:var(--wood)">🏆 Championship:</b> Play Sing-Off, Act It Out, and Explain in one epic match! All scores are <b>added together</b> — the team with the highest combined total wins the Championship!',
-  rules6:'<b style="color:var(--felt-green)">Easy vs Challenge:</b> Each card has two words. Easy = 1pt, Challenge = 2pts. You can switch difficulty before each card.',
+  rules6:'<b style="color:var(--felt-green)">Growing vs Expert:</b> Each card has two words. Growing (easier) = 1pt, Expert (harder) = 2pts. You can switch difficulty before each card.',
   rules7:'<b style="color:var(--red-card)">⚠ Penalty:</b> If the describer says the word, tap Penalty — the opposing team gets the point!',
   rules8:'<b style="color:var(--wood-light)">⏭ Skips:</b> Each team gets <b>2 skips</b> per turn.',
   gotIt:'Got It!',
@@ -282,7 +282,7 @@ const STRINGS={
   tut1Title:'Your New Favourite Game Night',tut1:'Two teams. One phone. Biblical words flying across the room. Laughter guaranteed. Ready?',
   tut2Title:'Three Ways to Battle',tut2:'🎵 Sing-Off — belt out a hymn with the word before time runs out!\n🎭 Act It Out — gestures only, your team guesses!\n💬 Explain — describe it however you can!',
   tut3Title:'Every Second Counts',tut3:'60 seconds on the clock. Your team is shouting guesses. You\'re sweating. This is where legends are made.',
-  tut4Title:'Risk It for Double Points',tut4:'Easy words earn 1 point. Flip to Challenge mode and the trickier word earns 2. How brave is your team?',
+  tut4Title:'Risk It for Double Points',tut4:'Growing words earn 1 point. Flip to Expert mode and the trickier word earns 2. How brave is your team?',
   tut5Title:'One Rule: Don\'t Say the Word!',tut5:'Slip up and say it? The OTHER team gets the point. You also get 2 skips per turn — choose wisely!',
   tut6Title:'Go for the Championship',tut6:'Combine all 3 modes into one epic showdown. Sing + Act + Explain. Highest combined score takes the crown!',
   joinTitle:'Join Team Display',joinTip:'Enter the 4-digit room code shown on the host device, then choose your team.',
@@ -297,6 +297,9 @@ const STRINGS={
   joinDisplay:'📲 Join Display',rules:'📖 Rules',aboutBtn:'ℹ️ About',learn:'🎓 Learn',
   ariaTimer:'Game timer',ariaScore:'Score',ariaMute:'Toggle sound',ariaPause:'Pause game',ariaExit:'Exit game',
 };
+
+const SOLO_IMG='data:image/jpeg;base64,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';
+const SOLO_BADGE='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAAAAAAD/2wBDAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcvJik0KSEiMEExNDk7Pj4+JS5ESUM8SDc9Pjv/2wBDAQoLCw4NDhwQEBw7KCIoOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozv/wAARCAA4ADcDASIAAhEBAxEB/8QAGgAAAwEBAQEAAAAAAAAAAAAAAAQFBgMCAf/EADAQAAIBAwMCBAUCBwAAAAAAAAECAwAEEQUSITFBEyJRcRQyQmGBBhUHUmKRocHh/8QAGAEAAwEBAAAAAAAAAAAAAAAAAwQFAgb/xAAoEQACAgECBAUFAAAAAAAAAAABAgADERIxBBMhIkFRYYHwBUJxkbH/2gAMAwEAAhEDEQA/AMHpemLcr49wcRA8DpurSxWSW8CPFFGA3ACgE/ml7aC1e1a3knERVAEGPm9q6WXxSqsMk+zYcxlTgAjkHjpStobAY7GTg9VyvzGIb7QNpWgspLm7W3tiWYj5W4IPcGtJcfpeb9phMUWLkE+J5qyUfnia5Ek4mU53j5Rzjk5zk1oLrV/G/Tdosd0xlRiHw/P5pFy2RgzdNdPLYuPDPt6eslwwB7iSCaZY2QZO6lJtKt9Q3o9ok2PrQYYfcEV2aGJ5o/jEkRyC7ZXJZeTkD1wP816aKWC4YxTSQqXEecYzz0P3GacSyrChgR5kRLlWKcrMLrGlPpdwAGLwvyjkc+x+9FaX9SWjHT5YnwXjdWVgcg84yD9waKPXYGXMpU26l79xC0VpVMSgDcOW9BVEWYI81xKWK7SeOR7VHs7w2dx4rZERAG/GQjds/atFHr00kgeOW3YmXxQBGp5xg/j7VT4HhqbKckZJ36/qRWLdMnEianPNbvHAWRpGASMqu0H3A709+zXtvpZuhfRyBskxmAjGOvOag6vqmzUIrpVDCFu4x3rV22u3YsJLh7i3nt5OEjGd5z0BHRRj0qTxNaVuRXtmdD9OCGlms38fxOGkyQRFZyw3q21GkJIjGBzjufMABXxWtYL4m8Ms6MA6SQ/UeCCc9jU8SxJcSSNM0MjYZFCZRjnv6cVQ0maxnvLhL2YJH4eNxIGOePbpSWk5MUUCxa1QdevwxG/GbLaTxtGB6DdxRXTV7m1lVktIwsKcK3dhmijJ0EUftcgHM8aPpc+qKFijjZA4EmWIJHoe1Lazoq6Pf/DuAC3mikXgkf69Ki2+pSJCJIHdHOCrq+MUrerfS3qSzzySOcHJYnP96KqaWyTHaaq3r71PTc+EduXjLqkvmL9zT1rdmOzW0U4iU5P9R/5Ui7tpVkglYli2eFHy0+ttPHF4jQSgY/kNb1LiWqXpK9nQCcLjWykkkWMFTivFjBLPcyXLAuMkqAeo60xJp8E0Id9m927HzL701bRxwRSRxFVQYxuHX89qwbABgSfdabwyIuT6eXz+xi/mtmtN1sjoABuDe9FIa1dgWmAixs5ACqeOO9FFI1sWGPbaTKKS65mctbv4YmOQExn06irdneW+5JN6z7TyrHBIoorTAA6hGeIXCHB33lODULZNRju/BVFXkIOea1kv8QLSazMLWuN6BW74x+OaKKUsQWsWaBo4l6k0qBMml/Db3EreFHKj9Nxxipc99aQStKZdzH6FoooykuAh2EFQMucHGfKSri6kvJTI/A+lfSiiimAABiVVUKMCf//Z';
 function t(key,...args){
   let str=STRINGS[key]||key;
   args.forEach((a,i)=>{str=str.replace('{'+i+'}',a)});
@@ -706,6 +709,7 @@ let S={
   showMore:false, // collapsed utility menu
   firstGame:true, // first game ever flag
   storeTab:null, // 'unlock' or 'free' tab in game store
+  showEarnPack:false, // earn free denom pack form
   streak:0, // consecutive correct answers this turn
   bestStreak:0, // best streak this turn
   singSkipsLeft:3, // sing-off skip limit per round
@@ -714,7 +718,47 @@ let tid=null,singTid=null,singRTid=null,cdTid=null;
 let actx=null,deferP=null,wakeLock=null;
 let lastAction=0;
 let usedByMode={sing:new Set(),act:new Set(),explain:new Set()};
-function getUsed(){const m=getActiveMode();if(!usedByMode[m])usedByMode[m]=new Set();return usedByMode[m]}
+// Persist used WORDS (not indices) across games within the same week
+function loadUsedWords(){
+  try{
+    const saved=JSON.parse(localStorage.getItem('ll_used_words')||'{}');
+    const week=getWeekNumber();
+    if(saved._week===week){
+      usedByMode={
+        sing:new Set(saved.sing||[]),
+        act:new Set(saved.act||[]),
+        explain:new Set(saved.explain||[])
+      };
+    } else {
+      // New week — fresh start
+      usedByMode={sing:new Set(),act:new Set(),explain:new Set()};
+      saveUsedWords();
+    }
+  }catch(e){usedByMode={sing:new Set(),act:new Set(),explain:new Set()}}
+}
+function saveUsedWords(){
+  try{
+    localStorage.setItem('ll_used_words',JSON.stringify({
+      _week:getWeekNumber(),
+      sing:[...usedByMode.sing],
+      act:[...usedByMode.act],
+      explain:[...usedByMode.explain]
+    }));
+  }catch(e){}
+}
+function markWordUsed(mode,word){
+  if(!word)return;
+  if(!usedByMode[mode])usedByMode[mode]=new Set();
+  usedByMode[mode].add(word);
+  saveUsedWords();
+}
+function isWordUsed(mode,word){
+  return usedByMode[mode]&&usedByMode[mode].has(word);
+}
+function getUsedCount(mode){return usedByMode[mode]?usedByMode[mode].size:0}
+// Legacy getUsed for index-based tracking within a single game session
+let _sessionUsed=new Set();
+function getUsed(){return _sessionUsed}
 let syncCh=null;
 let syncWs=null;
 const DENOM_SDA_SING=[
@@ -908,7 +952,14 @@ function unlockPro(code){
   }
   return false;
 }
-function getWeekNumber(){const d=new Date(),j=new Date(d.getFullYear(),0,1);return Math.ceil(((d-j)/86400000+j.getDay()+1)/7)}
+function getWeekNumber(){
+  const d=new Date();
+  const day=d.getDay();
+  const diff=d.getDate()-day+(day===0?-6:1);
+  const monday=new Date(d.getFullYear(),d.getMonth(),diff);
+  const jan1=new Date(monday.getFullYear(),0,1);
+  return Math.ceil(((monday-jan1)/86400000+1)/7);
+}
 function freeLimit(m){return m==='sing'?30:m==='act'?40:50}
 function getWeeklyCards(full,mode){
   if(isPro())return full;
@@ -1034,6 +1085,7 @@ window.addEventListener('popstate',()=>{
   if(S.defWord){S.defWord=null;S.defDef=null;render();return}
   if(S.showUnlock){S.showUnlock=false;S.storeTab=null;render();return}
   if(S.showRequestFree){S.showRequestFree=false;render();return}
+  if(S.showEarnPack){S.showEarnPack=false;render();return}
   if(S.showJoin){S.showJoin=false;render();return}
   if(S.rules){S.rules=false;render();return}
   if(S.showAbout){S.showAbout=false;render();return}
@@ -1270,22 +1322,43 @@ function singSkipCard(){debounced(()=>{if(S.singSkipsLeft<=0)return;S.singSkipsL
   if(S.singRoundTime>0){S.singTeam=S.ci%2===0?'A':'B';S.singScoreA=0;S.singScoreB=0;startSingCardTimer();S.screen='sing-play'}else{S.screen='summary'}render()})}
 function togglePause(){S.paused=!S.paused;render()}
 function nextC(){
-  const used=getUsed();
-  used.add(S.ci);
   const deck=S.cards;
-  const remaining=deck.length-used.size;
-  if(remaining<=5&&remaining>0&&!isPro()&&!S.cardsLow){S.cardsLow=true}
-  if(used.size>=deck.length&&!isPro()){
-    S.cardsExhausted=true;
-    used.clear();
-  }
+  const mode=getActiveMode();
+  // Mark current card's BOTH words (easy+challenge) as used across all games this week
+  const curCard=deck[S.ci];
+  if(curCard){markWordUsed(mode,curCard[0]);markWordUsed(mode,curCard[1])}
+  // Also track index within this session
+  _sessionUsed.add(S.ci);
+  // Build list of cards not yet seen this week (by word text)
   const available=[];
-  for(let i=0;i<deck.length;i++){if(!used.has(i))available.push(i)}
-  if(available.length>0){
-    S.ci=available[Math.floor(Math.random()*available.length)];
+  for(let i=0;i<deck.length;i++){
+    if(i===S.ci)continue;
+    const c=deck[i];
+    if(!isWordUsed(mode,c[0])&&!isWordUsed(mode,c[1]))available.push(i);
+  }
+  // Check if running low
+  if(available.length<=5&&available.length>0&&!isPro()&&!S.cardsLow){S.cardsLow=true}
+  // If no fresh cards left this week
+  if(available.length===0){
+    if(!isPro()){
+      S.cardsExhausted=true;
+      // Fallback: pick from session-unused cards (allow cross-game repeats only when truly exhausted)
+      const sessionAvail=[];
+      for(let i=0;i<deck.length;i++){if(!_sessionUsed.has(i)&&i!==S.ci)sessionAvail.push(i)}
+      if(sessionAvail.length>0){
+        S.ci=sessionAvail[Math.floor(Math.random()*sessionAvail.length)];
+      } else {
+        _sessionUsed.clear();
+        S.ci=Math.floor(Math.random()*deck.length);
+      }
+    } else {
+      // Pro user exhausted all cards — reset persistent tracking for this mode, reshuffle
+      usedByMode[mode]=new Set();saveUsedWords();
+      _sessionUsed.clear();
+      S.ci=Math.floor(Math.random()*deck.length);
+    }
   } else {
-    used.clear();
-    S.ci=Math.floor(Math.random()*deck.length);
+    S.ci=available[Math.floor(Math.random()*available.length)];
   }
   S.cardDiff=S.diff;S.diffLocked=false;
 }
@@ -1327,8 +1400,8 @@ function compactBar(type){
   </div>`;
 }
 function diffToggle(){
-  if(S.diffLocked)return `<div style="margin-top:4px;padding:3px 12px;border-radius:3px;display:inline-block;font-family:'Cinzel',serif;font-size:9px;font-weight:700;letter-spacing:1px;background:${S.cardDiff==='easy'?'var(--felt-green)':'var(--red-card)'};color:var(--parchment)">${S.cardDiff==='easy'?'Easy · 1pt':'Challenge · 2pts'}</div>`;
-  return `<div style="display:flex;gap:6px;justify-content:center;margin-top:4px">${['easy','challenge'].map(d=>`<button onclick="setCardDiff('${d}')" style="padding:4px 12px;border-radius:3px;font-family:'Cinzel',serif;font-size:9px;font-weight:700;letter-spacing:1px;min-height:36px;background:${S.cardDiff===d?(d==='easy'?'var(--felt-green)':'var(--red-card)'):'transparent'};color:${S.cardDiff===d?'var(--parchment)':'var(--parchment-deep)'};border:1px solid ${S.cardDiff===d?(d==='easy'?'var(--felt-green)':'var(--red-card)'):'var(--parchment-deep)'}">${d==='easy'?'Easy · 1pt':'Challenge · 2pts'}</button>`).join('')}</div>`;
+  if(S.diffLocked)return `<div style="margin-top:4px;padding:3px 12px;border-radius:3px;display:inline-block;font-family:'Cinzel',serif;font-size:9px;font-weight:700;letter-spacing:1px;background:${S.cardDiff==='easy'?'var(--felt-green)':'var(--red-card)'};color:var(--parchment)">${S.cardDiff==='easy'?'Growing · 1pt':'Expert · 2pts'}</div>`;
+  return `<div style="display:flex;gap:6px;justify-content:center;margin-top:4px">${['easy','challenge'].map(d=>`<button onclick="setCardDiff('${d}')" style="padding:4px 12px;border-radius:3px;font-family:'Cinzel',serif;font-size:9px;font-weight:700;letter-spacing:1px;min-height:36px;background:${S.cardDiff===d?(d==='easy'?'var(--felt-green)':'var(--red-card)'):'transparent'};color:${S.cardDiff===d?'var(--parchment)':'var(--parchment-deep)'};border:1px solid ${S.cardDiff===d?(d==='easy'?'var(--felt-green)':'var(--red-card)'):'var(--parchment-deep)'}">${d==='easy'?'Growing · 1pt':'Expert · 2pts'}</button>`).join('')}</div>`;
 }
 function topBar(extra){
   return `<div class="top-bar" role="toolbar" aria-label="Game controls"><span style="font-family:'Cinzel',serif;font-size:10px;color:var(--gold-light);letter-spacing:2px">${t('round')} ${S.round}/${S.rounds}</span>
@@ -1363,7 +1436,7 @@ function wordSummaryHTML(){
           <div style="display:flex;align-items:center;gap:6px">
             <span style="font-family:'Cinzel',serif;font-size:12px;color:${col};font-weight:700">${icon}</span>
             <span style="font-family:'Lora',serif;font-size:12px;color:var(--ink)">${w.word}</span>
-            <span style="font-size:8px;color:var(--parchment-deep)">${w.diff}</span>
+            <span style="font-size:8px;color:var(--parchment-deep)">${w.diff==='easy'?'Growing':'Expert'}</span>
           </div>
           <button class="sum-word-btn" onclick="openDef('${w.word.replace(/'/g,"\\'")}','${(w.def||'').replace(/'/g,"\\'")}')">?</button>
         </div>`;
@@ -1542,9 +1615,7 @@ function render(){
             <div style="font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--ink);letter-spacing:2px">🎯 Solo Practice</div>
             <div style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);margin-top:2px;font-style:italic;line-height:1.3">Study words and explanations at your own pace</div>
           </div>
-          <div style="display:flex;gap:3px;margin:6px 10px 6px 0">
-            ${['sing','act','explain'].map(m=>`<div style="width:28px;height:28px;border-radius:6px;border:2px solid ${mColHex(m)};display:flex;align-items:center;justify-content:center;font-size:12px">${mI(m)}</div>`).join('')}
-          </div>
+          <div class="wood-frame" style="margin:6px 8px 6px 0;padding:3px;border-radius:8px"><img src="${SOLO_BADGE}" alt="Solo Practice" style="width:56px;height:56px;object-fit:cover;border-radius:5px;display:block"></div>
         </button>
         <!-- Faith Library -->
         <button onclick="pushState();S.showLearning=true;render()" class="game-card" style="width:100%;padding:0;background:linear-gradient(135deg,#E8E0D0,#D8CDB8);animation:slideUp .5s ease-out .42s both;border-left:6px solid var(--gold-dark);display:flex;align-items:center;overflow:hidden">
@@ -1607,9 +1678,9 @@ function render(){
         <div class="panel" style="width:100%;padding:8px">
           <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;color:var(--wood-light);text-transform:uppercase;margin-bottom:4px;text-align:center">Difficulty</div>
           <div style="display:flex;gap:6px;justify-content:center">${['easy','challenge'].map(d=>`<button onclick="setDiff('${d}')" style="padding:6px 12px;border-radius:4px;font-family:'Cinzel',serif;font-size:11px;font-weight:700;min-height:44px;border:2px solid ${S.diff===d?(d==='easy'?'var(--felt-green)':'var(--red-card)'):'var(--parchment-deep)'};background:${S.diff===d?'rgba(0,0,0,.05)':'transparent'};color:${S.diff===d?(d==='easy'?'var(--felt-green)':'var(--red-card)'):'var(--parchment-deep)'}">
-            ${d==='easy'?'Easy · 1pt':'Challenge · 2pts'}${d===S.diff&&isFirst?' ✓':''}
+            ${d==='easy'?'Growing · 1pt':'Expert · 2pts'}${d===S.diff&&isFirst?' ✓':''}
           </button>`).join('')}</div>
-          <div style="font-family:'Lora',serif;font-size:10px;color:var(--parchment-deep);text-align:center;margin-top:4px;font-style:italic">${S.diff==='easy'?'💡 Simpler words like Lamb, Cross, Angel':'💪 Advanced words like Atonement, Sanctification, Covenant'}</div>
+          <div style="font-family:'Lora',serif;font-size:10px;color:var(--parchment-deep);text-align:center;margin-top:4px;font-style:italic">${S.diff==='easy'?'💡 Growing in understanding of The Bible':'💪 For Expert Bible Scholars'}</div>
         </div>
         ${isChamp?`
         <!-- Championship Config -->
@@ -1739,7 +1810,9 @@ function render(){
             </div>
             <div class="panel" style="width:100%;padding:${ls?'4px':'6px'};text-align:center;background:${singTeamBg};border:2px solid ${singTeamColor}">
               <div style="font-family:'Cinzel',serif;font-size:${ls?'10px':'12px'};font-weight:700;color:${singTeamColor};letter-spacing:2px">${tIcon(S.singTeam)} ${tN(S.singTeam)} — SING!</div>
-              <div id="singCardT" style="font-family:'Cinzel',serif;font-size:${ls?'32px':'40px'};font-weight:900;line-height:1;color:${S.singTimer<=3?'var(--red-card)':'var(--gold-light)'}">${S.singTimer}</div>
+              <div style="position:relative;display:inline-block;padding:4px 16px;border-radius:8px;background:${isA?'rgba(30,90,158,.1)':'rgba(176,32,32,.1)'}">
+                <div id="singCardT" style="font-family:'Cinzel',serif;font-size:${ls?'32px':'40px'};font-weight:900;line-height:1;color:${S.singTimer<=3?'var(--red-card)':'var(--gold-light)'}">${S.singTimer}</div>
+              </div>
               <div style="font-family:'Lora',serif;font-size:8px;color:var(--parchment-deep);font-style:italic">Sing at least one line of a known Christian song</div>
             </div>
             <button onclick="singTeamSang()" class="btn-gold" style="width:100%;padding:${ls?'8px':'12px'};font-size:${ls?'13px':'15px'};letter-spacing:2px">🎵 They Sang!</button>
@@ -1865,7 +1938,8 @@ function render(){
     if(S.showSolo){
       if(!S.soloMode){
         h=`<div class="screen" style="animation:fadeIn .4s"><div class="content" style="gap:12px;text-align:center">
-          <div style="font-family:'Almendra',serif;font-size:24px;color:var(--gold-light)">🎯 Solo Practice</div>
+          <div class="wood-frame" style="padding:3px;border-radius:14px;display:inline-block"><img src="${SOLO_IMG}" alt="Solo Practice" style="width:80px;height:80px;border-radius:11px;display:block"></div>
+          <div style="font-family:'Almendra',serif;font-size:24px;color:var(--gold-light)">Solo Practice</div>
           <div style="font-family:'Lora',serif;font-size:12px;color:var(--parchment-deep);font-style:italic">Pick a mode to study words at your own pace</div>
           ${['sing','act','explain'].map(m=>`<button onclick="startSolo('${m}')" class="game-card" style="width:100%;padding:0;background:${mBg(m)};border-left:6px solid ${mColHex(m)};display:flex;align-items:center;overflow:hidden">
             <div style="flex:1;padding:12px;text-align:left">
@@ -1877,6 +1951,7 @@ function render(){
         </div></div>`;
       } else if(S.soloLimit){
         h=`<div class="screen" style="animation:fadeIn .5s"><div class="content" style="gap:14px;text-align:center">
+          <div class="wood-frame" style="padding:3px;border-radius:12px;display:inline-block"><img src="${SOLO_IMG}" alt="" style="width:70px;height:70px;border-radius:9px;display:block"></div>
           <div class="wood-frame" style="width:100%"><div class="panel" style="padding:24px 16px">
             <div style="font-size:48px;margin-bottom:8px">🔥</div>
             <div style="font-family:'Almendra',serif;font-size:22px;color:var(--wood-dark)">Great Progress!</div>
@@ -1898,22 +1973,22 @@ function render(){
         const fs=wordSize(word.length);
         h=`<div class="screen" style="animation:slideRight .3s"><div class="content" style="gap:8px">
           <div class="top-bar">
-            <span style="font-family:'Cinzel',serif;font-size:11px;color:var(--gold-light);letter-spacing:2px">🎯 SOLO · ${mL(S.soloMode)}</span>
+            <span style="font-family:'Cinzel',serif;font-size:11px;color:var(--gold-light);letter-spacing:2px;display:flex;align-items:center;gap:4px"><img src="${SOLO_BADGE}" style="width:20px;height:20px;border-radius:4px" alt=""> SOLO · ${mL(S.soloMode)}</span>
             <div style="display:flex;gap:4px">
               <span style="font-family:'Lora',serif;font-size:10px;color:var(--gold);padding:8px">${S.soloCi+1}/${deck.length}</span>
               <button class="top-bar-btn" onclick="soloExit()">✕</button>
             </div>
           </div>
           <div class="big-card game-card gold-corners" style="background:${mBg(S.soloMode)};border-left-color:${mColHex(S.soloMode)};flex:1;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center">
-            <img src="${mImg(S.soloMode)}" class="mode-badge" alt="">
-            <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:${mColHex(S.soloMode)};font-weight:700;opacity:.8">${S.cardDiff==='easy'?'Easy':'Challenge'}</div>
+            <img src="${SOLO_BADGE}" style="position:absolute;top:8px;left:12px;width:28px;height:28px;border-radius:6px;object-fit:cover;opacity:.8;z-index:2;box-shadow:0 1px 4px rgba(0,0,0,.3)" alt="">
+            <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:${mColHex(S.soloMode)};font-weight:700;opacity:.8">${S.cardDiff==='easy'?'Growing':'Expert'}</div>
             <div class="gold-line" style="width:50px"></div>
             <div class="big-word" style="font-size:${fs}px">${word}</div>
             ${S.soloRevealed?`<div class="gold-line" style="width:50px"></div>
             <div style="font-family:'Lora',serif;font-size:12px;color:var(--wood-light);line-height:1.5;font-style:italic;padding:8px 12px;text-align:center;max-width:320px">${def}</div>`:''}
           </div>
           <div style="display:flex;gap:6px;width:100%">
-            <button onclick="S.cardDiff=S.cardDiff==='easy'?'challenge':'easy';render()" class="btn-wood" style="flex:1;text-align:center;font-size:11px">${S.cardDiff==='easy'?'⬆ Challenge':'⬇ Easy'}</button>
+            <button onclick="S.cardDiff=S.cardDiff==='easy'?'challenge':'easy';render()" class="btn-wood" style="flex:1;text-align:center;font-size:11px">${S.cardDiff==='easy'?'⬆ Expert':'⬇ Growing'}</button>
             ${!S.soloRevealed?`<button onclick="soloReveal()" class="btn-gold" style="flex:2;text-align:center;font-size:13px">👁 Show Explanation</button>`
               :`<button onclick="soloNext()" class="btn-gold" style="flex:2;text-align:center;font-size:13px">Next Word →</button>`}
           </div>
@@ -1927,6 +2002,7 @@ function render(){
     if(S.showLearning)h+=learningModal();
     if(S.showJoin)h+=joinModal();
     if(S.showUnlock)h+=unlockModal();
+    if(S.showEarnPack)h+=earnPackModal();
     if(S.showRequestFree)h+=requestFreeModal();
     if(S.defWord)h+=defCardHTML(S.defWord,S.defDef);
     if(S.paused&&inGame){h+=`<div class="pause-overlay"><div style="font-family:'Almendra',serif;font-size:36px;color:var(--gold-light)">Paused</div><div style="font-family:'Lora',serif;font-size:13px;color:var(--parchment-deep);font-style:italic">${S.screen==='sing-reveal'?'':'Word hidden'}</div><button class="btn-gold" onclick="togglePause()" style="padding:14px 34px;font-size:17px">▶ Resume</button></div>`}
@@ -1949,7 +2025,7 @@ function rulesModal(){return `<div class="modal-overlay" onclick="hideRules()"><
     <p style="margin-bottom:6px"><b style="color:var(--red-card)">🎭 Act It Out (60s):</b> Describe using <b>only 1 word + gestures</b>. You may NOT say the word on the card! Your team guesses.</p>
     <p style="margin-bottom:6px"><b style="color:var(--blue-card)">💬 Explain (60s):</b> Describe the word <b>any way you like</b> — sentences, clues, explanations. Just don't say the actual word!</p>
     <p style="margin-bottom:6px"><b style="color:var(--wood)">🏆 Championship:</b> Play Sing-Off, Act It Out, and Explain in one epic match! You choose how many rounds of each mode. All scores are <b>added together</b> — the team with the highest combined total wins the Championship!</p>
-    <p style="margin-bottom:6px"><b style="color:var(--felt-green)">Easy vs Challenge:</b> Each card has two words. Easy = 1pt, Challenge = 2pts. You can switch difficulty before each card.</p>
+    <p style="margin-bottom:6px"><b style="color:var(--felt-green)">Growing vs Expert:</b> Each card has two words. Growing (easier) = 1pt, Expert (harder) = 2pts. You can switch difficulty before each card.</p>
     <p style="margin-bottom:6px"><b style="color:var(--red-card)">⚠ Penalty:</b> If the describer says the word, tap Penalty — the opposing team gets the point!</p>
     <p><b style="color:var(--wood-light)">⏭ Skips:</b> Each team gets <b>2 skips</b> per turn.</p>
   </div>
@@ -1988,7 +2064,7 @@ function tutorialModal(){
     {icon:'🔥',title:'Your New Favourite Game Night',text:'Two teams. One phone. Biblical words flying across the room. Laughter guaranteed. Ready?'},
     {icon:'🎴',title:'Three Ways to Battle',text:'🎵 Sing-Off — belt out a hymn with the word before time runs out!\n🎭 Act It Out — gestures only, your team guesses!\n💬 Explain — describe it however you can!'},
     {icon:'⏳',title:'Every Second Counts',text:'60 seconds on the clock. Your team is shouting guesses. You\'re sweating. This is where legends are made.'},
-    {icon:'⚡',title:'Risk It for Double Points',text:'Easy words earn 1 point. Flip to Challenge mode and the trickier word earns 2. How brave is your team?'},
+    {icon:'⚡',title:'Risk It for Double Points',text:'Growing words earn 1 point. Flip to Expert mode and the trickier word earns 2. How brave is your team?'},
     {icon:'⚠️',title:'One Rule: Don\'t Say the Word!',text:'Slip up and say it? The OTHER team gets the point. You also get 2 skips per turn — choose wisely!'},
     {icon:'🏆',title:'Go for the Championship',text:'Combine all 3 modes into one epic showdown. Sing + Act + Explain. Highest combined score takes the crown!'},
   ];const s=steps[S.tutStep]||steps[0];
@@ -2064,107 +2140,84 @@ function joinAsTeam(team){
 function unlockModal(){
   const pro=isPro();
   const unlockedCount=DENOM_PACKS.filter(p=>p.unlocked).length;
-  const tab=S.storeTab||'unlock'; // 'unlock' or 'free'
+  const tab=S.storeTab||'unlock';
+  const totalAll=(SING.length+ACT.length+EXPLAIN.length)*2;
   const singFree=freeLimit('sing')*2,actFree=freeLimit('act')*2,explainFree=freeLimit('explain')*2;
   const totalFree=singFree+actFree+explainFree;
-  const totalAll=(SING.length+ACT.length+EXPLAIN.length)*2;
-  return `<div class="modal-overlay" onclick="S.showUnlock=false;S.storeTab=null;render()"><div class="wood-frame modal" style="max-width:380px" onclick="event.stopPropagation()"><div class="panel" style="padding:18px 14px;text-align:center">
+  return `<div class="modal-overlay" onclick="S.showUnlock=false;S.storeTab=null;render()"><div class="wood-frame modal" style="max-width:400px" onclick="event.stopPropagation()"><div class="panel" style="padding:16px 12px;text-align:center">
     <div style="font-family:'Almendra',serif;font-size:20px;color:var(--wood-dark)">Game Store</div>
     <div class="gold-line" style="width:40px"></div>
-    <!-- Tabs -->
     <div style="display:flex;gap:0;margin:8px 0;border-radius:6px;overflow:hidden;border:2px solid var(--gold)">
-      <button onclick="S.storeTab='unlock';render()" style="flex:1;padding:8px 4px;font-family:'Cinzel',serif;font-size:11px;font-weight:700;letter-spacing:1px;min-height:40px;border:none;background:${tab==='unlock'?'var(--gold)':'var(--parchment)'};color:${tab==='unlock'?'var(--wood-dark)':'var(--gold)'}">🔓 Unlock</button>
-      <button onclick="S.storeTab='free';render()" style="flex:1;padding:8px 4px;font-family:'Cinzel',serif;font-size:11px;font-weight:700;letter-spacing:1px;min-height:40px;border:none;border-left:2px solid var(--gold);background:${tab==='free'?'var(--gold)':'var(--parchment)'};color:${tab==='free'?'var(--wood-dark)':'var(--gold)'}">🎁 Free Access</button>
+      <button onclick="S.storeTab='unlock';render()" style="flex:1;padding:8px 4px;font-family:'Cinzel',serif;font-size:10px;font-weight:700;letter-spacing:1px;min-height:40px;border:none;background:${tab==='unlock'?'var(--gold)':'var(--parchment)'};color:${tab==='unlock'?'var(--wood-dark)':'var(--gold)'}">🔓 Unlock</button>
+      <button onclick="S.storeTab='free';render()" style="flex:1;padding:8px 4px;font-family:'Cinzel',serif;font-size:10px;font-weight:700;letter-spacing:1px;min-height:40px;border:none;border-left:2px solid var(--gold);background:${tab==='free'?'var(--gold)':'var(--parchment)'};color:${tab==='free'?'var(--wood-dark)':'var(--gold)'}">🎁 Free Access</button>
     </div>
     ${tab==='unlock'?`
-    <!-- ═══ UNLOCK TAB ═══ -->
-    <!-- Full Edition -->
-    <div style="background:${pro?'rgba(45,123,45,.08)':'linear-gradient(135deg,rgba(200,150,62,.08),rgba(200,150,62,.02))'};border:2px solid ${pro?'var(--felt-green)':'var(--gold)'};border-radius:8px;padding:12px;margin:8px 0;text-align:left">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div style="font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:var(--ink)">⭐ Full Edition</div>
-        ${pro?'<span style="font-family:\'Cinzel\',serif;font-size:9px;color:var(--felt-green);font-weight:700;padding:2px 8px;border:1px solid var(--felt-green);border-radius:3px">UNLOCKED</span>':''}
+    <div class="scroll-content" style="max-height:58vh;text-align:left">
+      <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:var(--wood-light);text-transform:uppercase;margin:6px 0 6px;text-align:center">Free vs Full Edition</div>
+      <div style="border:2px solid var(--parchment-deep);border-radius:8px;overflow:hidden;margin-bottom:10px">
+        <div style="display:grid;grid-template-columns:1fr 60px 60px;font-family:'Cinzel',serif;font-size:9px;font-weight:700;text-align:center;background:var(--wood);color:var(--parchment);padding:6px 8px">
+          <div style="text-align:left">Feature</div><div>Free</div><div style="color:var(--gold-light)">Full</div>
+        </div>
+        ${[['Sing-Off words',singFree,SING.length*2],['Act It Out words',actFree,ACT.length*2],['Explain words',explainFree,EXPLAIN.length*2],['Weekly word rotation','Yes','No limit'],['All 4 game modes','✓','✓'],['Championship mode','✓','✓'],['Solo Practice','60%','100%'],['Faith Library','✓','✓'],['Multi-device sync','✓','✓'],['Denomination packs','Earn free','All included'],['Works offline','✓','✓']].map((r,i)=>`<div style="display:grid;grid-template-columns:1fr 60px 60px;font-family:'Lora',serif;font-size:10px;padding:5px 8px;background:${i%2?'var(--parchment-dark)':'var(--parchment)'};border-top:1px solid var(--parchment-deep)"><div style="color:var(--ink)">${r[0]}</div><div style="text-align:center;color:var(--wood-light)">${r[1]}</div><div style="text-align:center;color:var(--felt-green);font-weight:600">${r[2]}</div></div>`).join('')}
       </div>
-      <div style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);line-height:1.5;margin-top:4px">Unlock every word — never run out mid-game again. All ${totalAll} base words with no weekly limits.</div>
-    </div>
-    <!-- Denomination Packs -->
-    <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:var(--wood-light);text-transform:uppercase;margin:10px 0 6px">Denomination Packs · 50 Cards Each</div>
-    <div class="scroll-content" style="max-height:25vh">
-      ${DENOM_PACKS.map(p=>`<div style="background:${p.active?'rgba(45,123,45,.06)':p.unlocked?'rgba(200,150,62,.04)':'var(--parchment)'};border:2px solid ${p.active?'var(--felt-green)':p.unlocked?'var(--parchment-deep)':p.color};border-radius:6px;padding:10px;margin-bottom:6px;text-align:left">
+      <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:var(--wood-light);text-transform:uppercase;margin:8px 0 6px;text-align:center">Denomination Packs · 50 Cards Each</div>
+      ${DENOM_PACKS.map(p=>`<div style="background:${p.active?'rgba(45,123,45,.06)':p.unlocked?'rgba(200,150,62,.04)':'var(--parchment)'};border:2px solid ${p.active?'var(--felt-green)':p.unlocked?'var(--parchment-deep)':p.color};border-radius:6px;padding:10px;margin-bottom:6px">
         <div style="display:flex;justify-content:space-between;align-items:center">
           <div style="font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--ink)">${p.icon} ${p.name}</div>
-          ${p.unlocked?`<button onclick="event.stopPropagation();toggleDenomPack('${p.id}')" style="display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:12px;border:2px solid ${p.active?'var(--felt-green)':'var(--parchment-deep)'};background:${p.active?'var(--felt-green)':'var(--parchment-dark)'};min-height:28px;cursor:pointer;transition:all .2s">
-              <div style="width:16px;height:16px;border-radius:50%;background:${p.active?'white':'var(--parchment-deep)'};transition:all .2s;transform:translateX(${p.active?'8px':'0'})"></div>
-              <span style="font-family:'Cinzel',serif;font-size:7px;color:${p.active?'white':'var(--parchment-deep)'};font-weight:700">${p.active?'ON':'OFF'}</span>
-            </button>`
-            :`<span style="font-family:'Cinzel',serif;font-size:8px;color:${p.color};font-weight:700">🔒 LOCKED</span>`}
+          ${p.unlocked?`<button onclick="event.stopPropagation();toggleDenomPack('${p.id}')" style="display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:12px;border:2px solid ${p.active?'var(--felt-green)':'var(--parchment-deep)'};background:${p.active?'var(--felt-green)':'var(--parchment-dark)'};min-height:28px;cursor:pointer;transition:all .2s"><div style="width:16px;height:16px;border-radius:50%;background:${p.active?'white':'var(--parchment-deep)'};transition:all .2s;transform:translateX(${p.active?'8px':'0'})"></div><span style="font-family:'Cinzel',serif;font-size:7px;color:${p.active?'white':'var(--parchment-deep)'};font-weight:700">${p.active?'ON':'OFF'}</span></button>` :`<span style="font-family:'Cinzel',serif;font-size:8px;color:${p.color};font-weight:700">🔒 LOCKED</span>`}
         </div>
-        <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);margin-top:2px">${p.unlocked?(p.active?'50 words included in game deck':'50 words — disabled (tap toggle to re-enable)'):'50 words unique to '+p.name+' beliefs & practices'}</div>
+        <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);margin-top:2px">${p.unlocked?(p.active?'✅ 50 words active in your game deck':'50 words — tap toggle to re-enable'):'🔒 50 words unique to '+p.name+' traditions'}</div>
       </div>`).join('')}
+      <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:var(--wood-light);text-transform:uppercase;margin:10px 0 6px;text-align:center">Enter Unlock Code</div>
+      <div style="margin-bottom:8px;text-align:center">
+        <input id="unlockCodeInput" type="text" maxlength="12" placeholder="ENTER CODE" style="width:200px;text-align:center;font-family:'Cinzel',serif;font-size:15px;font-weight:700;padding:8px;border:3px solid var(--gold);border-radius:8px;background:var(--parchment-dark);color:var(--ink);outline:none;letter-spacing:3px;text-transform:uppercase">
+      </div>
+      <button class="btn-gold" onclick="tryUnlock()" style="width:100%;text-align:center;font-size:13px;letter-spacing:2px">🔓 UNLOCK</button>
+      <div id="unlockError" style="font-family:'Lora',serif;font-size:11px;color:var(--red-card);margin-top:4px;display:none;text-align:center">Invalid code. Please check and try again.</div>
     </div>
-    <!-- Unlock Code Entry -->
-    <div style="font-family:'Cinzel',serif;font-size:10px;color:var(--wood-light);letter-spacing:2px;text-transform:uppercase;margin:10px 0 6px">Enter Unlock Code</div>
-    <div style="margin-bottom:8px">
-      <input id="unlockCodeInput" type="text" maxlength="12" placeholder="ENTER CODE" style="width:200px;text-align:center;font-family:'Cinzel',serif;font-size:15px;font-weight:700;padding:8px;border:3px solid var(--gold);border-radius:8px;background:var(--parchment-dark);color:var(--ink);outline:none;letter-spacing:3px;text-transform:uppercase">
-    </div>
-    <button class="btn-gold" onclick="tryUnlock()" style="width:100%;text-align:center;font-size:13px;letter-spacing:2px">🔓 UNLOCK</button>
-    <div id="unlockError" style="font-family:'Lora',serif;font-size:11px;color:var(--red-card);margin-top:4px;display:none">Invalid code. Please check and try again.</div>
     <div style="display:flex;gap:6px;margin-top:10px">
       <button onclick="S.showUnlock=false;S.storeTab=null;S.showRequestFree=true;render()" class="btn-wood" style="flex:1;text-align:center;font-size:10px;padding:10px 6px">🎁 Request Free</button>
       <button onclick="S.showUnlock=false;S.storeTab=null;render()" class="btn-wood" style="flex:1;text-align:center;font-size:10px;padding:10px 6px">Maybe Later</button>
     </div>
-    <div style="font-family:'Lora',serif;font-size:9px;color:var(--parchment-deep);margin-top:6px;line-height:1.4;font-style:italic">
-      Purchase codes via the developer. Ministry groups may request free access.
-    </div>
     `:`
-    <!-- ═══ FREE ACCESS TAB — How to Unlock for Free ═══ -->
-    <div style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);font-style:italic;margin:4px 0 8px;text-align:center">There are multiple ways to unlock the full game — completely free!</div>
-    <div class="scroll-content" style="max-height:55vh;text-align:left">
-      <!-- 1. Free Unlock Codes — Full Edition -->
+    <div class="scroll-content" style="max-height:58vh;text-align:left">
+      <div style="background:linear-gradient(135deg,rgba(27,77,46,.08),rgba(27,77,46,.02));border:2px solid var(--felt-green);border-radius:8px;padding:12px;margin-bottom:8px">
+        <div style="font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--felt-green);margin-bottom:6px">⛪ Earn Free Denomination Packs</div>
+        <div style="font-family:'Lora',serif;font-size:11px;color:var(--ink);line-height:1.5;margin-bottom:8px">Unlock any denomination pack for free by completing <b>one</b> of these:</div>
+        <div style="background:var(--parchment);border:1px solid var(--parchment-deep);border-radius:6px;padding:10px;margin-bottom:6px">
+          <div style="font-family:'Cinzel',serif;font-size:10px;font-weight:700;color:var(--ink);margin-bottom:3px">📱 Method 1: Rate & Share</div>
+          <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);line-height:1.5">Leave a Google Play / App Store rating <b>AND</b> share a post about the game on social media. Submit proof below to receive your free pack code.</div>
+        </div>
+        <div style="background:var(--parchment);border:1px solid var(--parchment-deep);border-radius:6px;padding:10px;margin-bottom:6px">
+          <div style="font-family:'Cinzel',serif;font-size:10px;font-weight:700;color:var(--ink);margin-bottom:3px">🏆 Method 2: Championship Challenge</div>
+          <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);line-height:1.5">Play a full Championship group game <b>once a week for 4 consecutive weeks</b>. After your 4th game, you earn a free denomination pack!</div>
+        </div>
+        <div style="background:var(--parchment);border:1px solid var(--parchment-deep);border-radius:6px;padding:10px;margin-bottom:6px">
+          <div style="font-family:'Cinzel',serif;font-size:10px;font-weight:700;color:var(--ink);margin-bottom:3px">💬 Method 3: Tell Us Your Story</div>
+          <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);line-height:1.5">Send the creators a personal message explaining why you need full game access. Ministry leaders, youth pastors, church educators — we want to hear from you!</div>
+        </div>
+        <button onclick="S.showEarnPack=true;render()" class="btn-gold" style="width:100%;font-size:12px;padding:10px;letter-spacing:1px">📩 Submit Your Request</button>
+      </div>
       <div style="background:linear-gradient(135deg,rgba(200,150,62,.08),rgba(200,150,62,.02));border:2px solid var(--gold);border-radius:8px;padding:12px;margin-bottom:8px">
         <div style="font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--gold);margin-bottom:4px">⭐ Full Edition — Free Codes</div>
-        <div style="font-family:'Lora',serif;font-size:11px;color:var(--ink);line-height:1.5;margin-bottom:6px">
-          Enter any of these codes on the 🔓 Unlock tab to instantly unlock <b>all ${totalAll} words</b> with no weekly limits:
-        </div>
+        <div style="font-family:'Lora',serif;font-size:11px;color:var(--ink);line-height:1.5;margin-bottom:6px">Enter any of these on the 🔓 Unlock tab to unlock <b>all ${totalAll} words</b>:</div>
         <div style="display:flex;flex-wrap:wrap;gap:4px">
           ${VALID_CODES.map(c=>`<span style="display:inline-block;padding:3px 8px;border-radius:4px;background:var(--parchment-dark);border:1px solid var(--gold);font-family:'Cinzel',serif;font-size:10px;font-weight:700;color:var(--ink);letter-spacing:1px">${c}</span>`).join('')}
         </div>
-        <div style="font-family:'Lora',serif;font-size:10px;color:var(--felt-green);margin-top:6px;font-weight:600">✓ Copy any code above → go to 🔓 Unlock tab → paste → tap Unlock!</div>
+        <div style="font-family:'Lora',serif;font-size:10px;color:var(--felt-green);margin-top:6px;font-weight:600">✓ Copy any code → 🔓 Unlock tab → paste → tap Unlock!</div>
       </div>
-      <!-- 2. Denomination Pack Codes -->
       <div style="background:linear-gradient(135deg,rgba(27,77,46,.06),rgba(27,77,46,.02));border:2px solid var(--felt-green);border-radius:8px;padding:12px;margin-bottom:8px">
         <div style="font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--felt-green);margin-bottom:4px">⛪ Denomination Pack Codes</div>
-        <div style="font-family:'Lora',serif;font-size:11px;color:var(--ink);line-height:1.5;margin-bottom:6px">
-          Each denomination pack adds <b>50 bonus words</b> specific to that tradition. Use these free codes:
-        </div>
-        ${DENOM_PACKS.map(p=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(200,150,62,.15)">
-          <span style="font-family:'Lora',serif;font-size:11px;color:var(--ink)">${p.icon} ${p.name}</span>
-          <div style="display:flex;gap:3px">${p.codes.map(c=>'<span style="padding:2px 6px;border-radius:3px;background:var(--parchment-dark);border:1px solid var(--parchment-deep);font-family:Cinzel,serif;font-size:9px;font-weight:700;color:var(--ink);letter-spacing:1px">'+c+'</span>').join('')}</div>
-        </div>`).join('')}
+        <div style="font-family:'Lora',serif;font-size:11px;color:var(--ink);line-height:1.5;margin-bottom:6px">Each pack adds <b>50 bonus words</b>:</div>
+        ${DENOM_PACKS.map(p=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(200,150,62,.15)"><span style="font-family:'Lora',serif;font-size:11px;color:var(--ink)">${p.icon} ${p.name}</span><div style="display:flex;gap:3px">${p.codes.map(c=>'<span style="padding:2px 6px;border-radius:3px;background:var(--parchment-dark);border:1px solid var(--parchment-deep);font-family:Cinzel,serif;font-size:9px;font-weight:700;color:var(--ink);letter-spacing:1px">'+c+'</span>').join('')}</div></div>`).join('')}
       </div>
-      <!-- 3. Ministry Request -->
-      <div style="background:linear-gradient(135deg,rgba(160,40,40,.06),rgba(160,40,40,.02));border:2px solid var(--red-card);border-radius:8px;padding:12px;margin-bottom:8px">
-        <div style="font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--red-card);margin-bottom:4px">🎁 Request Access for Your Church</div>
-        <div style="font-family:'Lora',serif;font-size:11px;color:var(--ink);line-height:1.5">
-          Running a youth group, Bible study, or church programme? Request a personalised unlock code — no cost, no catch. We want every ministry to have full access.
-        </div>
-        <button onclick="S.showUnlock=false;S.storeTab=null;S.showRequestFree=true;render()" style="margin-top:6px;width:100%;padding:8px;border-radius:6px;border:1px solid var(--red-card);background:rgba(160,40,40,.08);color:var(--red-card);font-family:'Cinzel',serif;font-size:11px;font-weight:700;min-height:44px">📩 Request Free Access for My Ministry</button>
-      </div>
-      <!-- 4. How to Enter a Code -->
       <div style="background:var(--parchment-dark);border:2px solid var(--parchment-deep);border-radius:8px;padding:12px;margin-bottom:8px">
         <div style="font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--ink);margin-bottom:4px">📋 How to Enter a Code</div>
-        <div style="font-family:'Lora',serif;font-size:11px;color:var(--ink);line-height:1.7">
-          1. Tap the <b>🔓 Unlock</b> tab above<br>
-          2. Type or paste your code in the box<br>
-          3. Tap <b>🔓 UNLOCK</b><br>
-          4. Done! Your words are unlocked instantly
-        </div>
+        <div style="font-family:'Lora',serif;font-size:11px;color:var(--ink);line-height:1.7">1. Tap the <b>🔓 Unlock</b> tab above<br>2. Type or paste your code<br>3. Tap <b>🔓 UNLOCK</b><br>4. Done! Words unlocked instantly</div>
       </div>
-      <!-- 5. Share to Help Others -->
       <div style="background:linear-gradient(135deg,rgba(10,107,51,.06),rgba(10,107,51,.02));border:2px solid var(--whatsapp);border-radius:8px;padding:12px">
         <div style="font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--whatsapp);margin-bottom:4px">📤 Share These Codes</div>
-        <div style="font-family:'Lora',serif;font-size:11px;color:var(--ink);line-height:1.5;margin-bottom:6px">
-          Know someone who'd love this game? Share the free codes with them!
-        </div>
+        <div style="font-family:'Lora',serif;font-size:11px;color:var(--ink);line-height:1.5;margin-bottom:6px">Know someone who'd love this game?</div>
         <button onclick="shareFreeCodesMsg()" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--whatsapp);background:rgba(10,107,51,.08);color:var(--whatsapp);font-family:'Cinzel',serif;font-size:11px;font-weight:700;min-height:44px">💬 Share Free Codes via WhatsApp</button>
       </div>
     </div>
@@ -2172,6 +2225,64 @@ function unlockModal(){
     `}
   </div></div></div>`;
 }
+function earnPackModal(){
+  return `<div class="modal-overlay" onclick="S.showEarnPack=false;render()"><div class="wood-frame modal" style="max-width:380px" onclick="event.stopPropagation()"><div class="panel" style="padding:18px 14px;text-align:center">
+    <div style="font-family:'Almendra',serif;font-size:18px;color:var(--wood-dark)">Earn a Free Pack</div>
+    <div class="gold-line" style="width:36px"></div>
+    <div style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);line-height:1.4;font-style:italic;margin-bottom:10px">Complete the form below to claim your free denomination pack.</div>
+    <div style="text-align:left;display:flex;flex-direction:column;gap:8px;margin-bottom:10px">
+      <select id="earnDenom" style="width:100%;font-family:'Lora',serif;font-size:13px;padding:10px;border:2px solid var(--felt-green);border-radius:6px;background:var(--parchment-dark);color:var(--ink);outline:none">
+        <option value="">Which denomination pack?</option>
+        ${DENOM_PACKS.map(p=>`<option value="${p.id}">${p.icon} ${p.name} Pack</option>`).join('')}
+      </select>
+      <input id="earnChurch" type="text" placeholder="Church Name" style="width:100%;font-family:'Lora',serif;font-size:13px;padding:10px;border:2px solid var(--parchment-deep);border-radius:6px;background:var(--parchment-dark);color:var(--ink);outline:none">
+      <input id="earnLocation" type="text" placeholder="City / Town" style="width:100%;font-family:'Lora',serif;font-size:13px;padding:10px;border:2px solid var(--parchment-deep);border-radius:6px;background:var(--parchment-dark);color:var(--ink);outline:none">
+      <input id="earnCountry" type="text" placeholder="Country" style="width:100%;font-family:'Lora',serif;font-size:13px;padding:10px;border:2px solid var(--parchment-deep);border-radius:6px;background:var(--parchment-dark);color:var(--ink);outline:none">
+      <select id="earnMethod" onchange="document.getElementById('earnProofArea').style.display=this.value==='rate_share'?'block':'none';document.getElementById('earnMessageArea').style.display=this.value==='message'?'block':'none';document.getElementById('earnChampArea').style.display=this.value==='championship'?'block':'none'" style="width:100%;font-family:'Lora',serif;font-size:13px;padding:10px;border:2px solid var(--gold);border-radius:6px;background:var(--parchment-dark);color:var(--ink);outline:none">
+        <option value="">How are you earning this pack?</option>
+        <option value="rate_share">📱 App rating + social media post</option>
+        <option value="championship">🏆 4-week Championship Challenge</option>
+        <option value="message">💬 Personal message to creators</option>
+      </select>
+      <div id="earnProofArea" style="display:none">
+        <div style="font-family:'Cinzel',serif;font-size:9px;color:var(--wood-light);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">Proof — Screenshot or Link</div>
+        <input id="earnLink" type="url" placeholder="Link to social media post or Google review" style="width:100%;font-family:'Lora',serif;font-size:12px;padding:10px;border:2px solid var(--parchment-deep);border-radius:6px;background:var(--parchment-dark);color:var(--ink);outline:none;margin-bottom:6px">
+        <textarea id="earnProofDesc" rows="2" placeholder="Describe your review/post (e.g. '5-star Google review + shared on Facebook')" style="width:100%;font-family:'Lora',serif;font-size:12px;padding:8px;border:2px solid var(--parchment-deep);border-radius:6px;background:var(--parchment-dark);color:var(--ink);outline:none;resize:vertical"></textarea>
+      </div>
+      <div id="earnChampArea" style="display:none">
+        <div style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);line-height:1.4;padding:8px;background:var(--parchment);border:1px solid var(--parchment-deep);border-radius:6px">🏆 Play Championship mode with a group once a week for 4 weeks. We'll verify from your game history. Make sure you complete all 4 weeks!</div>
+      </div>
+      <div id="earnMessageArea" style="display:none">
+        <div style="font-family:'Cinzel',serif;font-size:9px;color:var(--wood-light);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">Your Message</div>
+        <textarea id="earnMessage" rows="4" placeholder="Tell us about yourself, your ministry, and why you'd love full game access..." style="width:100%;font-family:'Lora',serif;font-size:12px;padding:10px;border:2px solid var(--parchment-deep);border-radius:6px;background:var(--parchment-dark);color:var(--ink);outline:none;resize:vertical"></textarea>
+      </div>
+      <input id="earnContact" type="text" placeholder="Your WhatsApp number or email (for unlock code)" style="width:100%;font-family:'Lora',serif;font-size:13px;padding:10px;border:2px solid var(--parchment-deep);border-radius:6px;background:var(--parchment-dark);color:var(--ink);outline:none">
+    </div>
+    <button class="btn-gold" onclick="submitEarnPack()" style="width:100%;text-align:center;font-size:13px;letter-spacing:1px">📩 Submit Request</button>
+    <button onclick="S.showEarnPack=false;render()" style="margin-top:6px;font-family:'Lora',serif;font-size:12px;color:var(--gold);text-decoration:underline;min-height:36px">Cancel</button>
+  </div></div></div>`;
+}
+function submitEarnPack(){
+  const denom=document.getElementById('earnDenom')?.value||'';
+  const church=document.getElementById('earnChurch')?.value?.trim()||'';
+  const loc=document.getElementById('earnLocation')?.value?.trim()||'';
+  const country=document.getElementById('earnCountry')?.value?.trim()||'';
+  const method=document.getElementById('earnMethod')?.value||'';
+  const link=document.getElementById('earnLink')?.value?.trim()||'';
+  const proofDesc=document.getElementById('earnProofDesc')?.value?.trim()||'';
+  const message=document.getElementById('earnMessage')?.value?.trim()||'';
+  const contact=document.getElementById('earnContact')?.value?.trim()||'';
+  if(!denom){alert('Please select which denomination pack you want.');return}
+  if(!method){alert('Please select how you are earning this pack.');return}
+  if(!contact){alert('Please enter your contact details so we can send your code.');return}
+  if(method==='rate_share'&&!link&&!proofDesc){alert('Please provide a link or description of your review/post.');return}
+  if(method==='message'&&!message){alert('Please write a personal message.');return}
+  const packName=DENOM_PACKS.find(p=>p.id===denom)?.name||denom;
+  const methodLabel=method==='rate_share'?'App Rating + Social Post':method==='championship'?'4-Week Championship Challenge':'Personal Message';
+  const msg='Fellowship Face-Off — Earn Free Pack\n\nPack: '+packName+'\nMethod: '+methodLabel+'\nChurch: '+church+'\nLocation: '+loc+', '+country+'\nContact: '+contact+(method==='rate_share'?'\nProof Link: '+(link||'N/A')+'\nDescription: '+(proofDesc||'N/A'):'')+(method==='message'?'\nMessage: '+message:'')+(method==='championship'?'\nCompleted 4 weekly Championship games':'');
+  if(navigator.share){navigator.share({title:'Earn Free Pack Request',text:msg}).then(()=>{S.showEarnPack=false;render();alert('Request submitted! We will verify and send your unlock code soon.')}).catch(()=>{shareToWhatsApp(msg);S.showEarnPack=false;render()})}else{shareToWhatsApp(msg);S.showEarnPack=false;render()}
+}
+
 function requestFreeModal(){
   return `<div class="modal-overlay" onclick="S.showRequestFree=false;render()"><div class="wood-frame modal" style="max-width:360px" onclick="event.stopPropagation()"><div class="panel" style="padding:18px 14px;text-align:center">
     <div style="font-family:'Almendra',serif;font-size:18px;color:var(--wood-dark)">Request Free Access</div>
@@ -2298,7 +2409,8 @@ function saveTeamNames(){
 }
 function startGame(){
   saveTeamNames();
-  usedByMode={sing:new Set(),act:new Set(),explain:new Set()};
+  loadUsedWords();
+  _sessionUsed=new Set();
   if(S.mode==='mix'){
     S.champPhase=0;S.champPhaseRound=0;
     S.champTotalA=0;S.champTotalB=0;S.champScores=[];
@@ -2311,12 +2423,15 @@ function startGame(){
     S.champPhase=0;
     const am=S.mixModes[0];
     S.cards=shuffle(gc(am));
-    S.ci=Math.floor(Math.random()*S.cards.length);
   } else {
     const am=S.mode;
     S.cards=shuffle(gc(am));
-    S.ci=Math.floor(Math.random()*S.cards.length);
   }
+  // Pick starting card not seen this week
+  const mode=getActiveMode();
+  const fresh=[];
+  for(let i=0;i<S.cards.length;i++){const c=S.cards[i];if(!isWordUsed(mode,c[0])&&!isWordUsed(mode,c[1]))fresh.push(i)}
+  S.ci=fresh.length>0?fresh[Math.floor(Math.random()*fresh.length)]:Math.floor(Math.random()*S.cards.length);
   S.sA=0;S.sB=0;S.team='A';S.round=1;
   S.cardDiff=S.diff;S.diffLocked=false;S.paused=false;
   S.gameStartTime=Date.now();
@@ -2375,6 +2490,12 @@ function spawnSparkles(left){
     setTimeout(()=>s.remove(),600);
   }
 }
+function pickFreshCard(){
+  const mode=getActiveMode();const deck=S.cards;
+  const fresh=[];
+  for(let i=0;i<deck.length;i++){const c=deck[i];if(!isWordUsed(mode,c[0])&&!isWordUsed(mode,c[1]))fresh.push(i)}
+  return fresh.length>0?fresh[Math.floor(Math.random()*fresh.length)]:Math.floor(Math.random()*deck.length);
+}
 function endTurn(){
   clearAllTimers();releaseWake();
   if(S.cardsExhausted&&!isPro()){
@@ -2384,9 +2505,7 @@ function endTurn(){
   if(S.team==='A'){
     S.team='B';resetTurnStats();
     S.cards=shuffle(S.cards);
-    const used=getUsed();
-    const avail=[];for(let i=0;i<S.cards.length;i++){if(!used.has(i))avail.push(i)}
-    S.ci=avail.length>0?avail[Math.floor(Math.random()*avail.length)]:Math.floor(Math.random()*S.cards.length);
+    S.ci=pickFreshCard();
     S.screen='card-front';
   }
   else{
@@ -2408,13 +2527,10 @@ function endTurn(){
         if(S.mixModes[S.champPhase]!==prevMode){
           S.sA=0;S.sB=0;
           S.cards=shuffle(gc(getActiveMode()));
-          S.ci=Math.floor(Math.random()*S.cards.length);
         }
       }
       S.cards=shuffle(S.cards);
-      const used=getUsed();
-      const avail=[];for(let i=0;i<S.cards.length;i++){if(!used.has(i))avail.push(i)}
-      S.ci=avail.length>0?avail[Math.floor(Math.random()*avail.length)]:Math.floor(Math.random()*S.cards.length);
+      S.ci=pickFreshCard();
       S.screen='card-front';
     }
   }render();
@@ -2567,6 +2683,7 @@ function shareScoreCard(){
   }catch(e){shareResult()}
 }
 checkUnlock();
+loadUsedWords();
 localStorage.setItem('ll_opens',String((parseInt(localStorage.getItem('ll_opens')||'0'))+1));
 if(!localStorage.getItem('ll_seen')){localStorage.setItem('ll_seen','1');S.showTutorial=true;S.tutStep=0}
 document.addEventListener('click',function appOpenSound(){
