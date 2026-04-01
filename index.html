@@ -8,7 +8,10 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="description" content="Free Christian party game — Sing, Act & Explain 900+ biblical words with your church group! 4 game modes, 5 denomination packs. Works offline on any phone. Play tonight!">
 <meta name="keywords" content="Christian party game, Bible game, church game night, youth group game, Sing-Off, Act It Out, Explain, biblical words, SDA game, fellowship game, free church app, family game night">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' wss://free.blr1.piesocket.com; img-src 'self' data: blob:">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://s.nitropay.com https://consent.nitrocnct.com https://*.nitroads.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://*.nitropay.com https://*.nitroads.com https://*.google.com https://*.doubleclick.net; img-src 'self' data: blob: https:; frame-src https://*.nitropay.com https://*.doubleclick.net https://*.google.com">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta property="og:title" content="Fellowship Face-Off">
 <meta property="og:description" content="Sing, Act & Explain 900+ biblical words at your next game night! Free to play, works offline. Your church group will LOVE this.">
 <meta property="og:type" content="website">
@@ -197,12 +200,34 @@ background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='htt
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Fellowship Face-Off","description":"Free Christian party game for church groups. Sing, Act, or Explain 900 biblical words across 5 denominations.","applicationCategory":"GameApplication","operatingSystem":"Android, iOS, Web","offers":{"@type":"Offer","price":"0","priceCurrency":"ZAR"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"5","ratingCount":"1"}}
 </script>
+<!-- NitroPay Ad Script — replace #### with your site ID from nitropay.com/dashboard -->
+<script data-cfasync="false">window.nitroAds=window.nitroAds||{createAd:function(){return new Promise(e=>{window.nitroAds.queue.push(["createAd",arguments,e])})},addUserToken:function(){window.nitroAds.queue.push(["addUserToken",arguments])},queue:[]};</script>
+<script data-cfasync="false" async src="https://s.nitropay.com/ads-YOUR_SITE_ID.js"></script>
 </head>
 <body>
 <div id="app" role="main" aria-live="polite"></div>
 <script>
 'use strict';
 const APP_VERSION='10.0';
+// NitroPay ad placements — only show to free users, never during active gameplay
+let _adSlots={};
+function showAd(slotId,sizes){
+  if(isPro())return ''; // No ads for paid users
+  const id='nitro-ad-'+slotId;
+  // Schedule ad creation after render
+  setTimeout(()=>{
+    const el=document.getElementById(id);
+    if(el&&!_adSlots[id]){
+      _adSlots[id]=true;
+      try{window.nitroAds.createAd(id,{sizes:sizes||[[320,50]],report:{enabled:true,position:'bottom-right',wording:'Report Ad'}})}catch(e){}
+    }
+  },100);
+  return `<div id="${id}" style="display:block;width:100%;text-align:center;margin:6px 0;min-height:${(sizes||[[320,50]])[0][1]}px"></div>`;
+}
+function clearAdSlot(slotId){
+  const id='nitro-ad-'+slotId;
+  delete _adSlots[id];
+}
 const STRINGS={
   appName:'Fellowship Face-Off',
   tagline:'The Great Christian Multiplayer Game',
@@ -285,16 +310,12 @@ const STRINGS={
   tut4Title:'Risk It for Double Points',tut4:'Growing words earn 1 point. Flip to Expert mode and the trickier word earns 2. How brave is your team?',
   tut5Title:'One Rule: Don\'t Say the Word!',tut5:'Slip up and say it? The OTHER team gets the point. You also get 2 skips per turn — choose wisely!',
   tut6Title:'Go for the Championship',tut6:'Combine all 3 modes into one epic showdown. Sing + Act + Explain. Highest combined score takes the crown!',
-  joinTitle:'Join Team Display',joinTip:'Enter the 4-digit room code shown on the host device, then choose your team.',
-  chooseTeam:'Choose Your Team',teamA:'⚔️ Team A',teamB:'🛡️ Team B',
-  yourTurn:'🟢 YOUR TURN!',oppTurn:'🔴 OPPONENT\'S TURN',ourScore:'OUR SCORE',opp:'OPP',sec:'SEC',
-  waitingHost:'Waiting for host to start...',connectedRoom:'Connected to room',
-  paused:'Paused',wordHidden:'Word hidden',resume:'▶ Resume',
+    paused:'Paused',wordHidden:'Word hidden',resume:'▶ Resume',
   exitConfirmTitle:'Leave Game?',exitConfirmText:'Progress for this round will be lost.',exitYes:'Yes, Leave',exitNo:'Keep Playing',
   updateAvail:'🆕 Update available',refresh:'Refresh',installGame:'📲 Install Game',addHome:'Add to home screen',install:'Install',
   explanation:'Explanation',shareWord:'📤 Share Word',
   words:'{0} words',
-  joinDisplay:'📲 Join Display',rules:'📖 Rules',aboutBtn:'ℹ️ About',learn:'🎓 Learn',
+  rules:'📖 Rules',aboutBtn:'ℹ️ About',learn:'🎓 Learn',
   ariaTimer:'Game timer',ariaScore:'Score',ariaMute:'Toggle sound',ariaPause:'Pause game',ariaExit:'Exit game',
 };
 
@@ -691,8 +712,7 @@ let S={
   defWord:null,defDef:null,
   showLearning:false,
   gameStartTime:0,
-  role:'host',teamView:null,roomCode:null,showJoin:false,
-  showUnlock:false,isPro:false,showDenomPacks:false,showRequestFree:false,
+    showUnlock:false,isPro:false,showDenomPacks:false,showRequestFree:false,
   nameA:'Team A',nameB:'Team B',
   champSing:2,champAct:2,champExplain:2, // rounds per mode in championship
   champPhase:0, // 0=sing rounds, 1=act rounds, 2=explain rounds
@@ -759,8 +779,6 @@ function getUsedCount(mode){return usedByMode[mode]?usedByMode[mode].size:0}
 // Legacy getUsed for index-based tracking within a single game session
 let _sessionUsed=new Set();
 function getUsed(){return _sessionUsed}
-let syncCh=null;
-let syncWs=null;
 const DENOM_SDA_SING=[
 ["Redeemer","Blessed Hope","Jesus paid the price to buy us back from sin, like a ransom setting a prisoner free. Isaiah 44:22 says God blotted out our sins like a thick cloud. The SDA hymn 'Redeemed' by Fanny Crosby celebrates this joyful freedom in Christ.","The confident expectation that Jesus will return soon to take His people home forever. Titus 2:13 calls the Second Coming our blessed hope as believers. Adventists sing about this hope more than almost any other theme in their hymnal."],
 ["Marching","Shelter","Moving forward together as God's people toward the heavenly Promised Land. The Israelites marched around Jericho seven days before the walls fell down flat. SDA churches worldwide love singing 'Marching to Zion' with joyful energy.","A safe place of protection found only in God during the storms of life. Psalm 91:1 says whoever dwells in the shelter of the Most High rests in His shadow. 'A Shelter in the Time of Storm' is a cherished SDA prayer meeting hymn."],
@@ -917,25 +935,33 @@ const DENOM_PENTECOSTAL_EXPLAIN=[
 ["Power Encounter","Tongues of Fire","A dramatic confrontation between the power of God and demonic forces, resulting in visible demonstrations of God's superior authority. Elijah's showdown with the prophets of Baal on Mount Carmel in 1 Kings 18 is the classic biblical power encounter. Pentecostal missionaries report power encounters in the mission field where healings and deliverances validate the gospel message.","The visible flames that appeared above each believer's head on the Day of Pentecost as described in Acts 2:3. The fire symbolised the Holy Spirit's purifying presence and the power to speak God's message in every language. Pentecostals see the tongues of fire as the defining image of their movement — God's supernatural fire empowering ordinary believers for extraordinary mission."]
 ];
 const DENOM_PACKS=[
-  {id:'sda',name:'Seventh-day Adventist',icon:'⛪',sing:DENOM_SDA_SING,act:DENOM_SDA_ACT,explain:DENOM_SDA_EXPLAIN,color:'#2D6B2D',codes:['SDAPACK26','ADVENTIST']},
-  {id:'catholic',name:'Catholic',icon:'✝️',sing:DENOM_CATHOLIC_SING,act:DENOM_CATHOLIC_ACT,explain:DENOM_CATHOLIC_EXPLAIN,color:'#7B2D8B',codes:['CATHPACK26','CATHOLIC1']},
-  {id:'baptist',name:'Baptist',icon:'💧',sing:DENOM_BAPTIST_SING,act:DENOM_BAPTIST_ACT,explain:DENOM_BAPTIST_EXPLAIN,color:'#2B5C8B',codes:['BAPTPACK26','BAPTIST01']},
-  {id:'methodist',name:'Methodist',icon:'❤️',sing:DENOM_METHODIST_SING,act:DENOM_METHODIST_ACT,explain:DENOM_METHODIST_EXPLAIN,color:'#8B5E34',codes:['METHPACK26','METHODIST']},
-  {id:'pentecostal',name:'Pentecostal',icon:'🔥',sing:DENOM_PENTECOSTAL_SING,act:DENOM_PENTECOSTAL_ACT,explain:DENOM_PENTECOSTAL_EXPLAIN,color:'#B83232',codes:['PENTPACK26','PENTECOST']}
+  {id:'sda',name:'Seventh-day Adventist',icon:'⛪',sing:DENOM_SDA_SING,act:DENOM_SDA_ACT,explain:DENOM_SDA_EXPLAIN,color:'#2D6B2D',codes:['4331b2db58e373ad','a7b802f47337bc9b']},
+  {id:'catholic',name:'Catholic',icon:'✝️',sing:DENOM_CATHOLIC_SING,act:DENOM_CATHOLIC_ACT,explain:DENOM_CATHOLIC_EXPLAIN,color:'#7B2D8B',codes:['492f6c01c1826f41','597daf9e3a1b1627']},
+  {id:'baptist',name:'Baptist',icon:'💧',sing:DENOM_BAPTIST_SING,act:DENOM_BAPTIST_ACT,explain:DENOM_BAPTIST_EXPLAIN,color:'#2B5C8B',codes:['f46ea5d72894e363','30260642f9af824f']},
+  {id:'methodist',name:'Methodist',icon:'❤️',sing:DENOM_METHODIST_SING,act:DENOM_METHODIST_ACT,explain:DENOM_METHODIST_EXPLAIN,color:'#8B5E34',codes:['ef49af36863129d4','04e26b7f911a0c07']},
+  {id:'pentecostal',name:'Pentecostal',icon:'🔥',sing:DENOM_PENTECOSTAL_SING,act:DENOM_PENTECOSTAL_ACT,explain:DENOM_PENTECOSTAL_EXPLAIN,color:'#B83232',codes:['3d22f27bcab7e8b3','467f206b8e2413de']}
 ];
-const VALID_CODES=['LOGOS2026','LIVINGWORD','FULLGAME50','ADVENT144','BLESSED777','PSALM2334','JOHN316GO','FAITHFULL','REDEEMED1','GRACE4ALL'];
+const _VH=['dd3b0a18cee0f986','09b6f11351cf860a','3db8fa1758cd0fd6','b2965dbde6864c58','c662ac29dc814a72','895850383275441f','91ef1d41e0b9624e','8de5d27c7704a3f2','09364b314ba7597b','53600a69bba8b618'];
+async function _h(s){const d=new TextEncoder().encode(s.toUpperCase());const h=await crypto.subtle.digest('SHA-256',d);return Array.from(new Uint8Array(h)).map(b=>b.toString(16).padStart(2,'0')).join('').substring(0,16)}
 function isPro(){return S.isPro}
 function checkUnlock(){
   try{
-    if(localStorage.getItem('ll_pro')==='1')S.isPro=true;
+    // Verify unlock integrity — check hash signature
+    const sig=localStorage.getItem('ll_pro_sig');
+    if(localStorage.getItem('ll_pro')==='1'&&sig===_proSig())S.isPro=true;
+    else if(localStorage.getItem('ll_pro')==='1'){localStorage.removeItem('ll_pro');localStorage.removeItem('ll_pro_sig')}
     DENOM_PACKS.forEach(p=>{
-      p.unlocked=localStorage.getItem('ll_dp_'+p.id)==='1';
+      const dsig=localStorage.getItem('ll_dp_sig_'+p.id);
+      p.unlocked=localStorage.getItem('ll_dp_'+p.id)==='1'&&dsig===_dpSig(p.id);
+      if(localStorage.getItem('ll_dp_'+p.id)==='1'&&!p.unlocked){localStorage.removeItem('ll_dp_'+p.id);localStorage.removeItem('ll_dp_sig_'+p.id)}
       const activeKey='ll_dp_active_'+p.id;
       const stored=localStorage.getItem(activeKey);
       p.active=p.unlocked?(stored===null?true:stored==='1'):false;
     });
   }catch(e){}
 }
+function _proSig(){return btoa('ff_pro_'+navigator.userAgent.length+'_'+screen.width)}
+function _dpSig(id){return btoa('ff_dp_'+id+'_'+navigator.userAgent.length+'_'+screen.width)}
 function toggleDenomPack(id){
   const p=DENOM_PACKS.find(x=>x.id===id);
   if(!p||!p.unlocked)return;
@@ -943,12 +969,13 @@ function toggleDenomPack(id){
   try{localStorage.setItem('ll_dp_active_'+id,p.active?'1':'0')}catch(e){}
   render();
 }
-function unlockPro(code){
+async function unlockPro(code){
   const c=code.trim().toUpperCase();
-  if(VALID_CODES.includes(c)){
-    S.isPro=true;try{localStorage.setItem('ll_pro','1')}catch(e){}return true}
+  const h=await _h(c);
+  if(_VH.includes(h)){
+    S.isPro=true;try{localStorage.setItem('ll_pro','1');localStorage.setItem('ll_pro_sig',_proSig())}catch(e){}return true}
   for(const p of DENOM_PACKS){
-    if(p.codes.includes(c)){p.unlocked=true;p.active=true;try{localStorage.setItem('ll_dp_'+p.id,'1');localStorage.setItem('ll_dp_active_'+p.id,'1')}catch(e){}return true}
+    if(p.codes.includes(h)){p.unlocked=true;p.active=true;try{localStorage.setItem('ll_dp_'+p.id,'1');localStorage.setItem('ll_dp_sig_'+p.id,_dpSig(p.id));localStorage.setItem('ll_dp_active_'+p.id,'1')}catch(e){}return true}
   }
   return false;
 }
@@ -981,63 +1008,6 @@ function gc(m){
     }
   });
   return getWeeklyCards(full,m);
-}
-function genRoomCode(){return String(Math.floor(1000+Math.random()*9000))}
-function getShareState(){
-  return {sA:S.sA,sB:S.sB,team:S.team,round:S.round,rounds:S.rounds,time:S.time,screen:S.screen,
-    mode:S.mode,singTimer:S.singTimer,singTeam:S.singTeam,singRoundTime:S.singRoundTime,
-    singScoreA:S.singScoreA,singScoreB:S.singScoreB,countdown:S.countdown,paused:S.paused,
-    turnCorrect:S.turnCorrect,turnSkip:S.turnSkip,turnPenalty:S.turnPenalty,turnWon:S.turnWon,
-    activeMode:getActiveMode(),diffLocked:S.diffLocked,cardDiff:S.cardDiff,roomCode:S.roomCode}
-}
-function broadcastState(){
-  if(S.role!=='host')return;
-  const data=getShareState();
-  try{if(syncCh)syncCh.postMessage(data)}catch(e){}
-  try{if(syncWs&&syncWs.readyState===1)syncWs.send(JSON.stringify({type:'state',room:S.roomCode,data}))}catch(e){}
-}
-function startHosting(){
-  S.roomCode=genRoomCode();
-  try{syncCh=new BroadcastChannel('ll_'+S.roomCode);syncCh.onmessage=()=>{}}catch(e){}
-  connectRelay('host');
-}
-function joinRoom(code){
-  S.roomCode=code;S.role='team';S.screen='team-lobby';
-  try{syncCh=new BroadcastChannel('ll_'+code);
-    syncCh.onmessage=(e)=>{applyRemoteState(e.data)}}catch(e){}
-  connectRelay('team');
-  render();
-}
-function connectRelay(role){
-  try{
-    const wsUrl='wss://free.blr1.piesocket.com/v3/ll_'+S.roomCode+'?api_key=oCdCMcMPQpbvNjUIzqtvF1d2X2okWpDQj4AwARJuAgtjhzKJVEjQU6IdCjwm&notify_self';
-    syncWs=new WebSocket(wsUrl);
-    syncWs.onopen=()=>{if(role==='team')syncWs.send(JSON.stringify({type:'join',room:S.roomCode}))};
-    syncWs.onmessage=(e)=>{
-      try{
-        const msg=JSON.parse(e.data);
-        if(msg.type==='state'&&role==='team')applyRemoteState(msg.data);
-      }catch(ex){}
-    };
-    syncWs.onerror=()=>{syncWs=null};
-    syncWs.onclose=()=>{syncWs=null};
-  }catch(e){syncWs=null}
-}
-function applyRemoteState(data){
-  if(!data||S.role!=='team')return;
-  S.sA=data.sA;S.sB=data.sB;S.team=data.team;S.round=data.round;S.rounds=data.rounds;
-  S.time=data.time;S.screen=data.screen;S.mode=data.mode;
-  S.singTimer=data.singTimer;S.singTeam=data.singTeam;S.singRoundTime=data.singRoundTime;
-  S.singScoreA=data.singScoreA;S.singScoreB=data.singScoreB;
-  S.countdown=data.countdown;S.paused=data.paused;
-  S.turnCorrect=data.turnCorrect;S.turnSkip=data.turnSkip;S.turnPenalty=data.turnPenalty;S.turnWon=data.turnWon;
-  S.cardDiff=data.cardDiff;S.diffLocked=data.diffLocked;
-  render();
-}
-function disconnectSync(){
-  try{if(syncCh){syncCh.close();syncCh=null}}catch(e){}
-  try{if(syncWs){syncWs.close();syncWs=null}}catch(e){}
-  S.roomCode=null;S.role='host';S.teamView=null;
 }
 let _allWordsCache=null;
 function getAllWords(){
@@ -1086,7 +1056,6 @@ window.addEventListener('popstate',()=>{
   if(S.showUnlock){S.showUnlock=false;S.storeTab=null;render();return}
   if(S.showRequestFree){S.showRequestFree=false;render();return}
   if(S.showEarnPack){S.showEarnPack=false;render();return}
-  if(S.showJoin){S.showJoin=false;render();return}
   if(S.rules){S.rules=false;render();return}
   if(S.showAbout){S.showAbout=false;render();return}
   if(S.showTutorial){S.showTutorial=false;render();return}
@@ -1467,96 +1436,12 @@ function shareWord(word,def){
 }
 function render(){
   try{
-    if(S.role==='host'&&S.roomCode)broadcastState();
     const app=document.getElementById('app');
     const am=getActiveMode();
     const cw=getCurWord();
     const inGame=['card-front','card-reveal','sing-play','sing-reveal','countdown','summary','cards-exhausted'].includes(S.screen);
     let h='';
-    if(S.role==='team'){
-      const isGameScreen=['card-front','card-reveal','sing-play','sing-reveal','countdown'].includes(S.screen);
-      const isA=S.team==='A';const tc=isA?'var(--team-a)':'var(--team-b)';
-      const myTeam=S.teamView;
-      const myScore=myTeam==='A'?S.sA:S.sB;
-      const oppScore=myTeam==='A'?S.sB:S.sA;
-      const isMy=S.team===myTeam;
-      if(S.screen==='home'||S.screen==='setup'||!isGameScreen&&S.screen!=='summary'&&S.screen!=='gameover'){
-        h=`<div class="screen" style="animation:fadeIn .5s"><div class="content" style="gap:16px;text-align:center">
-          <div class="wood-frame" style="width:100%"><div class="panel" style="padding:24px 16px">
-            <div style="font-family:'Almendra',serif;font-size:28px;color:var(--wood-dark)">Fellowship Face-Off</div>
-            <div class="gold-line" style="width:40px"></div>
-            <div style="font-family:'Cinzel',serif;font-size:14px;color:${myTeam==='A'?'var(--team-a)':'var(--team-b)'};letter-spacing:2px">${myTeam==='A'?'⚔️':'🛡️'} TEAM ${myTeam} DISPLAY</div>
-            <div style="font-family:'Lora',serif;font-size:12px;color:var(--wood-light);margin-top:8px;font-style:italic">Connected to room <b style="color:var(--gold)">${S.roomCode}</b></div>
-            <div style="font-family:'Lora',serif;font-size:13px;color:var(--ink);margin-top:12px">Waiting for host to start the game...</div>
-            <div style="font-size:40px;margin-top:12px;animation:breathe 2s ease-in-out infinite">⏳</div>
-          </div></div>
-          <button class="btn-wood" onclick="disconnectSync();S.screen='home';render()" style="width:100%;text-align:center">← Leave Room</button>
-        </div></div>`;
-      } else if(S.screen==='countdown'){
-        h=`<div class="screen"><div class="countdown-overlay"><div style="font-family:'Cinzel',serif;font-size:100px;font-weight:900;color:var(--gold-light);text-shadow:0 4px 20px rgba(200,150,62,.5)">${S.countdown>0?S.countdown:'GO!'}</div></div></div>`;
-      } else if(S.screen==='gameover'){
-        const w=S.sA>S.sB?'A':S.sB>S.sA?'B':null;const wc=w==='A'?'var(--team-a)':w==='B'?'var(--team-b)':'var(--gold)';
-        h=`<div class="screen" style="animation:fadeIn .5s"><div class="content" style="gap:16px;z-index:3">
-          <div class="wood-frame" style="width:100%"><div class="panel" style="padding:24px 16px;text-align:center">
-            <div style="font-size:42px;margin-bottom:6px">🏆</div>
-            <div style="font-family:'Almendra',serif;font-size:34px;color:${wc};animation:glow 2s ease-in-out infinite">${w?'Team '+w+' Wins!':"'Tis a Tie!"}</div>
-          </div></div>
-          <div class="wood-frame" style="width:100%"><div style="padding:4px">${scores(w||'A')}</div></div>
-          <button class="btn-wood" onclick="disconnectSync();S.screen='home';render()" style="width:100%;text-align:center">← Leave</button>
-        </div></div>`;
-      } else {
-        const timerVal=S.mode==='sing'||am==='sing'?S.singRoundTime:S.time;
-        const urg=am==='sing'?(S.singRoundTime<=15):(S.time<=5);
-        h=`<div class="screen" style="animation:fadeIn .3s;${isMy?'background:linear-gradient(165deg,'+( myTeam==='A'?'rgba(30,60,100,.3),rgba(15,30,50,.5)':'rgba(100,30,30,.3),rgba(50,15,15,.5)')+')':''}">
-          <div class="content" style="gap:10px">
-            <!-- Team identity banner -->
-            <div style="width:100%;text-align:center;padding:8px;border-radius:8px;background:${myTeam==='A'?'linear-gradient(135deg,#D5E0F5,#B0C8E8)':'linear-gradient(135deg,#F5D5D5,#E8B0B0)'};border:3px solid ${myTeam==='A'?'var(--team-a)':'var(--team-b)'}">
-              <div style="font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:${myTeam==='A'?'var(--team-a)':'var(--team-b)'};letter-spacing:3px">${myTeam==='A'?'⚔️':'🛡️'} TEAM ${myTeam}</div>
-            </div>
-            <!-- Big score display -->
-            <div style="display:flex;gap:8px;width:100%;align-items:stretch">
-              <div class="panel" style="flex:2;padding:16px;text-align:center;background:${myTeam==='A'?'linear-gradient(135deg,#D5E0F5,#C0D0E8)':'linear-gradient(135deg,#F5D5D5,#E8C0C0)'};border:3px solid ${myTeam==='A'?'var(--team-a)':'var(--team-b)'}">
-                <div style="font-family:'Cinzel',serif;font-size:10px;color:${myTeam==='A'?'var(--team-a)':'var(--team-b)'};letter-spacing:2px;font-weight:700">OUR SCORE</div>
-                <div style="font-family:'Cinzel',serif;font-size:64px;font-weight:900;color:var(--ink);line-height:1">${myScore}</div>
-              </div>
-              <div style="display:flex;flex-direction:column;gap:8px;flex:1">
-                <div class="panel" style="flex:1;padding:8px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center">
-                  <div style="font-family:'Cinzel',serif;font-size:9px;color:var(--parchment-deep);letter-spacing:1px">OPP</div>
-                  <div style="font-family:'Cinzel',serif;font-size:28px;font-weight:900;color:var(--parchment-deep);line-height:1">${oppScore}</div>
-                </div>
-                <div style="padding:8px;text-align:center;background:var(--wood-dark);border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center">
-                  <div style="font-family:'Cinzel',serif;font-size:${urg?36:28}px;font-weight:900;color:${timerCol};line-height:1;${urg?'animation:countPulse .5s ease-in-out infinite':''}">${timerVal}</div>
-                  <div style="font-family:'Lora',serif;font-size:7px;color:var(--gold);letter-spacing:1px">SEC</div>
-                </div>
-              </div>
-            </div>
-            <!-- Status -->
-            <div class="panel" style="width:100%;padding:12px;text-align:center">
-              <div style="font-family:'Cinzel',serif;font-size:12px;font-weight:700;letter-spacing:2px;color:${isMy?'var(--felt-green)':'var(--red-card)'}">${isMy?'🟢 YOUR TURN!':'🔴 OPPONENT\'S TURN'}</div>
-              <div style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);margin-top:4px;font-style:italic">Round ${S.round}/${S.rounds} · ${mI(am)} ${mL(am)}</div>
-              ${am==='sing'&&isGameScreen?`<div style="font-family:'Cinzel',serif;font-size:11px;color:var(--ink);margin-top:6px">${S.singTeam==='A'?'⚔️':'🛡️'} Team ${S.singTeam} singing · A:${S.singScoreA} B:${S.singScoreB}</div>`:''}
-            </div>
-            ${S.paused?'<div class="panel" style="width:100%;padding:16px;text-align:center"><div style="font-family:\'Almendra\',serif;font-size:24px;color:var(--gold)">⏸ Paused</div></div>':''}
-            <!-- Room code -->
-            <div style="font-family:'Lora',serif;font-size:9px;color:var(--gold);text-align:center;font-style:italic">Room ${S.roomCode}</div>
-          </div>
-        </div>`;
-      }
-      if(S.screen==='summary'&&S.role==='team'){
-        h=`<div class="screen" style="animation:fadeIn .5s"><div class="content" style="gap:14px;text-align:center">
-          <div class="wood-frame" style="width:100%"><div class="panel" style="padding:18px 12px">
-            <div style="font-family:'Almendra',serif;font-size:28px;color:var(--red-card)">Time's Up!</div>
-            <div style="font-size:26px;margin-top:4px">⏳</div>
-          </div></div>
-          <div class="wood-frame" style="width:100%"><div style="padding:4px">${scores()}</div></div>
-          <div style="font-family:'Lora',serif;font-size:13px;color:var(--gold-light);font-style:italic">
-            ${S.team==='A'?'Team B up next!':S.round>=S.rounds?'Final scores!':'Next round coming!'}</div>
-        </div></div>`;
-      }
-      app.innerHTML=h;
-      if(S.defWord)app.innerHTML+=defCardHTML(S.defWord,S.defDef);
-      return;
-    }
+
     if(S.screen==='home'){
       const st=getStats();
       const pro=isPro();
@@ -1635,11 +1520,11 @@ function render(){
           <button onclick="pushState();showRules()" style="padding:6px 12px;border-radius:6px;border:1px solid var(--gold);background:rgba(200,150,62,.08);color:var(--gold-light);font-family:'Cinzel',serif;font-size:10px;min-height:44px" aria-label="${t('rules')}">${t('rules')}</button>
           <button onclick="pushState();S.showAbout=true;render()" style="padding:6px 12px;border-radius:6px;border:1px solid var(--gold);background:rgba(200,150,62,.08);color:var(--gold-light);font-family:'Cinzel',serif;font-size:10px;min-height:44px" aria-label="${t('aboutBtn')}">${t('aboutBtn')}</button>
           <button onclick="showTutorial()" style="padding:6px 12px;border-radius:6px;border:1px solid var(--gold);background:rgba(200,150,62,.08);color:var(--gold-light);font-family:'Cinzel',serif;font-size:10px;min-height:44px" aria-label="${t('learn')}">${t('learn')}</button>
-          <button onclick="pushState();S.showJoin=true;render()" style="padding:6px 12px;border-radius:6px;border:1px solid var(--gold);background:rgba(200,150,62,.08);color:var(--gold-light);font-family:'Cinzel',serif;font-size:10px;min-height:44px" aria-label="${t('joinDisplay')}">${t('joinDisplay')}</button>
+
         </div>`:''}
         ${st.total>0?`<div style="font-family:'Lora',serif;font-size:9px;color:rgba(200,150,62,.3);text-align:center">${t('gamesPlayed',st.total,st.total>1?'s':'')} · v${APP_VERSION}</div>`
           :`<div style="font-size:8px;color:rgba(200,150,62,.25);text-align:center">v${APP_VERSION}</div>`}
-      </div>${installHTML()}</div>`;
+      </div>${showAd('home',[[320,50]])}${installHTML()}</div>`;
     }
     else if(S.screen==='setup'){
       const isChamp=S.mode==='mix';
@@ -1845,6 +1730,7 @@ function render(){
           </div>
         </div>
         <button class="btn-gold" onclick="S.screen='home';S.showUnlock=true;render()" style="width:100%;font-size:15px;letter-spacing:2px;padding:14px">✨ Never Run Out Again</button>
+        ${showAd('exhausted',[[300,250]])}
         <button class="btn-wood" onclick="endTurn()" style="width:100%;text-align:center">Continue with Score</button>
         <button onclick="resetGame()" style="font-family:'Lora',serif;font-size:12px;color:var(--gold);text-decoration:underline;min-height:36px">← Back to Home</button>
       </div></div>`;
@@ -1878,6 +1764,7 @@ function render(){
             ${S.team==='A'?nextTeamName+" →":S.round>=S.rounds?"Results →":"Next Round →"}</button>
         </div>
         <button onclick="shareApp()" style="padding:6px 16px;border-radius:6px;border:1px solid var(--whatsapp);background:rgba(37,211,102,.08);color:var(--whatsapp);font-family:'Cinzel',serif;font-size:10px;min-height:44px">📤 Share Game</button>
+        ${showAd('summary',[[300,250]])}
       </div></div>`;
     }
     else if(S.screen==='gameover'){
@@ -1926,6 +1813,7 @@ function render(){
         </div>
         <button class="btn-wood" onclick="resetGame()" style="width:100%;text-align:center;font-size:13px;letter-spacing:1px">← New Game</button>
         <button onclick="shareApp()" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--whatsapp);background:rgba(37,211,102,.08);color:var(--whatsapp);font-family:'Cinzel',serif;font-size:10px;min-height:44px;letter-spacing:1px">🙏 Know a group that would love this? Send it over!</button>
+        ${showAd('gameover',[[300,250]])}
         ${maybeShowReviewPrompt()?`<div class="panel" style="width:100%;padding:10px;text-align:center;animation:slideUp .4s .5s both">
           <div style="font-family:'Lora',serif;font-size:12px;color:var(--ink);line-height:1.4;margin-bottom:6px">Enjoying Fellowship Face-Off? Your feedback helps us improve!</div>
           <div style="display:flex;gap:6px">
@@ -2000,13 +1888,12 @@ function render(){
     if(S.showExit)h+=exitModal();
     if(S.showTutorial)h+=tutorialModal();
     if(S.showLearning)h+=learningModal();
-    if(S.showJoin)h+=joinModal();
     if(S.showUnlock)h+=unlockModal();
     if(S.showEarnPack)h+=earnPackModal();
     if(S.showRequestFree)h+=requestFreeModal();
     if(S.defWord)h+=defCardHTML(S.defWord,S.defDef);
     if(S.paused&&inGame){h+=`<div class="pause-overlay"><div style="font-family:'Almendra',serif;font-size:36px;color:var(--gold-light)">Paused</div><div style="font-family:'Lora',serif;font-size:13px;color:var(--parchment-deep);font-style:italic">${S.screen==='sing-reveal'?'':'Word hidden'}</div><button class="btn-gold" onclick="togglePause()" style="padding:14px 34px;font-size:17px">▶ Resume</button></div>`}
-    if(S.roomCode&&S.role==='host'&&inGame){h+=`<div style="position:fixed;bottom:8px;left:50%;transform:translateX(-50%);z-index:40;padding:4px 12px;border-radius:4px;background:var(--wood-dark);font-family:'Cinzel',serif;font-size:10px;color:var(--gold-light);opacity:.7">Room: ${S.roomCode}</div>`}
+
     app.innerHTML=h;
     if(S.screen==='gameover'){
       setTimeout(()=>{
@@ -2112,31 +1999,6 @@ function learningModal(){
     <button class="btn-gold" onclick="S.showLearning=false;render()" style="margin-top:8px;width:100%;text-align:center">Close</button>
   </div></div></div>`;
 }
-function joinModal(){
-  return `<div class="modal-overlay" onclick="S.showJoin=false;render()"><div class="wood-frame modal" style="max-width:340px" onclick="event.stopPropagation()"><div class="panel" style="padding:20px 16px;text-align:center">
-    <div style="font-family:'Almendra',serif;font-size:20px;color:var(--wood-dark)">Join Team Display</div>
-    <div class="gold-line" style="width:36px"></div>
-    <div style="font-family:'Lora',serif;font-size:12px;color:var(--wood-light);line-height:1.5;font-style:italic;margin-bottom:12px">
-      Enter the 4-digit room code shown on the host device, then choose your team.
-    </div>
-    <div style="margin-bottom:12px">
-      <input id="joinCodeInput" type="tel" maxlength="4" placeholder="0000" style="width:140px;text-align:center;font-family:'Cinzel',serif;font-size:32px;font-weight:700;padding:10px;border:3px solid var(--gold);border-radius:8px;background:var(--parchment-dark);color:var(--ink);outline:none;letter-spacing:8px">
-    </div>
-    <div style="font-family:'Cinzel',serif;font-size:10px;color:var(--wood-light);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Choose Your Team</div>
-    <div style="display:flex;gap:8px;justify-content:center">
-      <button onclick="joinAsTeam('A')" class="btn-wood" style="flex:1;text-align:center;font-size:13px;background:linear-gradient(180deg,#3A5A8B,#2B4A7B);border-color:#1A3A5C">⚔️ Team A</button>
-      <button onclick="joinAsTeam('B')" class="btn-wood" style="flex:1;text-align:center;font-size:13px;background:linear-gradient(180deg,#8B3A3A,#7B2A2A);border-color:#5C1A1A">🛡️ Team B</button>
-    </div>
-    <button onclick="S.showJoin=false;render()" style="margin-top:10px;font-family:'Lora',serif;font-size:12px;color:var(--gold);text-decoration:underline;min-height:40px">Cancel</button>
-  </div></div></div>`;
-}
-function joinAsTeam(team){
-  const input=document.getElementById('joinCodeInput');
-  const code=input?input.value.trim():'';
-  if(code.length!==4||isNaN(code)){alert('Enter a valid 4-digit room code');return}
-  S.showJoin=false;S.teamView=team;
-  joinRoom(code);
-}
 function unlockModal(){
   const pro=isPro();
   const unlockedCount=DENOM_PACKS.filter(p=>p.unlocked).length;
@@ -2202,14 +2064,14 @@ function unlockModal(){
         <div style="font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--gold);margin-bottom:4px">⭐ Full Edition — Free Codes</div>
         <div style="font-family:'Lora',serif;font-size:11px;color:var(--ink);line-height:1.5;margin-bottom:6px">Enter any of these on the 🔓 Unlock tab to unlock <b>all ${totalAll} words</b>:</div>
         <div style="display:flex;flex-wrap:wrap;gap:4px">
-          ${VALID_CODES.map(c=>`<span style="display:inline-block;padding:3px 8px;border-radius:4px;background:var(--parchment-dark);border:1px solid var(--gold);font-family:'Cinzel',serif;font-size:10px;font-weight:700;color:var(--ink);letter-spacing:1px">${c}</span>`).join('')}
+          <div style="font-family:'Lora',serif;font-size:11px;color:var(--ink);line-height:1.5">Free codes are distributed through our community channels, church partnerships, and social media. Join our community or complete the earn-a-pack challenges below to get yours!</div>
         </div>
         <div style="font-family:'Lora',serif;font-size:10px;color:var(--felt-green);margin-top:6px;font-weight:600">✓ Copy any code → 🔓 Unlock tab → paste → tap Unlock!</div>
       </div>
       <div style="background:linear-gradient(135deg,rgba(27,77,46,.06),rgba(27,77,46,.02));border:2px solid var(--felt-green);border-radius:8px;padding:12px;margin-bottom:8px">
         <div style="font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--felt-green);margin-bottom:4px">⛪ Denomination Pack Codes</div>
         <div style="font-family:'Lora',serif;font-size:11px;color:var(--ink);line-height:1.5;margin-bottom:6px">Each pack adds <b>50 bonus words</b>:</div>
-        ${DENOM_PACKS.map(p=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(200,150,62,.15)"><span style="font-family:'Lora',serif;font-size:11px;color:var(--ink)">${p.icon} ${p.name}</span><div style="display:flex;gap:3px">${p.codes.map(c=>'<span style="padding:2px 6px;border-radius:3px;background:var(--parchment-dark);border:1px solid var(--parchment-deep);font-family:Cinzel,serif;font-size:9px;font-weight:700;color:var(--ink);letter-spacing:1px">'+c+'</span>').join('')}</div></div>`).join('')}
+        ${DENOM_PACKS.map(p=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(200,150,62,.15)"><span style="font-family:'Lora',serif;font-size:11px;color:var(--ink)">${p.icon} ${p.name}</span><span style="font-family:'Cinzel',serif;font-size:9px;color:${p.unlocked?'var(--felt-green)':p.color};font-weight:700">${p.unlocked?'✅ UNLOCKED':'🔒 Earn or request code'}</span></div>`).join('')}
       </div>
       <div style="background:var(--parchment-dark);border:2px solid var(--parchment-deep);border-radius:8px;padding:12px;margin-bottom:8px">
         <div style="font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--ink);margin-bottom:4px">📋 How to Enter a Code</div>
@@ -2337,7 +2199,7 @@ function copyAndConfirm(msg){
   }
 }
 let unlockAttempts=0;let unlockLockout=0;
-function tryUnlock(){
+async function tryUnlock(){
   const now=Date.now();
   if(now<unlockLockout){
     const secs=Math.ceil((unlockLockout-now)/1000);
@@ -2346,7 +2208,7 @@ function tryUnlock(){
   const input=document.getElementById('unlockCodeInput');
   const code=input?input.value.trim():'';
   if(!code)return;
-  if(unlockPro(code)){
+  if(await unlockPro(code)){
     unlockAttempts=0;
     S.showUnlock=false;render();
     setTimeout(()=>{alert('🎉 Unlocked successfully! Enjoy your new content.')},100);
@@ -2435,7 +2297,7 @@ function startGame(){
   S.sA=0;S.sB=0;S.team='A';S.round=1;
   S.cardDiff=S.diff;S.diffLocked=false;S.paused=false;
   S.gameStartTime=Date.now();
-  S.role='host';startHosting();goFullscreen();
+  goFullscreen();
   resetTurnStats();pushState();S.screen='card-front';render();
 }
 function revealCard(){
@@ -2536,11 +2398,11 @@ function endTurn(){
   }render();
 }
 function resetTurnStats(){S.turnCorrect=0;S.turnSkip=0;S.turnPenalty=0;S.turnWon=0;S.skipsLeft=2;S.cardDiff=S.diff;S.diffLocked=false;S.paused=false;S.showStamp=false;S.turnWords=[];S.penaltyConfirm=false;S.cardsLow=false;S.streak=0;S.bestStreak=0;S.singSkipsLeft=3}
-function playAgain(){S.cardDiff=S.diff;S.diffLocked=false;startGame()}
+function playAgain(){S.cardDiff=S.diff;S.diffLocked=false;_adSlots={};startGame()}
 function confirmExit(){S.showExit=true;render()}
 function cancelExit(){S.showExit=false;render()}
-function forceExit(){clearAllTimers();releaseWake();disconnectSync();S.showExit=false;S.paused=false;S.screen='home';S.mode=null;render()}
-function resetGame(){clearAllTimers();releaseWake();disconnectSync();S.paused=false;S.screen='home';S.mode=null;render()}
+function forceExit(){clearAllTimers();releaseWake();S.showExit=false;S.paused=false;S.screen='home';S.mode=null;render()}
+function resetGame(){clearAllTimers();releaseWake();S.paused=false;S.screen='home';S.mode=null;_adSlots={};render()}
 async function installApp(){if(deferP){deferP.prompt();await deferP.userChoice;deferP=null;render()}}
 function dismissInstall(){deferP=null;render()}
 function startSolo(mode){
@@ -2569,9 +2431,8 @@ function shareToWhatsApp(text){
   window.open(url,'_blank');
 }
 function shareFreeCodesMsg(){
-  const codes=VALID_CODES.slice(0,3).join(', ');
-  const msg='🎁 Free unlock codes for Fellowship Face-Off!\n\nUse any of these to unlock ALL '+((SING.length+ACT.length+EXPLAIN.length)*2)+' words:\n\n🔓 '+VALID_CODES.join('\n🔓 ')+'\n\n⛪ Denomination packs:\n'+DENOM_PACKS.map(p=>p.icon+' '+p.name+': '+p.codes.join(' or ')).join('\n')+'\n\n👉 Play free: '+location.href+'\n\nOpen the game → tap "Unlock Full Edition" → enter any code above!';
-  if(navigator.share){navigator.share({title:'Fellowship Face-Off — Free Unlock Codes',text:msg}).catch(()=>shareToWhatsApp(msg))}
+  const msg='🎵🎭💬 Fellowship Face-Off — The Ultimate Christian Party Game!\n\nYour church group will LOVE this:\n✅ 900+ biblical words across 3 modes\n✅ Sing hymns, act out Bible stories, explain words\n✅ Works on any phone, no download needed\n✅ Free to play!\n\n👉 Play now: '+location.href+'\n\nJoin our community for free unlock codes and game night tips!';
+  if(navigator.share){navigator.share({title:'Fellowship Face-Off',text:msg}).catch(()=>shareToWhatsApp(msg))}
   else{shareToWhatsApp(msg)}
 }
 function joinCommunity(){
@@ -2684,6 +2545,19 @@ function shareScoreCard(){
 }
 checkUnlock();
 loadUsedWords();
+// Anti-tampering: periodic integrity verification
+setInterval(()=>{
+  try{
+    // Check if isPro was set without proper localStorage signature
+    if(S.isPro&&localStorage.getItem('ll_pro_sig')!==_proSig()){S.isPro=false;S.cards=shuffle(gc(getActiveMode||'explain'));render()}
+    // Check for impossible scores (can't score more than time allows)
+    if(S.screen==='card-reveal'||S.screen==='sing-play'){
+      const maxPossible=Math.ceil(120/3)*2; // ~80 points max possible
+      if(S.sA>maxPossible||S.sB>maxPossible){S.sA=0;S.sB=0;render()}
+    }
+  }catch(e){}
+},5000);
+
 localStorage.setItem('ll_opens',String((parseInt(localStorage.getItem('ll_opens')||'0'))+1));
 if(!localStorage.getItem('ll_seen')){localStorage.setItem('ll_seen','1');S.showTutorial=true;S.tutStep=0}
 document.addEventListener('click',function appOpenSound(){
