@@ -6,14 +6,14 @@
 <meta name="theme-color" content="#2C1810">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="description" content="Free Christian party game — Sing, Act & Explain 900+ biblical words with your church group! 4 game modes, 5 denomination packs. Works offline on any phone. Play tonight!">
+<meta name="description" content="Free Christian party game — Sing, Act & Explain 900+ biblical words with your church group! 4 game modes, 5 denomination packs. Plays offline after the first load on most modern phones. Play tonight!">
 <meta name="keywords" content="Christian party game, Bible game, church game night, youth group game, Sing-Off, Act It Out, Explain, biblical words, SDA game, fellowship game, free church app, family game night">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://s.nitropay.com https://consent.nitrocnct.com https://*.nitroads.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://*.nitropay.com https://*.nitroads.com https://*.google.com https://*.doubleclick.net; img-src 'self' data: blob: https:; frame-src https://*.nitropay.com https://*.doubleclick.net https://*.google.com">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' data:; img-src 'self' data: blob:; object-src 'none'; base-uri 'self'">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta property="og:title" content="Fellowship Face-Off">
-<meta property="og:description" content="Sing, Act & Explain 900+ biblical words at your next game night! Free to play, works offline. Your church group will LOVE this.">
+<meta property="og:description" content="Sing, Act & Explain 900+ biblical words at your next game night! Free to play, plays offline after the first load. Your church group will LOVE this.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="icon-512.png">
 <meta property="og:image:width" content="512">
@@ -27,6 +27,15 @@
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
+<script>
+// Play build (Android TWA) switches. See play-policy-patch/NOTES.md.
+// true = every word pack is unlocked inside the Android app (in memory only). No purchase UI is shown in the app either way.
+const TWA_UNLOCK_ALL_PACKS = false;
+// Detect the Android app: launch referrer from the TWA, or ?src=twa in the start URL. Remembered for this tab only
+// (sessionStorage). Never localStorage: the TWA shares Chrome's storage for this site, so it would leak into the normal browser.
+(function(){var d=false,s=false;try{d=new URLSearchParams(location.search).get('src')==='twa'||document.referrer.startsWith('android-app://com.leemcq.fellowshipfaceoff');if(d)sessionStorage.setItem('ll_twa','1');s=sessionStorage.getItem('ll_twa')==='1'}catch(e){}window.IS_TWA=d||s;if(window.IS_TWA)document.documentElement.classList.add('is-twa')})();
+</script>
+<style>html.is-twa .twa-hide,html.is-twa [onclick*="showUnlock=true"],html.is-twa [onclick*="tryUnlock"],html.is-twa [onclick*="showEarnPack=true"],html.is-twa [onclick*="showRequestFree=true"],html.is-twa [onclick*="shareFreeCodesMsg"]{display:none!important}</style>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Almendra:wght@400;700&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Lora:ital,wght@0,400;0,600;1,400&family=Almendra:wght@400;700&display=swap">
 <style>
@@ -198,36 +207,14 @@ background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='htt
 .scroll-content::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
 </style>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Fellowship Face-Off","description":"Free Christian party game for church groups. Sing, Act, or Explain 900 biblical words across 5 denominations.","applicationCategory":"GameApplication","operatingSystem":"Android, iOS, Web","offers":{"@type":"Offer","price":"0","priceCurrency":"ZAR"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"5","ratingCount":"1"}}
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Fellowship Face-Off","description":"Free Christian party game for church groups. Sing, Act, or Explain 900 biblical words across 5 denominations.","applicationCategory":"GameApplication","operatingSystem":"Android, iOS, Web","offers":{"@type":"Offer","price":"0","priceCurrency":"ZAR"}}
 </script>
-<!-- NitroPay Ad Script — replace #### with your site ID from nitropay.com/dashboard -->
-<script data-cfasync="false">window.nitroAds=window.nitroAds||{createAd:function(){return new Promise(e=>{window.nitroAds.queue.push(["createAd",arguments,e])})},addUserToken:function(){window.nitroAds.queue.push(["addUserToken",arguments])},queue:[]};</script>
-<script data-cfasync="false" async src="https://s.nitropay.com/ads-YOUR_SITE_ID.js"></script>
 </head>
 <body>
 <div id="app" role="main" aria-live="polite"></div>
 <script>
 'use strict';
 const APP_VERSION='10.0';
-// NitroPay ad placements — only show to free users, never during active gameplay
-let _adSlots={};
-function showAd(slotId,sizes){
-  if(isPro())return ''; // No ads for paid users
-  const id='nitro-ad-'+slotId;
-  // Schedule ad creation after render
-  setTimeout(()=>{
-    const el=document.getElementById(id);
-    if(el&&!_adSlots[id]){
-      _adSlots[id]=true;
-      try{window.nitroAds.createAd(id,{sizes:sizes||[[320,50]],report:{enabled:true,position:'bottom-right',wording:'Report Ad'}})}catch(e){}
-    }
-  },100);
-  return `<div id="${id}" style="display:block;width:100%;text-align:center;margin:6px 0;min-height:${(sizes||[[320,50]])[0][1]}px"></div>`;
-}
-function clearAdSlot(slotId){
-  const id='nitro-ad-'+slotId;
-  delete _adSlots[id];
-}
 const STRINGS={
   appName:'Fellowship Face-Off',
   tagline:'The Great Christian Multiplayer Game',
@@ -1422,7 +1409,7 @@ function shareResult(){
   else if(navigator.clipboard)navigator.clipboard.writeText(msg).then(()=>alert('Copied!'));
 }
 function shareApp(){
-  const msg='🎵🎭💬 Game night just got biblical!\n\n*Fellowship Face-Off* — Your team sings, acts & explains Bible words while the clock ticks down.\n\n✅ 900+ words your group already knows\n✅ Works on any phone, no download needed\n✅ Free — just open and play!\n\n👉 Bring it to your next game night: '+location.href;
+  const msg='🎵🎭💬 Game night just got biblical!\n\n*Fellowship Face-Off* — Your team sings, acts & explains Bible words while the clock ticks down.\n\n✅ 900+ words your group already knows\n✅ Play in your phone’s browser, or get it on Google Play\n✅ Free — just open and play!\n\n👉 Bring it to your next game night: '+location.href;
   if(navigator.share){
     navigator.share({title:'Fellowship Face-Off',text:msg,url:location.href}).catch(()=>{});
   } else {
@@ -1435,6 +1422,7 @@ function shareWord(word,def){
   else{shareToWhatsApp(msg)}
 }
 function render(){
+  if(window.IS_TWA){S.showUnlock=false;S.storeTab=null;S.showEarnPack=false;S.showRequestFree=false} // Android app: store/upsell screens never open
   try{
     const app=document.getElementById('app');
     const am=getActiveMode();
@@ -1524,7 +1512,7 @@ function render(){
         </div>`:''}
         ${st.total>0?`<div style="font-family:'Lora',serif;font-size:9px;color:rgba(200,150,62,.3);text-align:center">${t('gamesPlayed',st.total,st.total>1?'s':'')} · v${APP_VERSION}</div>`
           :`<div style="font-size:8px;color:rgba(200,150,62,.25);text-align:center">v${APP_VERSION}</div>`}
-      </div>${showAd('home',[[320,50]])}${installHTML()}</div>`;
+      </div><div style="width:100%;text-align:center;margin-top:6px;font-family:'Lora',serif;font-size:11px"><a href="./privacy.html" style="color:var(--gold-light);text-decoration:underline">Privacy Policy</a></div>${installHTML()}</div>`;
     }
     else if(S.screen==='setup'){
       const isChamp=S.mode==='mix';
@@ -1716,12 +1704,12 @@ function render(){
           <div style="font-family:'Lora',serif;font-size:13px;color:var(--ink);line-height:1.6;margin-top:8px">
             Your team blazed through all <b>${limit*2} free ${mL(am)} words</b> this week!
           </div>
-          <div style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);font-style:italic;margin-top:6px">
+          <div class="twa-hide" style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);font-style:italic;margin-top:6px">
             Get the full edition — endless words, zero interruptions, every game night.
           </div>
         </div></div>
         <div class="wood-frame" style="padding:3px;border-radius:10px"><img src="${mImg(am)}" alt="${mL(am)}" style="width:70px;height:70px;border-radius:7px;display:block"></div>
-        <div class="panel" style="width:100%;padding:12px;text-align:left">
+        <div class="panel twa-hide" style="width:100%;padding:12px;text-align:left">
           <div style="font-family:'Lora',serif;font-size:12px;color:var(--ink);line-height:1.7">
             ✅ All <b>${(SING.length+ACT.length+EXPLAIN.length)*2}</b> words — endless play<br>
             ✅ Cards reshuffle every game — never repeat<br>
@@ -1730,7 +1718,6 @@ function render(){
           </div>
         </div>
         <button class="btn-gold" onclick="S.screen='home';S.showUnlock=true;render()" style="width:100%;font-size:15px;letter-spacing:2px;padding:14px">✨ Never Run Out Again</button>
-        ${showAd('exhausted',[[300,250]])}
         <button class="btn-wood" onclick="endTurn()" style="width:100%;text-align:center">Continue with Score</button>
         <button onclick="resetGame()" style="font-family:'Lora',serif;font-size:12px;color:var(--gold);text-decoration:underline;min-height:36px">← Back to Home</button>
       </div></div>`;
@@ -1764,7 +1751,6 @@ function render(){
             ${S.team==='A'?nextTeamName+" →":S.round>=S.rounds?"Results →":"Next Round →"}</button>
         </div>
         <button onclick="shareApp()" style="padding:6px 16px;border-radius:6px;border:1px solid var(--whatsapp);background:rgba(37,211,102,.08);color:var(--whatsapp);font-family:'Cinzel',serif;font-size:10px;min-height:44px">📤 Share Game</button>
-        ${showAd('summary',[[300,250]])}
       </div></div>`;
     }
     else if(S.screen==='gameover'){
@@ -1813,7 +1799,6 @@ function render(){
         </div>
         <button class="btn-wood" onclick="resetGame()" style="width:100%;text-align:center;font-size:13px;letter-spacing:1px">← New Game</button>
         <button onclick="shareApp()" style="width:100%;padding:8px;border-radius:6px;border:1px solid var(--whatsapp);background:rgba(37,211,102,.08);color:var(--whatsapp);font-family:'Cinzel',serif;font-size:10px;min-height:44px;letter-spacing:1px">🙏 Know a group that would love this? Send it over!</button>
-        ${showAd('gameover',[[300,250]])}
         ${maybeShowReviewPrompt()?`<div class="panel" style="width:100%;padding:10px;text-align:center;animation:slideUp .4s .5s both">
           <div style="font-family:'Lora',serif;font-size:12px;color:var(--ink);line-height:1.4;margin-bottom:6px">Enjoying Fellowship Face-Off? Your feedback helps us improve!</div>
           <div style="display:flex;gap:6px">
@@ -1847,7 +1832,7 @@ function render(){
             <div style="font-family:'Lora',serif;font-size:13px;color:var(--ink);line-height:1.6;margin-top:8px">
               You've studied all <b>${S.cards.length*2} free ${mL(S.soloMode)} words</b> this week.
             </div>
-            <div style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);font-style:italic;margin-top:6px">
+            <div class="twa-hide" style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);font-style:italic;margin-top:6px">
               Unlock all ${(SING.length+ACT.length+EXPLAIN.length)*2} words for unlimited solo practice!
             </div>
           </div></div>
@@ -1926,10 +1911,10 @@ function aboutModal(){return `<div class="modal-overlay" onclick="S.showAbout=fa
     <p style="margin-bottom:6px;text-align:left">
       ✦ <b>${(SING.length+ACT.length+EXPLAIN.length)*2}</b> biblical words across 3 modes<br>
       ✦ <b>${DENOM_PACKS.length}</b> denomination packs (${DENOM_PACKS.length*50} bonus words)<br>
-      ✦ Championship, Solo Practice & Multi-Device modes<br>
-      ✦ Works offline — install as an app!
+      ✦ Championship & Solo Practice modes<br>
+      ✦ Plays offline after your first visit — install as an app!
     </p>
-    <p style="font-size:11px;color:var(--wood-light);font-style:italic">All game data is stored locally on your device only. No data is collected or sent externally.</p>
+    <p style="font-size:11px;color:var(--wood-light);font-style:italic">Your games, scores and unlocks are saved only on this device. No account, no analytics, no ads. When you’re online, the game loads from GitHub Pages and Google Fonts, which can see your IP address. Anything you choose to share or send us goes through the app you pick.<br><a href="./privacy.html" style="color:var(--gold);text-decoration:underline">Privacy Policy</a> · <a href="mailto:mcquir4l@gmail.com" style="color:var(--gold);text-decoration:underline">mcquir4l@gmail.com</a></p>
   </div>
   <!-- Community & Feedback -->
   <div style="display:flex;flex-direction:column;gap:6px;margin-top:10px">
@@ -2000,6 +1985,7 @@ function learningModal(){
   </div></div></div>`;
 }
 function unlockModal(){
+  if(window.IS_TWA)return '';
   const pro=isPro();
   const unlockedCount=DENOM_PACKS.filter(p=>p.unlocked).length;
   const tab=S.storeTab||'unlock';
@@ -2020,7 +2006,7 @@ function unlockModal(){
         <div style="display:grid;grid-template-columns:1fr 60px 60px;font-family:'Cinzel',serif;font-size:9px;font-weight:700;text-align:center;background:var(--wood);color:var(--parchment);padding:6px 8px">
           <div style="text-align:left">Feature</div><div>Free</div><div style="color:var(--gold-light)">Full</div>
         </div>
-        ${[['Sing-Off words',singFree,SING.length*2],['Act It Out words',actFree,ACT.length*2],['Explain words',explainFree,EXPLAIN.length*2],['Weekly word rotation','Yes','No limit'],['All 4 game modes','✓','✓'],['Championship mode','✓','✓'],['Solo Practice','60%','100%'],['Faith Library','✓','✓'],['Multi-device sync','✓','✓'],['Denomination packs','Earn free','All included'],['Works offline','✓','✓']].map((r,i)=>`<div style="display:grid;grid-template-columns:1fr 60px 60px;font-family:'Lora',serif;font-size:10px;padding:5px 8px;background:${i%2?'var(--parchment-dark)':'var(--parchment)'};border-top:1px solid var(--parchment-deep)"><div style="color:var(--ink)">${r[0]}</div><div style="text-align:center;color:var(--wood-light)">${r[1]}</div><div style="text-align:center;color:var(--felt-green);font-weight:600">${r[2]}</div></div>`).join('')}
+        ${[['Sing-Off words',singFree,SING.length*2],['Act It Out words',actFree,ACT.length*2],['Explain words',explainFree,EXPLAIN.length*2],['Weekly word rotation','Yes','No limit'],['All 4 game modes','✓','✓'],['Championship mode','✓','✓'],['Solo Practice','60%','100%'],['Faith Library','✓','✓'],['Denomination packs','Earn free','All included'],['Offline after first load','✓','✓']].map((r,i)=>`<div style="display:grid;grid-template-columns:1fr 60px 60px;font-family:'Lora',serif;font-size:10px;padding:5px 8px;background:${i%2?'var(--parchment-dark)':'var(--parchment)'};border-top:1px solid var(--parchment-deep)"><div style="color:var(--ink)">${r[0]}</div><div style="text-align:center;color:var(--wood-light)">${r[1]}</div><div style="text-align:center;color:var(--felt-green);font-weight:600">${r[2]}</div></div>`).join('')}
       </div>
       <div style="font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;color:var(--wood-light);text-transform:uppercase;margin:8px 0 6px;text-align:center">Denomination Packs · 50 Cards Each</div>
       ${DENOM_PACKS.map(p=>`<div style="background:${p.active?'rgba(45,123,45,.06)':p.unlocked?'rgba(200,150,62,.04)':'var(--parchment)'};border:2px solid ${p.active?'var(--felt-green)':p.unlocked?'var(--parchment-deep)':p.color};border-radius:6px;padding:10px;margin-bottom:6px">
@@ -2047,15 +2033,11 @@ function unlockModal(){
         <div style="font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:var(--felt-green);margin-bottom:6px">⛪ Earn Free Denomination Packs</div>
         <div style="font-family:'Lora',serif;font-size:11px;color:var(--ink);line-height:1.5;margin-bottom:8px">Unlock any denomination pack for free by completing <b>one</b> of these:</div>
         <div style="background:var(--parchment);border:1px solid var(--parchment-deep);border-radius:6px;padding:10px;margin-bottom:6px">
-          <div style="font-family:'Cinzel',serif;font-size:10px;font-weight:700;color:var(--ink);margin-bottom:3px">📱 Method 1: Rate & Share</div>
-          <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);line-height:1.5">Leave a Google Play / App Store rating <b>AND</b> share a post about the game on social media. Submit proof below to receive your free pack code.</div>
-        </div>
-        <div style="background:var(--parchment);border:1px solid var(--parchment-deep);border-radius:6px;padding:10px;margin-bottom:6px">
-          <div style="font-family:'Cinzel',serif;font-size:10px;font-weight:700;color:var(--ink);margin-bottom:3px">🏆 Method 2: Championship Challenge</div>
+          <div style="font-family:'Cinzel',serif;font-size:10px;font-weight:700;color:var(--ink);margin-bottom:3px">🏆 Method 1: Championship Challenge</div>
           <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);line-height:1.5">Play a full Championship group game <b>once a week for 4 consecutive weeks</b>. After your 4th game, you earn a free denomination pack!</div>
         </div>
         <div style="background:var(--parchment);border:1px solid var(--parchment-deep);border-radius:6px;padding:10px;margin-bottom:6px">
-          <div style="font-family:'Cinzel',serif;font-size:10px;font-weight:700;color:var(--ink);margin-bottom:3px">💬 Method 3: Tell Us Your Story</div>
+          <div style="font-family:'Cinzel',serif;font-size:10px;font-weight:700;color:var(--ink);margin-bottom:3px">💬 Method 2: Tell Us Your Story</div>
           <div style="font-family:'Lora',serif;font-size:10px;color:var(--wood-light);line-height:1.5">Send the creators a personal message explaining why you need full game access. Ministry leaders, youth pastors, church educators — we want to hear from you!</div>
         </div>
         <button onclick="S.showEarnPack=true;render()" class="btn-gold" style="width:100%;font-size:12px;padding:10px;letter-spacing:1px">📩 Submit Your Request</button>
@@ -2088,6 +2070,7 @@ function unlockModal(){
   </div></div></div>`;
 }
 function earnPackModal(){
+  if(window.IS_TWA)return '';
   return `<div class="modal-overlay" onclick="S.showEarnPack=false;render()"><div class="wood-frame modal" style="max-width:380px" onclick="event.stopPropagation()"><div class="panel" style="padding:18px 14px;text-align:center">
     <div style="font-family:'Almendra',serif;font-size:18px;color:var(--wood-dark)">Earn a Free Pack</div>
     <div class="gold-line" style="width:36px"></div>
@@ -2102,7 +2085,6 @@ function earnPackModal(){
       <input id="earnCountry" type="text" placeholder="Country" style="width:100%;font-family:'Lora',serif;font-size:13px;padding:10px;border:2px solid var(--parchment-deep);border-radius:6px;background:var(--parchment-dark);color:var(--ink);outline:none">
       <select id="earnMethod" onchange="document.getElementById('earnProofArea').style.display=this.value==='rate_share'?'block':'none';document.getElementById('earnMessageArea').style.display=this.value==='message'?'block':'none';document.getElementById('earnChampArea').style.display=this.value==='championship'?'block':'none'" style="width:100%;font-family:'Lora',serif;font-size:13px;padding:10px;border:2px solid var(--gold);border-radius:6px;background:var(--parchment-dark);color:var(--ink);outline:none">
         <option value="">How are you earning this pack?</option>
-        <option value="rate_share">📱 App rating + social media post</option>
         <option value="championship">🏆 4-week Championship Challenge</option>
         <option value="message">💬 Personal message to creators</option>
       </select>
@@ -2112,7 +2094,7 @@ function earnPackModal(){
         <textarea id="earnProofDesc" rows="2" placeholder="Describe your review/post (e.g. '5-star Google review + shared on Facebook')" style="width:100%;font-family:'Lora',serif;font-size:12px;padding:8px;border:2px solid var(--parchment-deep);border-radius:6px;background:var(--parchment-dark);color:var(--ink);outline:none;resize:vertical"></textarea>
       </div>
       <div id="earnChampArea" style="display:none">
-        <div style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);line-height:1.4;padding:8px;background:var(--parchment);border:1px solid var(--parchment-deep);border-radius:6px">🏆 Play Championship mode with a group once a week for 4 weeks. We'll verify from your game history. Make sure you complete all 4 weeks!</div>
+        <div style="font-family:'Lora',serif;font-size:11px;color:var(--wood-light);line-height:1.4;padding:8px;background:var(--parchment);border:1px solid var(--parchment-deep);border-radius:6px">🏆 Play Championship mode with a group once a week for 4 weeks. When you submit, attach a screenshot of your Game History showing all 4 weekly games. Make sure you complete all 4 weeks!</div>
       </div>
       <div id="earnMessageArea" style="display:none">
         <div style="font-family:'Cinzel',serif;font-size:9px;color:var(--wood-light);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">Your Message</div>
@@ -2125,6 +2107,7 @@ function earnPackModal(){
   </div></div></div>`;
 }
 function submitEarnPack(){
+  if(window.IS_TWA)return;
   const denom=document.getElementById('earnDenom')?.value||'';
   const church=document.getElementById('earnChurch')?.value?.trim()||'';
   const loc=document.getElementById('earnLocation')?.value?.trim()||'';
@@ -2142,7 +2125,7 @@ function submitEarnPack(){
   const packName=DENOM_PACKS.find(p=>p.id===denom)?.name||denom;
   const methodLabel=method==='rate_share'?'App Rating + Social Post':method==='championship'?'4-Week Championship Challenge':'Personal Message';
   const msg='Fellowship Face-Off — Earn Free Pack\n\nPack: '+packName+'\nMethod: '+methodLabel+'\nChurch: '+church+'\nLocation: '+loc+', '+country+'\nContact: '+contact+(method==='rate_share'?'\nProof Link: '+(link||'N/A')+'\nDescription: '+(proofDesc||'N/A'):'')+(method==='message'?'\nMessage: '+message:'')+(method==='championship'?'\nCompleted 4 weekly Championship games':'');
-  if(navigator.share){navigator.share({title:'Earn Free Pack Request',text:msg}).then(()=>{S.showEarnPack=false;render();alert('Request submitted! We will verify and send your unlock code soon.')}).catch(()=>{shareToWhatsApp(msg);S.showEarnPack=false;render()})}else{shareToWhatsApp(msg);S.showEarnPack=false;render()}
+  if(navigator.share){navigator.share({title:'Earn Free Pack Request',text:msg}).then(()=>{S.showEarnPack=false;render();alert('Your request is ready. Please make sure you sent it to Fellowship Face-Off at mcquir4l@gmail.com. We’ll reply with a code once we’ve checked it.')}).catch(()=>{shareToWhatsApp(msg);S.showEarnPack=false;render()})}else{shareToWhatsApp(msg);S.showEarnPack=false;render()}
 }
 
 function requestFreeModal(){
@@ -2169,6 +2152,7 @@ function requestFreeModal(){
   </div></div></div>`;
 }
 function submitFreeRequest(){
+  if(window.IS_TWA)return;
   const name=document.getElementById('reqName')?.value?.trim()||'';
   const contact=document.getElementById('reqContact')?.value?.trim()||'';
   const church=document.getElementById('reqChurch')?.value?.trim()||'';
@@ -2180,7 +2164,7 @@ function submitFreeRequest(){
   if(navigator.share){
     navigator.share({title:"Fellowship Face-Off — Free Access Request",text:msg}).then(()=>{
       S.showRequestFree=false;render();
-      alert('Request sent! We\'ll review and get back to you with an unlock code.');
+      alert('Your request is ready. Please make sure you sent it to Fellowship Face-Off at mcquir4l@gmail.com. We’ll reply with a code once we’ve checked it.');
     }).catch(()=>{
       copyAndConfirm(msg);
     });
@@ -2200,6 +2184,7 @@ function copyAndConfirm(msg){
 }
 let unlockAttempts=0;let unlockLockout=0;
 async function tryUnlock(){
+  if(window.IS_TWA)return;
   const now=Date.now();
   if(now<unlockLockout){
     const secs=Math.ceil((unlockLockout-now)/1000);
@@ -2398,11 +2383,11 @@ function endTurn(){
   }render();
 }
 function resetTurnStats(){S.turnCorrect=0;S.turnSkip=0;S.turnPenalty=0;S.turnWon=0;S.skipsLeft=2;S.cardDiff=S.diff;S.diffLocked=false;S.paused=false;S.showStamp=false;S.turnWords=[];S.penaltyConfirm=false;S.cardsLow=false;S.streak=0;S.bestStreak=0;S.singSkipsLeft=3}
-function playAgain(){S.cardDiff=S.diff;S.diffLocked=false;_adSlots={};startGame()}
+function playAgain(){S.cardDiff=S.diff;S.diffLocked=false;startGame()}
 function confirmExit(){S.showExit=true;render()}
 function cancelExit(){S.showExit=false;render()}
 function forceExit(){clearAllTimers();releaseWake();S.showExit=false;S.paused=false;S.screen='home';S.mode=null;render()}
-function resetGame(){clearAllTimers();releaseWake();S.paused=false;S.screen='home';S.mode=null;_adSlots={};render()}
+function resetGame(){clearAllTimers();releaseWake();S.paused=false;S.screen='home';S.mode=null;render()}
 async function installApp(){if(deferP){deferP.prompt();await deferP.userChoice;deferP=null;render()}}
 function dismissInstall(){deferP=null;render()}
 function startSolo(mode){
@@ -2431,7 +2416,7 @@ function shareToWhatsApp(text){
   window.open(url,'_blank');
 }
 function shareFreeCodesMsg(){
-  const msg='🎵🎭💬 Fellowship Face-Off — The Ultimate Christian Party Game!\n\nYour church group will LOVE this:\n✅ 900+ biblical words across 3 modes\n✅ Sing hymns, act out Bible stories, explain words\n✅ Works on any phone, no download needed\n✅ Free to play!\n\n👉 Play now: '+location.href+'\n\nJoin our community for free unlock codes and game night tips!';
+  const msg='🎵🎭💬 Fellowship Face-Off — The Ultimate Christian Party Game!\n\nYour church group will LOVE this:\n✅ 900+ biblical words across 3 modes\n✅ Sing hymns, act out Bible stories, explain words\n✅ Play in your phone’s browser, or get it on Google Play\n✅ Free to play!\n\n👉 Play now: '+location.href+'\n\nJoin our community for free unlock codes and game night tips!';
   if(navigator.share){navigator.share({title:'Fellowship Face-Off',text:msg}).catch(()=>shareToWhatsApp(msg))}
   else{shareToWhatsApp(msg)}
 }
@@ -2544,12 +2529,16 @@ function shareScoreCard(){
   }catch(e){shareResult()}
 }
 checkUnlock();
+// Android app: optional all-packs mode (TWA_UNLOCK_ALL_PACKS in <head>). In memory only, never saved.
+function twaUnlockAll(){return window.IS_TWA===true&&typeof TWA_UNLOCK_ALL_PACKS!=='undefined'&&TWA_UNLOCK_ALL_PACKS===true}
+function applyTwaUnlock(){if(!twaUnlockAll())return;S.isPro=true;DENOM_PACKS.forEach(p=>{if(!p.unlocked){p.unlocked=true;let s=null;try{s=localStorage.getItem('ll_dp_active_'+p.id)}catch(e){}p.active=s===null?true:s==='1'}})}
+applyTwaUnlock();
 loadUsedWords();
 // Anti-tampering: periodic integrity verification
 setInterval(()=>{
   try{
     // Check if isPro was set without proper localStorage signature
-    if(S.isPro&&localStorage.getItem('ll_pro_sig')!==_proSig()){S.isPro=false;S.cards=shuffle(gc(getActiveMode||'explain'));render()}
+    if(S.isPro&&!twaUnlockAll()&&localStorage.getItem('ll_pro_sig')!==_proSig()){S.isPro=false;S.cards=shuffle(gc(getActiveMode||'explain'));render()}
     // Check for impossible scores (can't score more than time allows)
     if(S.screen==='card-reveal'||S.screen==='sing-play'){
       const maxPossible=Math.ceil(120/3)*2; // ~80 points max possible
@@ -2603,7 +2592,7 @@ if('serviceWorker'in navigator){
       });
     });
     const opens=parseInt(localStorage.getItem('ll_opens')||'0');
-    if(opens>=3&&'Notification'in window&&Notification.permission==='default'){
+    if(!window.IS_TWA&&opens>=3&&'Notification'in window&&Notification.permission==='default'){ // no notification prompt inside the Android app (notifications are off since 1.0.1)
       setTimeout(()=>{Notification.requestPermission().then(p=>{
         if(p==='granted'&&reg.active){
           try{reg.showNotification('Fellowship Face-Off',{body:'New words are ready! Come play this weeks selection.',icon:'icon-192.png',badge:'icon-192.png',tag:'weekly'})}catch(e){}

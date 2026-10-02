@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Privacy Policy — Fellowship Face-Off</title>
+  <style>
+    body { font-family: Georgia, serif; max-width: 720px; margin: 40px auto; padding: 0 20px; line-height: 1.55; color: #1a1a1a; }
+    h1,h2 { font-family: system-ui, sans-serif; }
+    .meta { color: #555; font-size: 0.95rem; }
+    table { border-collapse: collapse; width: 100%; font-size: 0.92rem; margin: 0.5em 0 1em; }
+    th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; vertical-align: top; }
+    th { font-family: system-ui, sans-serif; background: #f4f1ea; }
+  </style>
+</head>
+<body>
+  <p><a href="https://leemcq.github.io/logosliving/">← Back to Fellowship Face-Off</a></p>
+  <h1>Privacy Policy for Fellowship Face-Off</h1>
+  <p class="meta">Effective date: 27 September 2026 · Developer: Lee McQuire (GitHub: LeeMcQ), South Africa · App / site: Fellowship Face-Off · Published at <a href="https://leemcq.github.io/logosliving/privacy.html">https://leemcq.github.io/logosliving/privacy.html</a></p>
+  <p>This policy explains what Fellowship Face-Off (“the App”, “we”, “us”) does with information when you use the website at <strong>https://leemcq.github.io/logosliving/</strong> or the Android app <strong>com.leemcq.fellowshipfaceoff</strong>. The Android app is a Trusted Web Activity: it opens that same website inside Google Chrome on your device, so everything in this policy applies to both.</p>
+
+  <h2>1. Who is responsible for your information</h2>
+  <p>The App is made by Lee McQuire, an individual developer in South Africa (“LeeMcQ” on GitHub). Lee is the <em>responsible party</em> under South Africa’s Protection of Personal Information Act, 2013 (POPIA), and the <em>controller</em> for the purposes of the EU/UK GDPR where those laws apply. Lee also acts as information officer. Contact details are in section 18.</p>
+
+  <h2>2. Summary</h2>
+  <ul>
+    <li>No account or sign-in. The game itself doesn’t ask for your name, email, or location.</li>
+    <li>Your game progress, scores, and unlocks are stored <strong>only on your device</strong>.</li>
+    <li>No ads, no analytics, and no tracking tools.</li>
+    <li>When you’re online, loading the App contacts our host (GitHub) and Google Fonts. Like any web request, they see your IP address and basic browser details (section 4).</li>
+    <li>If you choose to send us a request or feedback, we receive what you send (section 5).</li>
+  </ul>
+
+  <h2>3. Information stored on your device</h2>
+  <p>The App uses your browser’s local storage and a service-worker cache on your device. This data isn’t sent to us or anyone else:</p>
+  <table>
+    <tr><th>Stored item</th><th>What it contains</th></tr>
+    <tr><td>Used words (<code>ll_used_words</code>)</td><td>Words already played this week, so they don’t repeat. Resets weekly.</td></tr>
+    <tr><td>Game history (<code>ll_games</code>)</td><td>Your last 100 games: mode, rounds, team scores, difficulty, date, duration, and skipped/penalised words.</td></tr>
+    <tr><td>Stats (<code>ll_total</code>, <code>ll_best_*</code>, <code>ll_opens</code>)</td><td>Games played, best score per mode, and how many times the App has been opened.</td></tr>
+    <tr><td>Unlocks (<code>ll_pro</code>, <code>ll_dp_*</code> and their <code>*_sig</code> values)</td><td>Full Edition and denomination-pack unlock flags and on/off settings. The check value is derived from your browser’s user-agent length and screen width, and never leaves the device.</td></tr>
+    <tr><td>Prompts (<code>ll_seen</code>, <code>ll_review_asked</code>)</td><td>Whether you’ve seen the tutorial and the review prompt.</td></tr>
+    <tr><td>Android app session flag (<code>ll_twa</code>, session storage)</td><td>When the App is opened from the Android app, it may keep a temporary flag saying so, to adjust which screens are shown. It’s deleted when the session ends.</td></tr>
+    <tr><td>Offline cache</td><td>A copy of the App’s files, this policy, and the fonts, so the App works offline after the first visit.</td></tr>
+  </table>
+  <p>This isn’t a cloud account, and it doesn’t sync between devices. The data is stored by Chrome for the site <code>leemcq.github.io</code>, which also hosts Lee’s other GitHub Pages projects, so it can be read by pages on that same site. It contains no contact details. Section 13 explains how to delete it.</p>
+
+  <h2>4. Information sent over the internet when you use the App</h2>
+  <p>When you’re online, your device makes standard HTTPS requests. Each request reveals your <strong>IP address</strong>, your <strong>browser/device type and version</strong> (user agent), and the site you came from (our site address only, not the full page):</p>
+  <ul>
+    <li><strong>GitHub Pages (GitHub, Inc.)</strong> hosts the App. GitHub logs visitors’ IP addresses for security purposes.</li>
+    <li><strong>Google Fonts (Google LLC)</strong> supplies the App’s fonts (Cinzel, Lora, Almendra). Google says the Fonts API doesn’t set or log cookies and doesn’t use this information to build user profiles or for targeted advertising.</li>
+  </ul>
+  <p>The App contains <strong>no advertising, analytics, crash-reporting, or tracking tools</strong>, and doesn’t read your Android advertising ID. After the first visit, the App can be played offline. When you’re offline, none of these requests happen.</p>
+
+  <h2>5. Information you choose to send us</h2>
+  <p>Some features let you send a message. Nothing is sent unless you tap the button and then choose where to send it in your share sheet, WhatsApp, or email app:</p>
+  <ul>
+    <li><strong>Request Free Access</strong>: your name, contact (email or WhatsApp number), church/organisation, the pack you want, and your reason.</li>
+    <li><strong>Earn a Free Pack</strong>: the denomination pack, how you earned it, church name, city/town, country, your contact, and any message you add.</li>
+    <li><strong>Send Feedback</strong>: your message plus the App version, number of games played, whether you have the Full Edition, and a short device/browser description (the first part of your browser’s user-agent string).</li>
+    <li><strong>Share / Join Community</strong>: a prefilled message with the game link, scores, or a word, which you send to people of your choice.</li>
+  </ul>
+  <p>If WhatsApp is used, the App opens a <code>https://wa.me/?text=…</code> link. The message text is part of that link, so it’s passed to WhatsApp (Meta) and handled under WhatsApp’s terms. Messages go to whoever you choose. <strong>We only receive a message if you send it to us.</strong> When you do, we also see your phone number or email address and your WhatsApp/email display name.</p>
+  <p>Your church or denomination can reveal your religious beliefs, which are <em>special personal information</em> under POPIA and special-category data under the GDPR. We only use it if you choose to send it, and we treat sending it as your consent to use it for your request. You can leave the church field blank, or withdraw consent and ask us to delete it at any time (section 13). We use what you send only to reply, to issue unlock codes, and to fix problems you report. Please don’t send card numbers or other sensitive details.</p>
+
+  <h2>6. Notifications</h2>
+  <p><strong>Android app:</strong> the Android app doesn’t show notifications and doesn’t ask for notification permission.</p>
+  <p><strong>Website:</strong> after you’ve opened the website a few times, your browser may ask whether to allow notifications from it. Saying yes is optional. If you allow it, the site shows one notification on your device straight away (“New words are ready!”). The notification is created by your browser on your device: there is no push-messaging server, no reminders are scheduled, and nothing about your choice is sent to us or anyone else. You can turn this off at any time in your browser’s site settings.</p>
+
+  <h2>7. Advertising</h2>
+  <p><strong>The App shows no ads and contains no advertising code.</strong> It doesn’t use your Android advertising ID, and no advertising companies receive information from the App.</p>
+  <p>If we ever decide to show ads, we’ll update this policy and the Google Play listing (including the “Contains ads” label and Data safety section) <em>before</em> ads go live, and ask for your consent where the law requires it.</p>
+
+  <h2>8. Third parties and their privacy policies</h2>
+  <table>
+    <tr><th>Company</th><th>Why</th><th>What it receives</th><th>Policy</th></tr>
+    <tr><td>GitHub, Inc. (USA)</td><td>Hosts the App</td><td>IP address, browser details, pages requested</td><td><a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub Privacy Statement</a></td></tr>
+    <tr><td>Google LLC — Google Fonts</td><td>Fonts</td><td>IP address, browser details, our site address</td><td><a href="https://developers.google.com/fonts/faq/privacy">Google Fonts privacy FAQ</a> · <a href="https://policies.google.com/privacy">Google Privacy Policy</a></td></tr>
+    <tr><td>WhatsApp (Meta)</td><td>Only if you choose a WhatsApp share/request</td><td>The message text in the link, and whatever you send</td><td><a href="https://www.whatsapp.com/legal/privacy-policy">WhatsApp Privacy Policy</a></td></tr>
+    <tr><td>Google LLC — Chrome and Google Play</td><td>The Android app runs in Chrome and is downloaded from Google Play</td><td>Handled under your Google settings, not by us</td><td><a href="https://www.google.com/chrome/privacy/">Chrome Privacy Notice</a> · <a href="https://policies.google.com/privacy">Google Privacy Policy</a></td></tr>
+  </table>
+
+  <h2>9. Children</h2>
+  <p>The App is intended for users aged <strong>13 and over</strong>, and our Google Play target audience is 13+. It’s designed for church, youth, and family groups, with a teenager or adult running the game. It isn’t directed at children under 13, and the game doesn’t ask players for personal information. The optional request forms in section 5 are meant for group leaders. Under POPIA, anyone under 18 is a child, so under-18s shouldn’t send us personal details without a parent’s or guardian’s consent. If you think a child has sent us personal information without that consent, contact us and we’ll delete it.</p>
+
+  <h2>10. Payments and unlocks</h2>
+  <p>The App doesn’t take payments. Full Edition and denomination packs are unlocked with codes that are checked on your device. Never send card numbers to us over WhatsApp or email.</p>
+
+  <h2>11. Sharing and sale</h2>
+  <p>We don’t sell your personal information, and we don’t share the messages you send us with anyone else. The exceptions are the providers that deliver and store our email/WhatsApp messages, and cases where the law requires it. The companies in section 8 receive information directly from your device as described above.</p>
+
+  <h2>12. How long information is kept</h2>
+  <ul>
+    <li>On-device data stays until you clear it or remove the site data (the weekly word list resets itself, and game history keeps only your last 100 games).</li>
+    <li>Messages you send us are kept only as long as needed to deal with your request, and deleted within 12 months after that. We may keep a record of which unlock code was issued, without your contact details, to prevent misuse.</li>
+    <li>GitHub, Google, and WhatsApp keep their own logs under their policies (section 8).</li>
+  </ul>
+
+  <h2>13. Deleting your data</h2>
+  <ul>
+    <li><strong>On your device:</strong> open Android Settings → Apps → Fellowship Face-Off → Storage → <em>Manage space</em>, which opens the site settings in Chrome, and clear the data. You can also go to Chrome → Settings → Site settings → <code>leemcq.github.io</code> → Delete data. Uninstalling the app may not remove data stored by Chrome, so clear it in Chrome too.</li>
+    <li><strong>Messages you sent us:</strong> email <a href="mailto:mcquir4l@gmail.com">mcquir4l@gmail.com</a> from the same email address or WhatsApp number and we’ll delete them within 30 days.</li>
+    <li><strong>Third parties:</strong> use the links in section 8.</li>
+  </ul>
+
+  <h2>14. Your rights</h2>
+  <p><strong>POPIA (South Africa):</strong> you can ask whether we hold personal information about you and get a copy (s23). You can ask us to correct or delete it (s24), object to its processing (s11(3)), and refuse direct marketing (we don’t send any). You can also complain to the Information Regulator: <a href="https://inforegulator.org.za/complaints/">inforegulator.org.za</a>, POPIAComplaints@inforegulator.org.za, 010 023 5200.</p>
+  <p><strong>EU/UK GDPR and similar laws:</strong> you can ask for access, correction, erasure, restriction, objection, and data portability. You can withdraw consent at any time, and you can complain to your local data-protection authority. Our legal bases are your consent (for messages you choose to send us, including any religious information) and our legitimate interests (for delivering the App securely through our host and the font service). We don’t make automated decisions about you.</p>
+  <p>To use any of these rights, contact us (section 18). We may need to confirm that the request comes from you, for example by replying from the same email address or WhatsApp number.</p>
+
+  <h2>15. International transfers</h2>
+  <p>The services in section 8 are run from outside South Africa (for example in the USA). By using the App or sending us a message through these services, your information is processed in those countries. We rely on these providers’ published safeguards, and on your consent for messages you send, as allowed by POPIA section 72.</p>
+
+  <h2>16. Security</h2>
+  <p>The App is served only over HTTPS, and WhatsApp messages are end-to-end encrypted. We run no server database of players. Data on your device is protected by your device and browser security. The App hasn’t had an independent security audit. No method of transmission or storage is 100% secure.</p>
+
+  <h2>17. Changes</h2>
+  <p>We’ll update this policy whenever the App’s data practices change, for example before any ads or analytics are switched on, and change the effective date at the top. For significant changes, we’ll also show a notice in the App or the Play listing.</p>
+
+  <h2>18. Contact</h2>
+  <p>Questions, rights requests, or deletion requests: <a href="mailto:mcquir4l@gmail.com"><strong>mcquir4l@gmail.com</strong></a></p>
+  <p>Developer: Lee McQuire (LeeMcQ), South Africa</p>
+  <p><a href="https://leemcq.github.io/logosliving/">← Back to Fellowship Face-Off</a></p>
+</body>
+</html>

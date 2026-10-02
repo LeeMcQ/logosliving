@@ -1,5 +1,5 @@
-const CACHE_NAME = 'fellowship-faceoff-v10';
-const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './mode-sing.png', './mode-act.png', './mode-explain.png', './mode-champ.png', './mode-library.png'];
+const CACHE_NAME = 'fellowship-faceoff-v11';
+const ASSETS = ['./', './index.html', './manifest.json', './privacy.html', './icon-192.png', './icon-512.png', './mode-sing.png', './mode-act.png', './mode-explain.png', './mode-champ.png', './mode-library.png'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(ASSETS)));
