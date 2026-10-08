@@ -1,4 +1,4 @@
-const CACHE_NAME = 'fellowship-faceoff-v11';
+const CACHE_NAME = 'fellowship-faceoff-v12';
 const ASSETS = ['./', './index.html', './manifest.json', './privacy.html', './icon-192.png', './icon-512.png', './mode-sing.png', './mode-act.png', './mode-explain.png', './mode-champ.png', './mode-library.png'];
 
 self.addEventListener('install', (event) => {
